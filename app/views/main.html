@@ -34,9 +34,9 @@
 		</div>
 		
 	</div>
-	<div class="team" ng-class="teamExpander" >
+	<div class="team" ng-class="teamExpander" ng-hide="!team">
 		<div class="header" ng-click="openUp('expand')">
-			<h4 align="center">UITStartup</h4>
+			<h4 align="center">{{team}}</h4>
 		</div>
 		<div class="body">
 			<div class="member" ng-click="openUp('full')">

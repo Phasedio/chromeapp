@@ -50,6 +50,11 @@ app.factory('Auth', function(FURL, $firebaseAuth, $firebase) {
         },
         team : 'd'
     };
+    
+    var getUserAuthStat = auth.$getAuth();
+    if (getUserAuthStat) {
+      angular.copy(getUserAuthStat, Auth.user);
+    }
 
     auth.$onAuth(function(authData) {
         if (authData) {
