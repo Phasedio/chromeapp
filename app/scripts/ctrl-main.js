@@ -2,6 +2,8 @@ app.controller('MainInteractionController',function($scope,FURL,Auth){
 	$scope.showTaskView = false;
 	$scope.task = '';
 	$scope.team = '';
+	$scope.teamMembers = [];
+	$scope.memberLimit = 2;
 
 	$scope.teamExpander = {
 		expand : false,
@@ -21,8 +23,10 @@ app.controller('MainInteractionController',function($scope,FURL,Auth){
 				expand : false,
 				full : false
 			}
+			$scope.memberLimit = 2;
 		}else{
 			$scope.teamExpander[string] = true;
+			$scope.memberLimit = $scope.teamMembers.length;
 		}
 	}
 	$scope.getCurrentTeam = function(){
@@ -52,8 +56,8 @@ app.controller('MainInteractionController',function($scope,FURL,Auth){
             for (var i = 0; i < teamUID.length; i++) {
                 getTeamMember(teamUID[i], users);
             }
-            $scope.teamMembers = Team.members;
-            console.log($scope.teamMembers);
+            
+            //console.log($scope.teamMembers);
             $scope.$apply();
        }
    
@@ -65,7 +69,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth){
        userrefs.once("value", function(data) {
                //console.log(memberID);
                var p = data.val();
-               //console.log(p);
+               console.log(p);
                var pic,style;
                if(users[memberID].photo){
                 style = "background:url("+users[memberID].photo+") no-repeat center center fixed; -webkit-background-size: cover;-moz-background-size: cover; -o-background-size: cover; background-size: cover";

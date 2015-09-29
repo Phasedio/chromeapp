@@ -165,6 +165,9 @@ button{
 
   &.expand{
     height:50vh;
+    .body{
+      overflow:scroll;
+    }
   }
   &.full{
     height:50vh;

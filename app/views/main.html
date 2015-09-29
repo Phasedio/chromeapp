@@ -39,18 +39,11 @@
 			<h4 align="center">{{team}}</h4>
 		</div>
 		<div class="body">
-			<div class="member" ng-click="openUp('full')">
-				<img src="https://www.gravatar.com/avatar/f219c8cc3ab2b833240856786750a003.jpg?d=identicon">
+			<div class="member" ng-click="openUp('full')" ng-repeat="member in teamMembers | orderBy : 'time':true | limitTo : memberLimit">
+				<img src="{{member.gravatar}}">
 				<div class="info">
-					<h5>Brian Best</h5>
-					<h6>Updating Chrome Extention</h6>
-				</div>
-			</div>
-			<div class="member">
-				<img src="https://www.gravatar.com/avatar/f219c8cc3ab2b833240856786750a003.jpg?d=identicon">
-				<div class="info">
-					<h5>Brian Best</h5>
-					<h6>Updating Chrome Extention</h6>
+					<h5>{{member.name}}</h5>
+					<h6>{{member.task}}</h6>
 				</div>
 			</div>
 		</div>
