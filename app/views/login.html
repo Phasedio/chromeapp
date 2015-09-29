@@ -1,0 +1,40 @@
+<style>
+	html { 
+	  background: #fff;
+	}
+</style>
+<div class="container-fluid login">
+	
+	<div class="row">
+      <div class="col-xs-12">
+        <img src="images/phased-logo.svg" height="220px" width="220px" style="">
+      </div>
+    </div>
+	<div class="row">
+      <div class="col-xs-12">
+      	<h1 align="center">Phased.io</h1>
+      	<h5 align="center">Your team at a glance</h5>
+	      <form name="userForm" ng-submit="loginUser(user)" novalidate>
+	        <div class="list">
+	          <div class="item item-input item-stacked-label">
+	            <label class="input-label" for="email">email</label>
+	            <input class="loginInput" type="email" id="email" ng-model="user.email" placeholder="">
+	          </div>
+	          <div class="item item-input item-stacked-label">
+	            <label class="input-label" for="password">password</label>
+	            <input class="loginInput" type="password" id='password' ng-model="user.password" placeholder="">
+	          </div>
+	          <div class="item">
+	            <input type="submit" class="btn btn-primary btn-lg btn-block button-phased" value="Sign In">
+	          </div>
+	        </div>
+	      </form>
+	    </div>
+	</div>
+    <div class="row">
+      <div class="col">
+        <h4 align="center">Don't have an account? <a href="" ng-click="makeAccount()"><strong>Sign up</strong></a></h4>
+      </div>
+    </div>
+</div>
+

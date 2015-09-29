@@ -1,0 +1,202 @@
+$icon-font-path: '../fonts/';
+
+// bower:scss
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300);
+@import "bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
+@import "bower_components/font-awesome/scss/font-awesome.scss";
+
+// endbower
+
+// Vars
+$background : #187e83;
+$green : #11ba55;
+$grey : #777677;
+$darkGrey : #777677;
+
+
+// Mixin 
+
+@function parseInt($n) { 
+  @return $n / ($n * 0 + 1);
+}
+
+@mixin rem($property, $values) {
+  $px : (); /* 3 */
+  $rem: (); /* 3 */
+
+  @each $value in $values { /* 4 */
+
+    @if $value == 0 or $value == auto { /* 5 */
+      $px : append($px , $value);
+      $rem: append($rem, $value);
+    }
+
+    @else {
+      $unit: unit($value);    /* 6 */
+      $val: parseInt($value); /* 6 */
+
+      @if $unit == "px" {  /* 7 */
+        $px : append($px,  $value);
+        $rem: append($rem, ($val / 10 + rem));
+      }
+
+      @if $unit == "rem" { /* 7 */
+        $px : append($px,  ($val * 10 + px));
+        $rem: append($rem, $value);
+      }
+    }
+  }
+
+  @if $px == $rem {     /* 8 */
+    #{$property}: $px;  /* 9 */
+  } @else {
+    #{$property}: $px;  /* 9 */
+    #{$property}: $rem; /* 9 */
+  }
+}
+
+// General styles
+
+
+body{
+  background-color: transparent;
+  height: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  
+}
+
+h1,h2,h3,h4,h5,h6{
+  color:#fff;
+  text-shadow: 0 0 25px rgba(0,0,0,0.3);
+}
+button{
+    display: block;
+    margin: 0 auto;
+    background: transparent;
+    border: none;
+    outline: none;
+    color:#fff;
+    font-size: 2.5rem;
+    text-shadow: 0 0 25px rgba(0,0,0,0.5);
+}
+
+.button-phased{
+  background-color: #50D2C2;
+  color: #fff;
+  outline: none;
+  border-color: #50D2C2;
+  &:active{
+    background-color:#317F76;
+  }
+  &:hover{
+    color: #fff;
+  }
+}
+
+// Main greeting area
+
+.greeting{
+  max-width:60rem;
+  h1{
+    margin-top: 0;
+    margin-bottom: 0;
+    font-size:3em;
+  }
+  h6{
+    margin-top: 0;
+    margin-bottom: 2rem;
+  }
+  h4{
+    margin-bottom: 0;
+    margin-top: -3.5rem;
+  }
+  button{
+    width: 1rem;
+  }
+  form{
+    margin-bottom:1.5rem;
+  }
+  input[type="text"]{
+    background:none;
+    outline:none;
+    border: none;
+    border-bottom: 1px solid #fff;
+    
+    color:#fff;
+    text-align:center;
+    font-size: 3em;
+    font-weight:500;
+    line-height: 1.1;
+    width:100%;
+
+    margin-bottom: 2rem;
+  }
+  input[type="submit"]{
+    display:none;
+  }
+}
+
+
+.element {
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    -webkit-transform-origin: 50% 50%;
+    transform-origin: 50% 50%;
+    display: block;
+    top: 50%;
+    left: 50%;
+    width: 100%;
+    text-align: center;
+    position: absolute;
+    z-index: 2;
+}
+
+//Team 
+.team{
+  background: rgba(0,0,0,0.5);
+  box-shadow: 0 0 25px rgba(0,0,0,0.3);
+  width: 25rem;
+  height:20rem;
+  position: absolute;
+  bottom: 0;
+  right:0;
+  transition: all 0.3s;
+
+  &.expand{
+    height:50vh;
+  }
+  &.full{
+    height:50vh;
+    width: 70rem;
+  }
+
+  .member{
+    margin-top:1.5rem;
+    overflow: auto;
+    img{
+      display: inline-block;
+      width: 4rem;
+      border-radius: 1000px;
+      border:1px solid #fff;
+      float: left;
+      margin-left: 1rem;
+      margin-right: 1rem;
+    }
+    div{
+      display: inline-block;
+      float: left;
+      h5{
+        margin-top: 0.25rem;
+        margin-bottom: 0rem;
+      }
+      h6{
+        margin-top: 0.35rem;
+        margin-bottom: 0rem;
+      }
+    }
+  }
+}
+
+@import 'login';
+

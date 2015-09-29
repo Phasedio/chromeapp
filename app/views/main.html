@@ -1,0 +1,58 @@
+<style>
+	html { 
+	  background: url(/images/bg.jpg) no-repeat center center fixed; 
+	  -webkit-background-size: cover;
+	  -moz-background-size: cover;
+	  -o-background-size: cover;
+	  background-size: cover;
+	}
+</style>
+<div class="container-fluid">
+	<div class="row">
+		<div class="col-xs-1 col-xs-offset-11">
+			<button><i class="fa fa-bars"></i></button>
+		</div>
+	</div>
+	<div class="greeting element row">
+		<div class="greeting-task" ng-show="showTaskView">
+			<h1 align="center" ng-click="showTaskView = false">{{task}}</h1>
+			<h6 align="center">since 4 hours ago</h6>
+		</div>
+		<div class="greeting-input" ng-hide="showTaskView">
+			<h4>What are you doing now?</h4>
+			<form name="task" ng-submit="addTask(taskName)" novalidation>
+				<input type="text" ng-model="taskName">
+				<input type="submit">
+			</form>
+		</div>
+		
+		<div class="col-xs-1 col-xs-offset-3">
+			<button><i class="fa fa-plus"></i></button>
+		</div>
+		<div class="col-xs-1 col-xs-offset-3">
+			<button><i class="fa fa-clock-o"></i></button>
+		</div>
+		
+	</div>
+	<div class="team" ng-class="teamExpander" >
+		<div class="header" ng-click="openUp('expand')">
+			<h4 align="center">UITStartup</h4>
+		</div>
+		<div class="body">
+			<div class="member" ng-click="openUp('full')">
+				<img src="https://www.gravatar.com/avatar/f219c8cc3ab2b833240856786750a003.jpg?d=identicon">
+				<div class="info">
+					<h5>Brian Best</h5>
+					<h6>Updating Chrome Extention</h6>
+				</div>
+			</div>
+			<div class="member">
+				<img src="https://www.gravatar.com/avatar/f219c8cc3ab2b833240856786750a003.jpg?d=identicon">
+				<div class="info">
+					<h5>Brian Best</h5>
+					<h6>Updating Chrome Extention</h6>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

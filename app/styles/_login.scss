@@ -1,0 +1,83 @@
+.login{
+  background: #fff;
+  h1,h2,h3,h4,h5,h6{
+    color: #1D1D26;
+    text-shadow: none;
+  }
+  img{
+    
+    display:block;
+    margin:0 auto;
+    margin-top: 5rem;
+  }
+  .btn-phased{
+    background:#50D2C2;
+  }
+  form{
+    width:35rem;
+    display:block;
+    margin:0 auto;
+    margin-top: 5vh;
+  }
+  .loginInput{
+    background: transparent;
+    overflow: auto;
+    //font-family: $regFont;
+    border: none;
+    padding-right:0;
+    color:#1D1D26;
+    @include rem(font-size, 18px);
+     border-bottom:2px solid rgba(29,29,38,0.1);
+    @include rem(padding-bottom, 10px);
+    transition:all 0.3s;
+    &:focus{
+      border-bottom:2px solid rgba(80,210,194,0.5);
+    }
+
+    
+  }
+  
+  .item{
+    background: transparent;
+    border-color: transparent;
+    border: 1px solid white;
+    label{
+      display:block;
+    }
+    input{
+      width:100%;
+      display:block;
+      &:focus{
+        outline:none;
+      }
+    }
+    input[type="submit"]{
+      margin-top:3rem;
+      margin-bottom:2rem;
+      transition:all 0.3s;
+    }
+  }
+  .item-input{
+    
+    @include rem(margin-bottom, 10px);
+    label{
+      //font-family: $regFont;
+      text-transform: uppercase;
+      color:rgba(29,29,38,0.5);
+      @include rem(letter-spacing, 1px);
+      @include rem(font-size, 10px);
+    } 
+  }
+  h4{
+    //font-family: $regFont;
+    text-transform: uppercase;
+    color:rgba(29,29,38,0.5);
+    @include rem(font-size, 13px);
+    @include rem(letter-spacing, 1px);
+  }
+  a{
+    text-decoration: none;
+    //font-family: $regFont;
+    color:rgba(29,29,38,1);
+  }
+}
