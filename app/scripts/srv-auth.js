@@ -1,6 +1,6 @@
 'use strict';
 
-app.factory('Auth', function(FURL, $firebaseAuth, $firebase) {
+app.factory('Auth', function(FURL, $firebaseAuth, $firebase,$firebaseObject,$location,$rootScope) {
 
     var ref = new Firebase(FURL);
     var auth = $firebaseAuth(ref);
@@ -10,6 +10,7 @@ app.factory('Auth', function(FURL, $firebaseAuth, $firebase) {
 
         user:{},
         fb : auth,
+        newTeam : false,
         createProfile: function(uid, user) {
             var profile = {
                 name:user.name,
@@ -17,24 +18,26 @@ app.factory('Auth', function(FURL, $firebaseAuth, $firebase) {
                 gravatar: get_gravatar(user.email, 40)
             };
 
-            var profileRef = $firebase(ref.child('profile'));
-            return profileRef.$set(uid, profile);
+            return new Firebase(FURL).child('profile').child(uid).set(profile);
         },
 
         login: function(user) {
-            team = user.team;
+            //team = user.team;
             // Send Errors        
-            console.log(team);
+            //console.log(team);
             return auth.$authWithPassword(
                 {email: user.email, password: user.password}
             );
         },
         register : function(user) {
-            team = user.team;
+            //team = user.team;
+           
             return auth.$createUser({email: user.email, password: user.password}).then(function() {
+                
                 return Auth.login(user);
             })
                 .then(function(data) {
+                    
                     return Auth.createProfile(data.uid, user);
                 });
         },
@@ -48,13 +51,53 @@ app.factory('Auth', function(FURL, $firebaseAuth, $firebase) {
         signedIn: function() {
             return !!Auth.user.provider;
         },
+        createTeam : function(name,uid){
+          Auth.newTeam = true;
+          var teamMaker = makeTeam(name,uid);
+          return teamMaker;
+          // if(teamMaker){
+          //   $location.path('/');
+          // }else{
+          //   return false;
+          // }
+          
+        },
+
         team : 'd'
     };
+
     
     var getUserAuthStat = auth.$getAuth();
     if (getUserAuthStat) {
       angular.copy(getUserAuthStat, Auth.user);
     }
+
+    function makeTeam(name,id){
+      if(Auth.newTeam){
+        console.log('MAKING A NEW TEAM');
+        console.log(name + id);
+        var teamRef = ref.child('team');
+        var k = {};
+        k[id]=true;
+        teamRef.child(name).once('value', function(snapshot){
+          //if exists
+          if(snapshot.val() == null){
+            console.log('Team valid');
+            teamRef.child(name).child('members').child(id).set(true);
+            ref.child('profile').child(id).child('teams').push(name);
+            ref.child('profile').child(id).child('curTeam').set(name);
+            
+            $location.path('/');
+          }else{
+            return false;
+          }
+          
+        });
+        
+        
+      }
+  };
+
 
     auth.$onAuth(function(authData) {
         if (authData) {

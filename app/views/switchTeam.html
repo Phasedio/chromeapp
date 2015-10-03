@@ -1,0 +1,30 @@
+<style>
+	html { 
+	  background: #fff;
+	}
+</style>
+<div class="container-fluid switchTeam">
+	<div class="row">
+
+		<div class="col-md-1">
+			<img src="images/phased-logo.svg" height="50px" width="50px" style="">
+		</div>
+
+      <div class="col-xs-12 col-sm-6 col-sm-offset-2 col-md-4 col-md-offset-3">
+      <h3 align="center">Select team</h3>
+      	<ul>
+      		<li ng-repeat="teamr in userTeams track by $index" ng-click="switchTeam(teamr.name)">
+      			<div>
+      				<h5>{{teamr.name}}</h5>
+      				<!-- <p><i class="fa fa-users"></i> {{teamr.number}} Members</p> -->
+      			</div>
+      			<div>
+      				<i class="fa fa-3x fa-arrow-right" style="color:#fff;"></i>
+      			</div>
+      		</li>
+      		
+      	</ul>
+      	<button class="btn btn-primary btn-lg btn-block button-phased no-shadow" ng-click="newTeam()">Create new team</button>
+      </div>
+    </div>
+</div>

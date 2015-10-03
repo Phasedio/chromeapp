@@ -7,30 +7,33 @@
 	  background-size: cover;
 	}
 </style>
-<div class="container-fluid">
+<div class="container-fluid" >
 	<div class="row">
 		<div class="col-xs-1 col-xs-offset-11">
-			<button><i class="fa fa-bars"></i></button>
+			<button class="no-shadow half-opacity" ng-click="showSettings();"><i class="fa fa-cog fa-1x"></i></button>
 		</div>
 	</div>
 	<div class="greeting element row">
 		<div class="greeting-task" ng-show="showTaskView">
 			<h1 align="center" ng-click="showTaskView = false">{{task}}</h1>
-			<h6 align="center">since 4 hours ago</h6>
+			<h6 align="center" am-time-ago="taskTime"></h6>
 		</div>
 		<div class="greeting-input" ng-hide="showTaskView">
 			<h4>What are you doing now?</h4>
-			<form name="task" ng-submit="addTask(taskName)" novalidation>
-				<input type="text" ng-model="taskName">
+			<form name="taskForm" ng-submit="addTask(taskName)" novalidation>
+				<input type="text" ng-model="taskName" ng-maxlength="150" required>
 				<input type="submit">
+
 			</form>
+			<p ><small ng-show="taskForm.$error.maxlength">Your update is too long!</small>&nbsp;</p>
 		</div>
 		
-		<div class="col-xs-1 col-xs-offset-3">
-			<button><i class="fa fa-plus"></i></button>
+		<div class="col-xs-6 col-xs-offset-3" ng-show="showTaskView">
+			<button ng-click="showTaskView = false"><i class="fa fa-plus"></i> <h6>Add new task</h6></button>
 		</div>
-		<div class="col-xs-1 col-xs-offset-3">
-			<button><i class="fa fa-clock-o"></i></button>
+		<div class="col-xs-12 lastTask" ng-show="!showTaskView" ng-if="task">
+			<p><small>Your last task was:</small></p>
+			<p><small>{{task}} - <span am-time-ago="taskTime"></span></small></p>
 		</div>
 		
 	</div>
@@ -39,13 +42,52 @@
 			<h4 align="center">{{team}}</h4>
 		</div>
 		<div class="body">
-			<div class="member" ng-click="openUp('full')" ng-repeat="member in teamMembers | orderBy : 'time':true | limitTo : memberLimit">
+			<div class="member" ng-repeat="member in teamMembers | orderBy : 'time':true | limitTo : memberLimit" ng-class="{active : member.uid == selected.uid}" ng-click="getSelectedTask(member)">
 				<img src="{{member.gravatar}}">
 				<div class="info">
 					<h5>{{member.name}}</h5>
-					<h6>{{member.task}}</h6>
+					<h6>{{member.task | limitTo : 25 }}{{member.task.length > 25 ? '...' : ''}}</h6>
+				</div>
+			</div>
+		</div>
+
+		<div class="selectedUser" ng-hide="!teamExpander.full">
+			<div class="row">
+				<div class="col-xs-12">
+					<img src="{{selected.gravatar}}">
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+					<h4 align="center">{{selected.task}}</h4>
+					<h6 align="center" am-time-ago="selected.time"></h6>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-xs-12">
+				<h6 align="center">Past 24 hours</h6>
+					<ul class="list history">
+				      <li class="item" ng-repeat="task in taskHistory | orderBy : 'time':true">
+				        <p>{{task.name}}</p>
+				      	<p><small am-time-ago="task.time"></small></p>
+				      </li>
+				      <li ng-if="taskHistory.length < 1"><p align="center">No updates made in the past 24 hours!</p></li>
+				    </ul>
 				</div>
 			</div>
 		</div>
 	</div>
+</div>
+<div class="settingsMenu row" ng-class="{'show-settings' : showsetting}" ng-click="hideSetting()"> 
+	<div class="col-xs-12">
+		<ul>
+			<li>
+				<button ng-click="switchTeam()" class="btn btn-primary btn-lg btn-block button-phased">Switch teams</button>
+			</li>
+			<li>
+				<button ng-click="logout()" class="btn btn-primary btn-lg btn-block button-phased">Log out</button>
+			</li>
+		</ul>
+	</div>
+	
 </div>

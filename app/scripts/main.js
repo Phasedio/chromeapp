@@ -5,7 +5,8 @@ var app = angular
         // 'ngResource',
         'ngRoute',
         'angular-loading-bar',
-        'firebase'
+        'firebase',
+        'angularMoment'
     ])
     .run(['$rootScope', '$location', function ($rootScope, $location) {
         $rootScope.$on("$routeChangeError", function(event, next, previous, error) {
@@ -39,5 +40,32 @@ var app = angular
                 templateUrl: 'views/login.html',
                 controller: 'LoginController'
             })
+            .when('/switchteam', {
+                templateUrl: 'views/switchTeam.html',
+                controller: 'SwitchTeamController',
+                resolve: {
+                    // controller will not be loaded until $requireAuth resolves
+                    // Auth refers to our $firebaseAuth wrapper in the example above
+                    "currentAuth": ["Auth", function(Auth) {
+                      // $requireAuth returns a promise so the resolve waits for it to complete
+                      // If the promise is rejected, it will throw a $stateChangeError (see above)
+                      return Auth.fb.$requireAuth();
+                    }]
+                  }
+            })
+            .when('/createteam', {
+                templateUrl: 'views/createTeam.html',
+                controller: 'CreateTeamController',
+                resolve: {
+                    // controller will not be loaded until $requireAuth resolves
+                    // Auth refers to our $firebaseAuth wrapper in the example above
+                    "currentAuth": ["Auth", function(Auth) {
+                      // $requireAuth returns a promise so the resolve waits for it to complete
+                      // If the promise is rejected, it will throw a $stateChangeError (see above)
+                      return Auth.fb.$requireAuth();
+                    }]
+                  }
+            })
+
             
     });

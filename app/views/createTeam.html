@@ -1,0 +1,26 @@
+<style>
+	html { 
+	  background: #fff;
+	}
+</style>
+<div class="container-fluid newTeam">
+	<div class="row">
+
+		<div class="col-md-1">
+			<img src="images/phased-logo.svg" height="50px" width="50px" style="">
+		</div>
+
+      <div class="col-xs-12 col-sm-6 col-sm-offset-2 col-md-4 col-md-offset-3">
+            <h3 align="center">New team</h3>
+            <form name="newTeamForm" ng-submit="createTeam(team)">
+                  <div class="item item-input item-stacked-label">
+                        <label class="input-label" for="team">Team Name</label>
+                        <input class="loginInput" type="text" id="team" ng-model="team" placeholder="" required>
+                  </div>
+                  <input type="submit" value="Create team" class="btn btn-primary btn-lg btn-block button-phased no-shadow">
+            </form>
+            <h6 align="center" ng-click="goBack()">cancel</h6>
+            	
+      </div>
+    </div>
+</div>

@@ -1,0 +1,93 @@
+.newTeam{
+	h1,h2,h3,h4,h5,h6{
+	    color: #1D1D26;
+	    text-shadow: none;
+  	}
+  	h5,p{
+  		text-transform: uppercase;
+  		@include rem(letter-spacing, 1px);
+  		margin:0;
+  		transition:all 0.3s;
+  	}
+  	img{
+  		margin-top: 10px;
+  	}
+
+  	.loginInput{
+	    background: transparent;
+	    overflow: auto;
+	    //font-family: $regFont;
+	    border: none;
+	    padding-right:0;
+	    color:#1D1D26;
+	    @include rem(font-size, 18px);
+	     border-bottom:2px solid rgba(29,29,38,0.1);
+	    @include rem(padding-bottom, 10px);
+	    transition:all 0.3s;
+	    &:focus{
+	      border-bottom:2px solid rgba(80,210,194,0.5);
+	    }
+  	}
+  	.item{
+	    background: transparent;
+	    border-color: transparent;
+	    border: 1px solid white;
+	    label{
+	      display:block;
+	    }
+	    input{
+	      width:100%;
+	      display:block;
+	      &:focus{
+	        outline:none;
+	      }
+	    }
+	    input[type="submit"]{
+	      margin-top:3rem;
+	      margin-bottom:2rem;
+	      transition:all 0.3s;
+	    }
+	  }
+	  .item-input{
+	    
+	    @include rem(margin-bottom, 10px);
+	    label{
+	      //font-family: $regFont;
+	      text-transform: uppercase;
+	      color:rgba(29,29,38,0.5);
+	      @include rem(letter-spacing, 1px);
+	      @include rem(font-size, 10px);
+	    } 
+	  }
+  	ul{
+  		list-style:none;
+  		margin:0;
+  		padding:0;
+  		height:80vh;
+  		min-height:15rem;
+  		li{
+  			padding:1rem;
+  			background:rgba(80,210,194,0);
+  			transition:all 0.3s;
+  			border-bottom: 1px solid rgba(200,200,200,1);
+  			overflow:auto;
+  			cursor:pointer;
+  			div{
+  				&:nth-child(odd){
+  					float:left;
+  				}
+  				&:nth-child(even){
+  					float:right;
+  				}
+
+  			}
+			&:hover{
+				background:rgba(80,210,194,0.5);
+				border-bottom: 1px solid rgba(200,200,200,0);
+				h5,p{
+					color:#fff;
+				}
+			}
+  		}
+  	}
+}

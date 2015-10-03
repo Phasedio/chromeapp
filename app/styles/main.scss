@@ -1,11 +1,11 @@
 $icon-font-path: '../fonts/';
 
-// bower:scss
 @import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300);
-@import "bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 @import "bower_components/font-awesome/scss/font-awesome.scss";
-
+// bower:scss
+@import "bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
 // endbower
+
 
 // Vars
 $background : #187e83;
@@ -63,6 +63,7 @@ body{
   height: 100%;
   min-height: 100%;
   overflow: hidden;
+
   
 }
 
@@ -79,6 +80,16 @@ button{
     color:#fff;
     font-size: 2.5rem;
     text-shadow: 0 0 25px rgba(0,0,0,0.5);
+}
+.no-shadow{
+  text-shadow:none;
+}
+.half-opacity{
+  opacity:0.75;
+  transiton:all 0.3s;
+  &:hover{
+    opacity:1;
+  }
 }
 
 .button-phased{
@@ -112,10 +123,19 @@ button{
     margin-top: -3.5rem;
   }
   button{
-    width: 1rem;
+    //width: 1rem;
+    i{
+      float: left;
+    }
+    h6{
+      display:inline-block;
+      float: left;
+      margin-top: 0.5rem;
+      margin-left: 0.5rem;
+    }
   }
   form{
-    margin-bottom:1.5rem;
+    //margin-bottom:1.5rem;
   }
   input[type="text"]{
     background:none;
@@ -134,6 +154,13 @@ button{
   }
   input[type="submit"]{
     display:none;
+  }
+  p{
+      color:#fff;
+      text-shadow: 0 0 25px rgba(0,0,0,0.5);
+  }
+  .lastTask{
+    
   }
 }
 
@@ -162,21 +189,44 @@ button{
   bottom: 0;
   right:0;
   transition: all 0.3s;
+  z-index: 999;
 
+  .header{
+    overflow: auto;
+    cursor:pointer;
+  }
   &.expand{
     height:50vh;
     .body{
       overflow:scroll;
+      height: 44.5vh;
+
     }
   }
   &.full{
     height:50vh;
     width: 70rem;
+     background: rgba(0,0,0,0.75);
+    .body{
+      height: 44.5vh;
+      width: 25rem;
+      overflow:scroll;
+      display:inline-block;
+      float:left;
+    }
   }
-
+  
   .member{
-    margin-top:1.5rem;
+    &:nth-child(1){
+      margin-top:0;
+    }
+    //margin-top:1.5rem;
+    padding-top:0.75rem;
+    padding-bottom:0.75rem;
     overflow: auto;
+    cursor:pointer;
+    background:rgba(80,210,194,0.0);
+    transition:all 0.3s;
     img{
       display: inline-block;
       width: 4rem;
@@ -198,8 +248,72 @@ button{
         margin-bottom: 0rem;
       }
     }
+    &.active{
+      background:rgba(80,210,194,0.5);
+    }
+  }
+
+  .selectedUser{
+    display:inline-block;
+    float:left;
+    width: 35rem;
+    img{
+      border-radius:1000px;
+      display:block;
+      margin:0 auto;
+    }
+  }
+}
+.history{
+  .list{
+    margin:0;
+    padding:0;
+    list-style:none;
+    height: 15rem;
+    overflow: scroll;
+    li{
+      color: #fff;
+      padding:1rem;
+    }
+    p{
+      color:#fff;
+      margin:0;
+      font-size:1.2rem;
+
+    }
+  }
+}
+
+.settingsMenu{
+  height:100vh;
+  width:100%;
+  background:#fff;
+  display:none;
+  z-index:1000;
+  
+  ul{
+    width:35rem;
+    display:block;
+    margin:0 auto;
+    list-style:none;
+  }
+  li{
+    margin: 1rem 0; 
+    cursor:pointer;
+  }
+  button{
+    text-shadow: none;
+  }
+
+  &.show-settings{
+    position:absolute;
+    top:0;
+    left:0;
+    display:block;
   }
 }
 
 @import 'login';
+@import 'switchTeam';
+@import 'newTeam';
 

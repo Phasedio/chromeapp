@@ -3,7 +3,9 @@
   "private": true,
   "dependencies": {
     "bootstrap-sass": "~3.3.5",
-    "modernizr": "~2.8.1"
+    "modernizr": "~2.8.1",
+    "moment": "~2.10.6",
+    "angular-moment": "~0.10.3"
   },
   "overrides": {
     "bootstrap-sass": {
