@@ -49,6 +49,9 @@
 					<h6>{{member.task | limitTo : 25 }}{{member.task.length > 25 ? '...' : ''}}</h6>
 				</div>
 			</div>
+			<div class="member" ng-click="addMemberModal()">
+				<h5 align="center" class="no-shadow"><i class="fa fa-plus"></i> Add member</h5>
+			</div>
 		</div>
 
 		<div class="selectedUser" ng-hide="!teamExpander.full">
@@ -91,3 +94,26 @@
 	</div>
 	
 </div>
+
+
+<div class="modal fade" id="myModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+    <form name="addmember" ng-submit="addMembers(user)" novalidation>
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title no-shadow">Add member</h4>
+      </div>
+      <div class="modal-body">
+      	<label for="addEmail">Add by email</label>
+       	<input type="email" id="addEmail" ng-model="user.email" placeholder="email">
+       
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <input type="submit" class="btn btn-primary" value="Add member">
+      </div>
+      </form>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->

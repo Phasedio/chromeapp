@@ -284,6 +284,20 @@ button{
   }
 }
 
+.modal{
+  h4{
+    color:#1D1D26;
+  }
+  label{
+    display:block;
+  }
+  input[type="email"]{
+    width:100%;
+    border:none;
+    border-bottom:1px solid #1D1D26;
+  }
+}
+
 .settingsMenu{
   height:100vh;
   width:100%;

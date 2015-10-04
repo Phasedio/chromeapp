@@ -1,0 +1,11 @@
+{
+  "name": "Phased.io",
+  "description": "Work Statuses & Updates for Project Tracking & Reporting",
+  "version": "0.4.0",
+  "manifest_version": 2,
+  "chrome_url_overrides" : {
+    "newtab": "index.html"
+  },
+  "content_security_policy": "script-src https://cdn.heapanalytics.com/js/heap-3872895156.js https://cdn.firebase.com https://*.firebaseio.com; object-src 'self'",
+  "icons": { "16": "calculator-16.png", "128": "calculator-128.png" }
+}
