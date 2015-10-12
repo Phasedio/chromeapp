@@ -1,6 +1,7 @@
 app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$location){
 	$scope.showTaskView = false;
 	$scope.task = '';
+  $scope.masterTask = '';
 	$scope.taskTime = 0;
 	$scope.team = '';
 	$scope.taskPrefix = 'current';
@@ -61,6 +62,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 		      
 		    });
 		    $scope.task = update;
+        $scope.taskName = '';
 			$scope.showTaskView = true;
 
 	    }
