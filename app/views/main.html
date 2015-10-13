@@ -1,6 +1,6 @@
 <style>
-	html { 
-	  background: url(/images/bg.jpg) no-repeat center center fixed; 
+	html {
+	  background: url(./images/bg.jpg) no-repeat center center fixed;
 	  -webkit-background-size: cover;
 	  -moz-background-size: cover;
 	  -o-background-size: cover;
@@ -27,7 +27,7 @@
 			</form>
 			<p ><small ng-show="taskForm.$error.maxlength">Your update is too long!</small>&nbsp;</p>
 		</div>
-		
+
 		<div class="col-xs-6 col-xs-offset-3" ng-show="showTaskView">
 			<button ng-click="showTaskView = false"><i class="fa fa-plus"></i> <h6>Add new task</h6></button>
 		</div>
@@ -35,7 +35,7 @@
 			<p><small>Your last task was:</small></p>
 			<p><small>{{task}} - <span am-time-ago="taskTime"></span></small></p>
 		</div>
-		
+
 	</div>
 	<div class="team" ng-class="teamExpander" ng-hide="!team">
 		<div class="header" ng-click="openUp('expand')">
@@ -81,7 +81,7 @@
 		</div>
 	</div>
 </div>
-<div class="settingsMenu row" ng-class="{'show-settings' : showsetting}" ng-click="hideSetting()"> 
+<div class="settingsMenu row" ng-class="{'show-settings' : showsetting}" ng-click="hideSetting()">
 	<div class="col-xs-12">
 		<ul>
 			<li>
@@ -92,7 +92,7 @@
 			</li>
 		</ul>
 	</div>
-	
+
 </div>
 
 
@@ -107,7 +107,7 @@
       <div class="modal-body">
       	<label for="addEmail">Add by email</label>
        	<input type="email" id="addEmail" ng-model="user.email" placeholder="email">
-       
+
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
