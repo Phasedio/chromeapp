@@ -22,7 +22,8 @@
 			<h4>What are you doing now?</h4>
 			<form name="taskForm" ng-submit="addTask(taskName)" novalidation>
 				<input type="text" ng-model="taskName" ng-maxlength="150" placeholder="enter in your status" required>
-				<input type="submit">
+
+        <input type="submit">
 
 			</form>
 			<p ><small ng-show="taskForm.$error.maxlength">Your update is too long!</small>&nbsp;</p>
