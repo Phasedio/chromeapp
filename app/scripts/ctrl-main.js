@@ -68,7 +68,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 	    }
 	    
 	}
-
+ //Gets task Prefix
 	function getTaskPrefix(){
 	    var r = '';
 	    switch ($scope.taskPrefix){

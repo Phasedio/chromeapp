@@ -1,7 +1,7 @@
 {
   "name": "Phased.io",
   "description": "Work Statuses & Updates for Project Tracking & Reporting",
-  "version": "0.4.1",
+  "version": "0.4.2",
   "manifest_version": 2,
   "chrome_url_overrides" : {
     "newtab": "index.html"
