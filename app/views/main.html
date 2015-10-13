@@ -21,13 +21,13 @@
 		<div class="greeting-input" ng-hide="showTaskView">
 			<h4>What are you doing now?</h4>
 			<form name="taskForm" ng-submit="addTask(taskName)" novalidation>
-				<input type="text" ng-model="taskName" ng-maxlength="150" placeholder="enter in your status" required>
+                <input type="text" ng-model="taskName" ng-trim="false" maxlength="150" placeholder="enter in your status" required>
+       			<p>{{150 - taskName.length}} left</p>
+       			<input type="submit">
 
-        <input type="submit">
-
-			</form>
-			<p ><small ng-show="taskForm.$error.maxlength">Your update is too long!</small>&nbsp;</p>
-		</div>
+            </form>
+            <p ><small ng-show="taskForm.$error.maxlength">Your update is too long!</small>&nbsp;</p>
+        </div>
 
 		<div class="col-xs-6 col-xs-offset-3" ng-show="showTaskView">
 			<button ng-click="showTaskView = false"><i class="fa fa-plus"></i> <h6>Add new task</h6></button>
