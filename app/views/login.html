@@ -1,10 +1,10 @@
 <style>
-	html { 
+	html {
 	  background: #fff;
 	}
 </style>
 <div class="container-fluid login">
-	
+
 	<div class="row">
       <div class="col-xs-12">
         <img src="images/phased-logo.svg" height="220px" width="220px" style="">
@@ -22,14 +22,17 @@
 	          </div>
 	          <div class="item item-input item-stacked-label">
 	            <label class="input-label" for="password">password</label>
-	            <input class="loginInput" type="password" id='password' ng-model="user.password" placeholder="">
-	          </div>
+	            <input class="loginInput" type="password" id='password' ng-model="user.password" placeholder=""></br>
+              <input type="button" ng-click="forgotPassword(user.email)" value="Forgot Password?">
+            </div>
 	          <div class="item">
 	            <input type="submit" class="btn btn-primary btn-lg btn-block button-phased" value="Sign In">
 	          </div>
+
 	        </div>
 	      </form>
-	      <form name="regForm" ng-submit="regUser(reg)" novalidate ng-show="forms == 'reg'"> 
+
+	      <form name="regForm" ng-submit="regUser(reg)" novalidate ng-show="forms == 'reg'">
 	        <div class="">
 	        <div class="item item-input item-stacked-label">
 	            <label class="input-label" for="name">name</label>

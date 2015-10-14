@@ -1,11 +1,14 @@
-app.controller('LoginController',function($scope,$location,Auth){
-	$scope.forms = "login";
+app.controller('LoginController',function(FURL, $scope,$location,Auth){
+
+  var ref = new Firebase(FURL);
+
+  $scope.forms = "login";
 
 	$scope.loginUser = function(user){
 		Auth.login(user).then(function() {
 	      // $scope.user = angular.copy(oriPerson);
 	      // $scope.userForm.$setPristine();
-          
+
           $location.path("/");
           }, function(err){
             alert('incorrect username/password');
@@ -23,6 +26,19 @@ app.controller('LoginController',function($scope,$location,Auth){
 	}
 	$scope.loginAccount = function(){
 		$scope.forms = "login";
-	}
+	};
+
+  $scope.forgotPassword = function(email){
+    console.log("will send email to :", email);
+    ref.resetPassword({
+      email : email
+    }, function(error) {
+      if (error === null) {
+        console.log("Password reset email sent successfully");
+      } else {
+        console.log("Error sending password reset email:", error);
+      }
+    });
+  }
 
 });
