@@ -83,16 +83,86 @@
 	</div>
 </div>
 <div class="settingsMenu row" ng-class="{'show-settings' : showsetting}" ng-click="hideSetting()">
-	<div class="col-xs-12">
-		<ul>
-			<li>
-				<button ng-click="switchTeam()" class="btn btn-primary btn-lg btn-block button-phased">Switch teams</button>
-			</li>
-			<li>
-				<button ng-click="logout()" class="btn btn-primary btn-lg btn-block button-phased">Log out</button>
-			</li>
-		</ul>
+	<div class="header">
+      <button ng-click="logout()" style="color:#009689; background-color: transparent" class="btn btn-lg pull-right">Log out</button>
+      <div style="height:50px"></div>
 	</div>
+
+  <div class="col-xs-3">
+
+        <ul>
+          <h3 align="center" style="color: #009689">Select team</h3>
+          <li ng-repeat="teamr in userTeams track by $index" ng-click="switchTeam(teamr.name)">
+            <div align="center">
+              <img src="http://assets.tumblr.com/images/default_header/optica_pattern_14_focused_v3.png?_v=8c2d3b00544b7efbc4ac06dc3f80e374" style="height:80px; width: 80px">
+              <h5 style="color:black">{{teamr.name}}</h5>
+              <!-- <p><i class="fa fa-users"></i> {{teamr.number}} Members</p> -->
+            </div>
+            <!--<div>-->
+              <!--<i class="fa fa-3x fa-arrow-right" style="color:#fff;"></i>-->
+            <!--</div>-->
+          </li>
+          <li>
+            <div align="center">
+              <img src="./images/+.png" style="height:80px; width: 80px">
+              <h5 style="color:black">Create a new Team!</h5>
+              <!-- <p><i class="fa fa-users"></i> {{teamr.number}} Members</p> -->
+            </div>
+          </li>
+        </ul>
+				<!--<button ng-click="switchTeam()" class="btn btn-primary btn-lg btn-block button-phased">Switch teams</button>-->
+	</div>
+  <div class = "col-xs-1"></div>
+  <div class="col-xs-7">
+    <div class = "row">
+      <div class="col-xs-4">
+        <img style="height: 120px; width: 120px; border-radius: 50%" src="{{currentUser.gravatar}}">
+
+      </div>
+      <div class="col-xs-4">
+
+
+        <input class="" type="file" accept="image/*" capture="camera" id="file-upload">
+        <button ng-click="changeImage()" class="btn btn-primary btn-lg btn-block button-phased">Change Image</button>
+
+      </div>
+    </div>
+    <img style="height: 300; width: 300" class="pano" id="pano" />
+    <div class="row">
+      <h3 style="color: #009689">Edit Your information:</h3>
+      </br>
+
+      <form name="updateForm" ng-submit="updateUser(update)" novalidate>
+
+        <div class="login">
+          <div class="item item-input item-stacked-label">
+            <label class="input-label" for="name">name</label>
+            <input class="loginInput" type="text" id="name" ng-model="update.name" placeholder="{{currentUser.name}}">
+          </div>
+          <div class="item item-input item-stacked-label">
+            <label class="input-label" for="email">email</label>
+            <input class="loginInput" type="email" id="email" ng-model="update.email" placeholder="{{currentUser.email}}">
+          </div>
+          <div class="item item-input item-stacked-label">
+            <label class="input-label" for="oldpassword">old password</label>
+            <input class="loginInput" type="password" id='oldpassword' ng-model="update.oldpassword" placeholder="">
+          </div>
+          <div class="item item-input item-stacked-label">
+            <label class="input-label" for="newpassword">new password</label>
+            <input class="loginInput" type="password" id='newpassword' ng-model="update.newpassword" placeholder="">
+          </div>
+          <div class="item">
+            <input type="submit" class="btn btn-primary btn-lg btn-block button-phased" value="Update Account!">
+          </div>
+        </div>
+      </form>
+
+
+      <!--<button ng-click="saveChange()" class="btn btn-primary btn-lg btn-block button-phased">Save Changes</button>-->
+
+    </div>
+  </div>
+  <div class="col-xs-1"></div>
 
 </div>
 
