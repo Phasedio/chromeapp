@@ -15,6 +15,12 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 		full : false
 	}
 
+
+  new Firebase(FURL).child('profile').child(Auth.user.uid).once('value', function(user) {
+    user = user.val();
+    $scope.currentUser = user;
+  });
+
 	$scope.hideAllOpen = function(){
 		$scope.teamExpander = {
 			expand : false,
@@ -114,6 +120,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 	$scope.getCurrentTeam = function(){
 		new Firebase(FURL).child('profile').child(Auth.user.uid).once('value', function(user) {
 			user = user.val();
+      $scope.currentUser = user;
 			//console.log(user);
 			if(user.curTeam){
 				Auth.team = user.curTeam;
@@ -384,11 +391,146 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 
    $scope.showSettings = function(){
    	$scope.showsetting = true;
-   }
-   $scope.hideSetting = function(){
-   	$scope.showsetting = false;
-   }
+   };
 
+   $scope.hideSetting = function(){
+   	//$scope.showsetting = false;
+   };
+
+
+
+  // Change ImageCode
+  //create the crypto shit (could be in a different file?)
+
+  var ref = new Firebase(FURL);
+
+  //console.log(Auth.user);
+  document.getElementById("file-upload").addEventListener('change', handleFileSelect, false);
+  function handleFileSelect(evt) {
+    var f = evt.target.files[0];
+    var reader = new FileReader();
+    reader.onload = (function(theFile) {
+      return function(e) {
+        var gravatar = e.target.result;
+        // Generate a location that can't be guessed using the file's contents and a random number
+        //var hash = CryptoJS.SHA256(Math.random() + CryptoJS.SHA256(gravatar));
+        var f = new Firebase(ref.child("profile").child(Auth.user.uid) + '/gravatar');
+        f.set(gravatar, function() {
+          document.getElementById("pano").src = e.target.result;
+          $('#file-upload').hide();
+
+          // Update the location bar so the URL can be shared with others
+          //window.location.hash = hash;
+
+        });
+      };
+    })(f);
+    reader.readAsDataURL(f);
+  }
+
+
+
+  $scope.changeImage = function(){
+    $('#pano').hide();
+
+    new Firebase(FURL).child('profile').child(Auth.user.uid).once('value', function(user) {
+      user = user.val();
+      $scope.currentUser = user;
+      console.log($scope.currentUser);
+    });
+
+      //$scope.$apply();
+    setTimeout(function () {
+      $scope.$apply();
+    }, 1000);
+
+    }
+
+  $scope.saveChanges = function(){
+    console.log('will save changes to form');
+    //should add a toaster that confirms that changes were saved?
+  }
    $scope.getCurrentTeam();
+
+  // Update Account
+  $scope.updateUser = function(update){
+
+    console.log(update);
+    console.log($scope.currentUser);
+
+
+    if(update.name === $scope.currentUser.name || update.email === $scope.currentUser.email){
+      console.log("we are changing the password");
+      if(update.oldPass && update.newPass){
+        console.log('we will change the password');
+        Auth.changePassword(update).then(function (){
+          console.log('will change password');
+        }, function(err) {
+          console.log('error', err);
+        });
+
+      }
+      else{
+        console.log('not changing the password');
+      }
+    }
+    else{
+      console.log('we are changing the user name');
+    }
+    //Auth.changePassword(update).then(function (){
+    //  console.log('will change password');
+    //});
+  };
+
+//Switch team logic
+
+  $scope.userTeams = [];
+  console.log($scope.currentUser);
+
+
+  $scope.getTeams = function(){
+    var returnObj = [];
+
+    new Firebase(FURL).child('profile').child(Auth.user.uid).child('teams').once('value', function(data){
+      data = data.val();
+      if(data){
+        var keys = Object.keys(data);
+        for(var i = 0; i < keys.length; i++){
+          console.log(data[keys[i]]);
+          var obj = {
+            name : data[keys[i]],
+            number : getTeamNumber(data[keys[i]])
+          };
+          $scope.userTeams.push(obj);
+          console.log($scope.userTeams);
+          $scope.$apply();
+
+        }
+
+      }
+    });
+  }
+
+  //$scope.switchTeam = function(teamName){
+  //  new Firebase(FURL).child('profile').child(Auth.user.uid).child('curTeam').set(teamName,function(){
+  //    $location.path('/')
+  //  })
+  //}
+
+  $scope.newTeam = function(){
+    $location.path('/createteam');
+  }
+
+  function getTeamNumber(team){
+    new Firebase(FURL).child('team').child(team).child('members').once('value', function(members){
+      members = members.val();
+      members = Object.keys(members);
+      return members.length;
+
+    });
+  };
+
+  $scope.getTeams();
+
 
 });

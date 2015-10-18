@@ -23,7 +23,7 @@ app.factory('Auth', function(FURL, $firebaseAuth, $firebase,$firebaseObject,$loc
 
         login: function(user) {
             //team = user.team;
-            // Send Errors        
+            // Send Errors
             //console.log(team);
             return auth.$authWithPassword(
                 {email: user.email, password: user.password}
@@ -31,13 +31,13 @@ app.factory('Auth', function(FURL, $firebaseAuth, $firebase,$firebaseObject,$loc
         },
         register : function(user) {
             //team = user.team;
-           
+
             return auth.$createUser({email: user.email, password: user.password}).then(function() {
-                
+
                 return Auth.login(user);
             })
                 .then(function(data) {
-                    
+
                     return Auth.createProfile(data.uid, user);
                 });
         },
@@ -45,6 +45,8 @@ app.factory('Auth', function(FURL, $firebaseAuth, $firebase,$firebaseObject,$loc
             auth.$unauth();
         },
         changePassword : function(user) {
+            console.log('in change Password');
+
             return auth.$changePassword({email: user.email, oldPassword: user.oldPass, newPassword: user.newPass});
         },
 
@@ -60,13 +62,13 @@ app.factory('Auth', function(FURL, $firebaseAuth, $firebase,$firebaseObject,$loc
           // }else{
           //   return false;
           // }
-          
+
         },
 
         team : 'd'
     };
 
-    
+
     var getUserAuthStat = auth.$getAuth();
     if (getUserAuthStat) {
       angular.copy(getUserAuthStat, Auth.user);
@@ -86,15 +88,15 @@ app.factory('Auth', function(FURL, $firebaseAuth, $firebase,$firebaseObject,$loc
             teamRef.child(name).child('members').child(id).set(true);
             ref.child('profile').child(id).child('teams').push(name);
             ref.child('profile').child(id).child('curTeam').set(name);
-            
+
             $location.path('/');
           }else{
             return false;
           }
-          
+
         });
-        
-        
+
+
       }
   };
 
@@ -128,7 +130,7 @@ app.factory('Auth', function(FURL, $firebaseAuth, $firebase,$firebaseObject,$loc
         //                 return profileRef.$set('curTeam', team);
 
         //             } else {
-        //                 // Check the allowed email list to see if this is the users first time 
+        //                 // Check the allowed email list to see if this is the users first time
         //                 var teamEmails = Object.keys(teamRef[team].allowedUsers);
         //                 for (var i = 0; i < teamEmails.length; i++) {
         //                     console.log('is '+ Auth.user.profile.email + ' this ' + teamRef[team].allowedUsers[teamEmails[i]]);
@@ -138,7 +140,7 @@ app.factory('Auth', function(FURL, $firebaseAuth, $firebase,$firebaseObject,$loc
         //                         memberRef.child(Auth.user.profile.$id).set(true);
         //                         var memberRef = new Firebase(FURL + 'profile/' + Auth.user.profile.$id);
         //                         return memberRef.child('curTeam').set(team);
-                                
+
         //                     }
         //                 }
         //                 // No match was found unAuth user.
