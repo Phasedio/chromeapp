@@ -235,9 +235,9 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 
    $scope.addMemberModal = function(){
    	$('#myModal').modal('toggle');
-   }
+   };
 
-  //  var ref = new Firebase(FURL);
+  // var ref = new Firebase(FURL);
   // ref.child('profile').child(Auth.user.uid).once('value',function(data){
   //   user = data.val();
   //   msg = {
@@ -355,7 +355,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
     });
 	$('#myModal').modal('toggle');
 
-  }
+  };
 
 
   //Send Mandrill Email
@@ -384,10 +384,10 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
    $scope.logout = function(){
    	Auth.logout();
    	$location.path('/login');
-   }
+   };
    $scope.switchTeam = function(){
    	$location.path('/switchteam');
-   }
+   };
 
    $scope.showSettings = function(){
    	$scope.showsetting = true;
@@ -464,7 +464,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
         console.log('we will change the password');
         Auth.changePassword(update).then(function (){
           console.log('will change password');
-          toaster.pop('success', "will change");
+          toaster.pop('success', "Your password has been changed!");
         }, function(err) {
           console.log('error', err);
           if (err == "Error: The specified password is incorrect.") {
@@ -479,8 +479,9 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
         console.log('changing email');
         console.log(update.email);
         if (update.email !== $scope.currentUser.email) {
-          console.log('we are changing the email');
-          Auth.changeEmail(update);
+          console.log('we are changing the email', Auth.user.uid);
+          Auth.changeEmail(update, Auth.user.uid);
+          toaster.pop('success', "Your email has been updated!");
         }
       }
     }else {
@@ -489,20 +490,18 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
       if (update.name !== $scope.currentUser.name) {
         Auth.changeName(update, Auth.user.uid);
 
-
-
         new Firebase(FURL).child('profile').child(Auth.user.uid).once('value', function(user) {
           user = user.val();
+
           console.log(user);
           console.log(Auth.user.uid);
         });
-        //
-        ////console.log('we are changing the name');
+
+        toaster.pop('success', "Your name has been updated!");
       }
       if (update.email !== $scope.currentUser.email) {
-        console.log('we are changing the email');
-        Auth.changeEmail(update);
-
+        Auth.changeEmail(update, Auth.user.uid);
+        toaster.pop('success', "Your email has been updated!");
       }
     }
   };
@@ -534,7 +533,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 
       }
     });
-  }
+  };
 
   //$scope.switchTeam = function(teamName){
   //  new Firebase(FURL).child('profile').child(Auth.user.uid).child('curTeam').set(teamName,function(){
@@ -544,7 +543,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 
   $scope.newTeam = function(){
     $location.path('/createteam');
-  }
+  };
 
   function getTeamNumber(team){
     new Firebase(FURL).child('team').child(team).child('members').once('value', function(members){
