@@ -50,6 +50,20 @@ app.factory('Auth', function(FURL, $firebaseAuth, $firebase,$firebaseObject,$loc
             return auth.$changePassword({email: user.email, oldPassword: user.oldPass, newPassword: user.newPass});
         },
 
+        changeEmail : function(user) {
+          console.log('will change email', user);
+
+        },
+
+        changeName: function(user, uid){
+          console.log('will change name', user.name);
+          //console.log(a)
+          var profile = ref.child("profile").child(uid).child('name').set(user.name);
+          //profile.set(update.name);
+
+
+        },
+
         signedIn: function() {
             return !!Auth.user.provider;
         },

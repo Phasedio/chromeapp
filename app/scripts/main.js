@@ -6,7 +6,8 @@ var app = angular
         'ngRoute',
         'angular-loading-bar',
         'firebase',
-        'angularMoment'
+        'angularMoment',
+        'toaster'
     ])
     .run(['$rootScope', '$location', function ($rootScope, $location) {
         $rootScope.$on("$routeChangeError", function(event, next, previous, error) {
@@ -67,5 +68,5 @@ var app = angular
                   }
             })
 
-            
+
     });

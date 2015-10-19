@@ -8,6 +8,7 @@
 	}
 </style>
 <div class="container-fluid" >
+  <toaster-container toaster-options="{'time-out': 3000, 'close-button':true}"></toaster-container>
 	<div class="row">
 		<div class="col-xs-1 col-xs-offset-11">
 			<button class="no-shadow half-opacity" ng-click="showSettings();"><i class="fa fa-cog fa-1x"></i></button>
@@ -137,11 +138,11 @@
         <div class="login">
           <div class="item item-input item-stacked-label">
             <label class="input-label" for="name">name</label>
-            <input class="loginInput" type="text" id="name" ng-model="update.name">
+            <input class="loginInput" type="text" id="name" ng-model="update.name" placeholder="{{currentUser.name}}">
           </div>
           <div class="item item-input item-stacked-label">
             <label class="input-label" for="email">email</label>
-            <input class="loginInput" type="email" id="email" ng-model="update.email">
+            <input class="loginInput" type="email" id="email" ng-model="update.email" placeholder="{{currentUser.email}}">
           </div>
           <div class="item item-input item-stacked-label">
             <label class="input-label" for="oldpassword">old password</label>

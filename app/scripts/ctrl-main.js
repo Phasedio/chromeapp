@@ -1,4 +1,4 @@
-app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$location){
+app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$location, toaster){
 	$scope.showTaskView = false;
 	$scope.task = '';
   $scope.masterTask = '';
@@ -454,32 +454,57 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 
   // Update Account
   $scope.updateUser = function(update){
+    if(update.email === undefined || update.email === ''){
+      update.email = $scope.currentUser.email;
+    }
 
-    console.log(update);
-    console.log($scope.currentUser);
-
-
-    if(update.name === $scope.currentUser.name || update.email === $scope.currentUser.email){
-      console.log("we are changing the password");
+    if(update.name === $scope.currentUser.name || update.name === undefined || update.name === ''){
+      //console.log("we are changing the password");
       if(update.oldPass && update.newPass){
         console.log('we will change the password');
         Auth.changePassword(update).then(function (){
           console.log('will change password');
+          toaster.pop('success', "will change");
         }, function(err) {
           console.log('error', err);
+          if (err == "Error: The specified password is incorrect.") {
+            console.log("we are here");
+            toaster.pop('error', 'Your current password is incorrect');
+          } else {
+            toaster.pop('error', 'Your email is incorrect! Make sure you are using your current email');
+          }
+
         });
+      } else {
+        console.log('changing email');
+        console.log(update.email);
+        if (update.email !== $scope.currentUser.email) {
+          console.log('we are changing the email');
+          Auth.changeEmail(update);
+        }
+      }
+    }else {
+      console.log('changing userName or email');
+      console.log(update.email);
+      if (update.name !== $scope.currentUser.name) {
+        Auth.changeName(update, Auth.user.uid);
+
+
+
+        new Firebase(FURL).child('profile').child(Auth.user.uid).once('value', function(user) {
+          user = user.val();
+          console.log(user);
+          console.log(Auth.user.uid);
+        });
+        //
+        ////console.log('we are changing the name');
+      }
+      if (update.email !== $scope.currentUser.email) {
+        console.log('we are changing the email');
+        Auth.changeEmail(update);
 
       }
-      else{
-        console.log('not changing the password');
-      }
     }
-    else{
-      console.log('we are changing the user name');
-    }
-    //Auth.changePassword(update).then(function (){
-    //  console.log('will change password');
-    //});
   };
 
 //Switch team logic
