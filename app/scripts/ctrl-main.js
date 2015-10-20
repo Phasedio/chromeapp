@@ -237,59 +237,6 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
    	$('#myModal').modal('toggle');
    };
 
-  // var ref = new Firebase(FURL);
-  // ref.child('profile').child(Auth.user.uid).once('value',function(data){
-  //   user = data.val();
-  //   msg = {
-  //     "template_name" : 'invite',
-  //     "template_content": [
-
-  //         {
-  //           "name":'team_name',
-  //           "content":Auth.team
-  //         },
-  //         {
-  //           "name":'inviter_name',
-  //           "content":user.name
-  //         },
-  //         {
-  //           "name":'inviter_email',
-  //           "content":user.email
-  //         }
-
-  //     ],
-  //     "message" : {
-  //       "from_email" : 'brian@phased.io',
-  //       "from_name" : "Brian",
-  //       'subject' : user.name+" has invited you to " + Auth.team,
-  //       'global_merge_vars' : [
-  //         {
-  //           "name":'team_name',
-  //           "content":Auth.team
-  //         },
-  //         {
-  //           "name":'inviter_name',
-  //           "content":user.name
-  //         },
-  //         {
-  //           "name":'inviter_email',
-  //           "content":user.email
-  //         }
-  //       ],
-  //       'to' : [
-  //         {
-  //           'email' : names.email
-  //         }
-  //       ]
-  //     }
-  //   };
-  // });
-
-
-
-  // console.log(user);
-
-
   $scope.addMembers = function(names){
   	var ref = new Firebase(FURL);
     // grab all users and see if they match an email in the system
@@ -358,28 +305,6 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 	$('#myModal').modal('toggle');
 
   };
-
-
-  //Send Mandrill Email
-
-    // Create a function to log the response from the Mandrill API
-    // function sendTheMail(p) {
-    //         var m = new mandrill.Mandrill('B0N7XKd4RDy6Q7nWP2eFAA');
-    //         // Send the email!
-    //         console.log('Sending mails');
-    //         m.messages.sendTemplate(p, function(res) {
-    //             log(res);
-    //         }, function(err) {
-    //             log(err);
-    //         });
-    //     };
-    // //Mandrill responce handler
-    // function log(obj) {
-    //     console.log('Handling response');
-    //     console.log(obj);
-    //     //$('#response').text(JSON.stringify(obj));
-    // };
-
 
    //Settings page
 
