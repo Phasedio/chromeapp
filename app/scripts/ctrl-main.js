@@ -313,7 +313,8 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
       }
       // if no matches are found create a profile-in-waiting with this team assigned.
       if(!isSet){
-        console.log(names.email);
+        console.log(names.email, $scope.currentUser);
+
         // loop profile-in-waiting to find a match
         ref.child('profile-in-waiting').once('value', function(data){
           data = data.val();
@@ -345,7 +346,8 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
             }
           }
           if(!thisSet){
-            ref.child('profile-in-waiting').push({teams : { 0 : Auth.team},email : names.email});
+            ref.child('profile-in-waiting').push({teams : { 0 : Auth.team},email : names.email, inviteEmail: $scope.currentUser.email, inviteName: $scope.currentUser.name });
+            ref.child('profile-in-waiting2').push({teams : { 0 : Auth.team},email : names.email, inviteEmail: $scope.currentUser.email, inviteName: $scope.currentUser.name });
 
 
             //sendTheMail(msg);
@@ -409,6 +411,8 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
   function handleFileSelect(evt) {
     var f = evt.target.files[0];
     var reader = new FileReader();
+
+    console.log('the reader is ', reader);
     reader.onload = (function(theFile) {
       return function(e) {
         var gravatar = e.target.result;
