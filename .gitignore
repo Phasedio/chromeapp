@@ -3,6 +3,6 @@ dist
 .tmp
 .sass-cache
 test/bower_components
-.idea
+.idea/
 .DS_Store
 app/.DS_Store
