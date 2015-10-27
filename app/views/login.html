@@ -23,10 +23,11 @@
 	          <div class="item item-input item-stacked-label">
 	            <label class="input-label" for="password">password</label>
 	            <input class="loginInput" type="password" id='password' ng-model="user.password" placeholder=""></br>
-              <input type="button" ng-click="forgotPassword(user.email)" value="Forgot Password?">
+              
             </div>
 	          <div class="item">
 	            <input type="submit" class="btn btn-primary btn-lg btn-block button-phased" value="Sign In">
+	            <input type="button" class="btn btn-primary btn-lg btn-block button-phased" ng-click="forgotPassword(user.email)" value="Forgot Password?">
 	          </div>
 
 	        </div>

@@ -28,6 +28,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 		}
 	}
 	$scope.addTask = function(update){
+    _gaq.push(['_trackEvent', 'Update', 'updated']);
     	if($scope.taskForm.$error.maxlength){
     		alert('Your update is too long!');
     	}else{
@@ -71,12 +72,14 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 		      });
 
 		    });
+
 		    $scope.task = update;
         $scope.taskName = '';
 			  $scope.showTaskView = true;
         $scope.taskTime = status.time; // we didnt have status.time so i think this fixes the problem(?)
       // maybe we need a timeout function here to run around out $apply()??
         $scope.$apply();
+        
         //need to find out what the member/who is
         //$scope.getTaskHistory(member);
 
@@ -104,6 +107,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 
 
 	$scope.openUp = function(string){
+    _gaq.push(['_trackEvent', 'Team', 'Open&Close']);
 		if($scope.teamExpander[string]){
 			$scope.teamExpander = {
 				expand : false,
@@ -127,6 +131,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 				$scope.team = user.curTeam;
 				$scope.checkStatus();
 				$scope.getUserTask();
+        _gaq.push(['_trackEvent', 'Teams Loaded', 'clicked']);
 			}else{
 				$location.path("/switchteam");
 			}
@@ -134,6 +139,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 	};
 
 	$scope.getSelectedTask = function(member){
+    _gaq.push(['_trackEvent', 'Team', 'Viewed member']);
 		if(!$scope.teamExpander.full){
 			$scope.openUp('full');
 		}
@@ -239,6 +245,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
    };
 
   $scope.addMembers = function(names){
+    _gaq.push(['_trackEvent', 'Team', 'Add member']);
   	var ref = new Firebase(FURL);
     // grab all users and see if they match an email in the system
     ref.child('profile').once('value', function(data){
@@ -310,19 +317,23 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
    //Settings page
 
    $scope.logout = function(){
+    _gaq.push(['_trackEvent', 'Logout', 'clicked']);
    	Auth.logout();
    	$location.path('/login');
    };
    $scope.switchTeam = function(){
+    _gaq.push(['_trackEvent', 'Switch team', 'clicked']);
    	$location.path('/switchteam');
    };
 
    $scope.showSettings = function(){
+    _gaq.push(['_trackEvent', 'Settings', 'Opened']);
    	$scope.showsetting = true;
    };
 
    $scope.hideSetting = function(){
-   	//$scope.showsetting = false;
+    _gaq.push(['_trackEvent', 'Settings', 'Closed']);
+   	$scope.showsetting = false;
    };
 
 
@@ -335,6 +346,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
   //console.log(Auth.user);
   document.getElementById("file-upload").addEventListener('change', handleFileSelect, false);
   function handleFileSelect(evt) {
+    _gaq.push(['_trackEvent', 'Photo', 'Uploaded']);
     var f = evt.target.files[0];
     var reader = new FileReader();
 
@@ -361,6 +373,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 
 
   $scope.changeImage = function(){
+    _gaq.push(['_trackEvent', 'Photo', 'Changed']);
     $('#pano').hide();
 
     new Firebase(FURL).child('profile').child(Auth.user.uid).once('value', function(user) {
@@ -380,7 +393,8 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
     console.log('will save changes to form');
     //should add a toaster that confirms that changes were saved?
   }
-   $scope.getCurrentTeam();
+  //
+   
 
   // Update Account
   $scope.updateUser = function(update){
@@ -472,6 +486,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
   //}
 
   $scope.newTeam = function(){
+    _gaq.push(['_trackEvent', 'Team', 'Create new team']);
     $location.path('/createteam');
   };
 
@@ -483,7 +498,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 
     });
   };
-
+  $scope.getCurrentTeam();
   $scope.getTeams();
 
 

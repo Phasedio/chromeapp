@@ -104,6 +104,18 @@ button{
     color: #fff;
   }
 }
+.button-phased{
+  background-color: #FF4E00;
+  color: #fff;
+  outline: none;
+  border-color: #50D2C2;
+  &:active{
+    background-color:#317F76;
+  }
+  &:hover{
+    color: #fff;
+  }
+}
 
 // Main greeting area
 
