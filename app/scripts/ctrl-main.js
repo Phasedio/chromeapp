@@ -186,6 +186,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
      new Firebase(FURL).child('team').child(team).child('task').on('value', function(users) {
      $scope.teamMembers = [];
        users = users.val();
+       $scope.getUserTask();
        //console.log(users);
        if(users){
          var teamUID = Object.keys(users);
