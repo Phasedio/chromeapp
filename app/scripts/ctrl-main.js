@@ -76,7 +76,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 			  $scope.showTaskView = true;
         $scope.taskTime = status.time; // we didnt have status.time so i think this fixes the problem(?)
       // maybe we need a timeout function here to run around out $apply()??
-      //  $scope.$apply();
+        $scope.$apply();
         //need to find out what the member/who is
         //$scope.getTaskHistory(member);
 
@@ -161,7 +161,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
           arr.push(data[keys[i]]);
         }
         $scope.taskHistory = arr;
-        //$scope.$apply();
+        $scope.$apply();
 
 
       });
@@ -173,7 +173,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
     		if(data){
     			$scope.task = data.name;
     			$scope.taskTime = data.time;
-          //$scope.$apply();
+          $scope.$apply();
     			//$scope.showTaskView = true;
     		}
 
@@ -195,7 +195,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
             }
 
             //console.log($scope.teamMembers);
-            //$scope.$apply();
+            $scope.$apply();
        }
 
      });
@@ -226,7 +226,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
                };
                //Team.addMember(teamMember);
                $scope.teamMembers.push(teamMember);
-               //$scope.$apply();
+               $scope.$apply();
 
            });
    }
