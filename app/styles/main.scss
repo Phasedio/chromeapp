@@ -1,6 +1,6 @@
 $icon-font-path: '../fonts/';
 
-@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600,700,300);
+
 @import "bower_components/font-awesome/scss/font-awesome.scss";
 // bower:scss
 @import "bower_components/bootstrap-sass/assets/stylesheets/_bootstrap.scss";
@@ -90,7 +90,7 @@ button{
   &:hover{
     opacity:1;
   }
-}
+} 
 
 .button-phased{
   background-color: #50D2C2;
@@ -103,8 +103,8 @@ button{
   &:hover{
     color: #fff;
   }
-}
-.button-phased{
+}  
+.button-forgot{
   background-color: #FF4E00;
   color: #fff;
   outline: none;
