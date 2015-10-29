@@ -18,12 +18,14 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
   Notification.requestPermission(function(result) {
     console.log('we are in the notification', result);
     if (result === 'denied') {
+      _gaq.push(['_trackEvent', 'Push permission', 'denied']);
       console.log('Permission wasn\'t granted. Allow a retry.');
       return;
     } else if (result === 'default') {
       console.log('The permission request was dismissed.');
       return;
     } else {
+      _gaq.push(['_trackEvent', 'Push permission', 'granted']);
       console.log('The permission request was granted.');
     }
 
@@ -218,7 +220,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
          if($scope.currentUser.email == user.email){
            console.log('wont do anything');
          }else {
-           spawnNotification($scope.newUpdate.name , user.gravatar, user.name);
+           spawnNotification($scope.newUpdate.name + " - Phased.io", user.gravatar, user.name);
 
            function spawnNotification(theBody,theIcon,theTitle) {
 
@@ -547,11 +549,11 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
     });
   };
   $scope.getCurrentTeam();
-  $scope.getTeams();
+  //$scope.getTeams();
 
 
   window.setInterval(function () {
     $scope.$apply();
-  }, 100);
+  }, 500);
 
 });
