@@ -1,4 +1,5 @@
-  var _gaq = _gaq || [];
+'use strict';
+var _gaq = _gaq || [];
 _gaq.push(['_setAccount', 'UA-67596202-2']);
 _gaq.push(['_trackPageview']);
 (function() {
@@ -20,14 +21,13 @@ var app = angular
         'toaster'
     ])
     .run(['$rootScope', '$location', function ($rootScope, $location) {
-        $rootScope.$on("$routeChangeError", function(event, next, previous, error) {
+        $rootScope.$on('$routeChangeError', function(event, next, previous, error) {
           // We can catch the error thrown when the $requireAuth promise is rejected
           // and redirect the user back to the home page
-          if (error === "AUTH_REQUIRED") {
+          if (error === 'AUTH_REQUIRED') {
             $location.path("/login");
           }
         });
-        
     }])
     .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
         cfpLoadingBarProvider.includeSpinner = true;
@@ -41,7 +41,7 @@ var app = angular
                 resolve: {
                     // controller will not be loaded until $requireAuth resolves
                     // Auth refers to our $firebaseAuth wrapper in the example above
-                    "currentAuth": ["Auth", function(Auth) {
+                    'currentAuth': ['Auth', function(Auth) {
                       // $requireAuth returns a promise so the resolve waits for it to complete
                       // If the promise is rejected, it will throw a $stateChangeError (see above)
                       return Auth.fb.$requireAuth();
@@ -58,7 +58,7 @@ var app = angular
                 resolve: {
                     // controller will not be loaded until $requireAuth resolves
                     // Auth refers to our $firebaseAuth wrapper in the example above
-                    "currentAuth": ["Auth", function(Auth) {
+                    'currentAuth': ['Auth', function(Auth) {
                       // $requireAuth returns a promise so the resolve waits for it to complete
                       // If the promise is rejected, it will throw a $stateChangeError (see above)
                       return Auth.fb.$requireAuth();
@@ -71,13 +71,13 @@ var app = angular
                 resolve: {
                     // controller will not be loaded until $requireAuth resolves
                     // Auth refers to our $firebaseAuth wrapper in the example above
-                    "currentAuth": ["Auth", function(Auth) {
+                    'currentAuth': ['Auth', function(Auth) {
                       // $requireAuth returns a promise so the resolve waits for it to complete
                       // If the promise is rejected, it will throw a $stateChangeError (see above)
                       return Auth.fb.$requireAuth();
                     }]
                   }
-            })
+            });
 
 
     });

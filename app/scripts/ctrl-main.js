@@ -500,7 +500,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
     });
   };
   $scope.getCurrentTeam();
-  $scope.getTeams();
+  //$scope.getTeams();
 
 
   window.setInterval(function () {
