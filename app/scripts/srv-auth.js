@@ -12,7 +12,6 @@ app.factory('Auth', function(FURL, $firebaseAuth, $firebase,$firebaseObject,$loc
         fb : auth,
         newTeam : false,
         createProfile: function(uid, user) {
-            console.log('creating fucking profile');
             // loop profile-in-waiting to find a match
             ref.child('profile-in-waiting').once('value', function(data) {
               data = data.val();
@@ -23,6 +22,7 @@ app.factory('Auth', function(FURL, $firebaseAuth, $firebase,$firebaseObject,$loc
                 var userId = selectedUID[y];
 
                 if(user.email == data[selectedUID[y]].email){
+                  thisSet = true;
                   console.log(data[selectedUID[y]].email);
                   console.log('the userId is ', userId);
                   var team = data[selectedUID[y]].teams;
@@ -40,7 +40,7 @@ app.factory('Auth', function(FURL, $firebaseAuth, $firebase,$firebaseObject,$loc
                   return new Firebase(FURL).child('profile').child(uid).set(profile);
                 } else { }
               }
-              if(!isSet){
+              if(!thisSet){
                 var profile = {
                     name:user.name,
                     email:user.email,
@@ -50,11 +50,11 @@ app.factory('Auth', function(FURL, $firebaseAuth, $firebase,$firebaseObject,$loc
                 return new Firebase(FURL).child('profile').child(uid).set(profile);
 
               }
-              
+
           });
 
 
-            
+
         },
 
         login: function(user) {
@@ -67,7 +67,6 @@ app.factory('Auth', function(FURL, $firebaseAuth, $firebase,$firebaseObject,$loc
         },
         register : function(user) {
             //team = user.team;
-            console.log('creating fucking register');
 
             return auth.$createUser({email: user.email, password: user.password}).then(function() {
 
@@ -127,7 +126,7 @@ app.factory('Auth', function(FURL, $firebaseAuth, $firebase,$firebaseObject,$loc
       angular.copy(getUserAuthStat, Auth.user);
     }
 
-    
+
 
     function makeTeam(name,id){
       if(Auth.newTeam){
