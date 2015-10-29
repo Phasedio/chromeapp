@@ -15,6 +15,20 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 		full : false
 	}
 
+  Notification.requestPermission(function(result) {
+    console.log('we are in the notification', result);
+    if (result === 'denied') {
+      console.log('Permission wasn\'t granted. Allow a retry.');
+      return;
+    } else if (result === 'default') {
+      console.log('The permission request was dismissed.');
+      return;
+    } else {
+      console.log('The permission request was granted.');
+    }
+
+  });
+
 
   new Firebase(FURL).child('profile').child(Auth.user.uid).once('value', function(user) {
     user = user.val();
@@ -66,7 +80,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
           //we are getting the user.uid, we need to extract the member off the user.uid.
           //then we can do a scope.setSelected off that member.
 
-		      //Send push notifications to team
+            //Send push notifications to team
 		      $http.get('http://45.55.200.34:8080/push/update/'+team+'/'+Auth.user.name+'/'+status.name,'').success(function(data){
 		        //alert(data);
 		      });
@@ -190,9 +204,42 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 
 	$scope.checkStatus = function(){
    	 var team = $scope.team;
+     new Firebase(FURL).child('team').child(team).child('task').on('child_changed', function(childSnapshot, prevChildKey) {
+       newUpdate = childSnapshot.val();
+       $scope.newUpdate = newUpdate;
+      console.log(newUpdate.name);
+       new Firebase(FURL).child('profile').child(newUpdate.user).once('value', function(user) {
+         user = user.val();
+         console.log(user, $scope.newUpdate);
+         console.log(user.gravatar);
+
+         console.log('the current user is ', $scope.currentUser);
+
+         if($scope.currentUser.email == user.email){
+           console.log('wont do anything');
+         }else {
+           spawnNotification($scope.newUpdate.name , user.gravatar, user.name);
+
+           function spawnNotification(theBody,theIcon,theTitle) {
+
+             var options = {
+               body: theBody,
+               icon: theIcon
+             }
+             var n = new Notification(theTitle,options);
+             setTimeout(n.close.bind(n), 5000);
+           }
+         }
+       });
+
+    });
      new Firebase(FURL).child('team').child(team).child('task').on('value', function(users) {
      $scope.teamMembers = [];
        users = users.val();
+       console.log(users);
+
+
+
        $scope.getUserTask();
        //console.log(users);
        if(users){
