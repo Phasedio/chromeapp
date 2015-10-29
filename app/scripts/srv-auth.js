@@ -12,13 +12,49 @@ app.factory('Auth', function(FURL, $firebaseAuth, $firebase,$firebaseObject,$loc
         fb : auth,
         newTeam : false,
         createProfile: function(uid, user) {
-            var profile = {
-                name:user.name,
-                email:user.email,
-                gravatar: get_gravatar(user.email, 40)
-            };
+            console.log('creating fucking profile');
+            // loop profile-in-waiting to find a match
+            ref.child('profile-in-waiting').once('value', function(data) {
+              data = data.val();
+              var selectedUID = Object.keys(data);
+              var thisSet = false;
+              for (var y = 0; y < selectedUID.length; y++) {
+                console.log(data[selectedUID[y]].email);
+                var userId = selectedUID[y];
 
-            return new Firebase(FURL).child('profile').child(uid).set(profile);
+                if(user.email == data[selectedUID[y]].email){
+                  console.log(data[selectedUID[y]].email);
+                  console.log('the userId is ', userId);
+                  var team = data[selectedUID[y]].teams;
+                  console.log('user emails match and the team is', team);
+
+                  var profile = {
+                    name:user.name,
+                    email:user.email,
+                    gravatar: get_gravatar(user.email, 40),
+                    teams: team
+                  };
+
+                  ref.child('profile-in-waiting').child(userId).remove();
+
+                  return new Firebase(FURL).child('profile').child(uid).set(profile);
+                } else { }
+              }
+              if(!isSet){
+                var profile = {
+                    name:user.name,
+                    email:user.email,
+                    gravatar: get_gravatar(user.email, 40)
+                  };
+
+                return new Firebase(FURL).child('profile').child(uid).set(profile);
+
+              }
+              
+          });
+
+
+            
         },
 
         login: function(user) {
@@ -31,6 +67,7 @@ app.factory('Auth', function(FURL, $firebaseAuth, $firebase,$firebaseObject,$loc
         },
         register : function(user) {
             //team = user.team;
+            console.log('creating fucking register');
 
             return auth.$createUser({email: user.email, password: user.password}).then(function() {
 
@@ -89,6 +126,8 @@ app.factory('Auth', function(FURL, $firebaseAuth, $firebase,$firebaseObject,$loc
     if (getUserAuthStat) {
       angular.copy(getUserAuthStat, Auth.user);
     }
+
+    
 
     function makeTeam(name,id){
       if(Auth.newTeam){

@@ -16,6 +16,7 @@ app.controller('LoginController',function(FURL, $scope,$location,Auth){
 	}
 
 	$scope.regUser = function(user){
+    console.log('You hit the fucking button');
 		Auth.register(user).then(function() {
 			$location.path("/switchteam");
 		});

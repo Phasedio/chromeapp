@@ -8,7 +8,7 @@ _gaq.push(['_trackPageview']);
 })();
 
 
-console.log('\'Allo \'Allo!');
+console.log('\'Allo \'Allo BRIAN!!!!!');
 var app = angular
     .module('phasedExtention', [
         'ngAnimate',
