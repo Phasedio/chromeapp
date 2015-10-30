@@ -17,6 +17,7 @@ var app = angular
         'angular-loading-bar',
         'firebase',
         'angularMoment',
+        'ngDialog',
         'toaster'
     ])
     .run(['$rootScope', '$location', function ($rootScope, $location) {
@@ -27,7 +28,7 @@ var app = angular
             $location.path("/login");
           }
         });
-        
+
     }])
     .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
         cfpLoadingBarProvider.includeSpinner = true;
