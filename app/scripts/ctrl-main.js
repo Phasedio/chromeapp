@@ -39,6 +39,14 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
       // on mouseleave
       $(this).tooltip('hide');
     });
+
+
+    //document.querySelector('#down').classList.toggle('flip');
+    //$(".rotate").click(function(){
+    //  console.log('in toggle');
+    //  $(this).classList.toggle('flip');
+    //})
+
   });
 
   new Firebase(FURL).child('profile').child(Auth.user.uid).once('value', function(user) {
