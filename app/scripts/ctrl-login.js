@@ -6,37 +6,6 @@ app.controller('LoginController',function(FURL, $scope,$location,Auth, ngDialog)
 
 	$scope.loginUser = function(user){
 
-    //$scope.dialog = ngDialog.open({
-    //  template: 'popupTmpl',
-    //  className: 'ngdialog-theme-plain',
-    //  scope: $scope
-    //});
-
-    //ngDialog.open({
-    //
-    //  template: 'views/partials/onboard.html',
-    //  className: 'ngdialog-theme-plain',
-    //  scope: $scope
-    //});
-    //
-    //$scope.next = function(){
-    //
-    //  console.log('will show next page');
-    //  ngDialog.open({
-    //
-    //    template: 'views/partials/onboardMain.html',
-    //    className: 'ngdialog-theme-plain',
-    //    scope: $scope
-    //  });
-    //}
-    
-    //
-    
-
-
-    //just to do testing, unslash this out before committing
-
-
 		Auth.login(user).then(function() {
 
 	     // $scope.user = angular.copy(oriPerson);
