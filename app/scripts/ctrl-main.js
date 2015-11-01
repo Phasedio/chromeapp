@@ -36,6 +36,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
     new Firebase(FURL).child('profile').child(Auth.user.uid).child('newUser').once('value', function(data){
       data = data.val();
       if(data == true){
+        _gaq.push(['_trackEvent', 'Tutorial', 'Main interaction']);
         ngDialog.open({
             template: 'views/partials/onboardMain.html',
             className: 'ngdialog-theme-plain',
@@ -48,10 +49,12 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
   }
 
   $scope.closeAll = function(){
+      _gaq.push(['_trackEvent', 'Tutorial', 'Main interaction - other closed']);
       new Firebase(FURL).child('profile').child(Auth.user.uid).child('newUser').set(false);
       ngDialog.close();
     }
     $scope.next = function(){
+      _gaq.push(['_trackEvent', 'Tutorial', 'Main interaction - button closed']);
       new Firebase(FURL).child('profile').child(Auth.user.uid).child('newUser').set(false);
       ngDialog.close();
     }
