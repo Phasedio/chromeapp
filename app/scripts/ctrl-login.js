@@ -52,5 +52,10 @@ app.controller('LoginController',function(FURL, $scope,$location,Auth, ngDialog)
       }
     });
   }
+   ngDialog.open({
+        template: 'views/partials/onboard.html',
+        className: 'ngdialog-theme-plain',
+        scope: $scope
+      });
 
 });
