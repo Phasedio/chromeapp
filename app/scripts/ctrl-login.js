@@ -1,4 +1,4 @@
-app.controller('LoginController',function(FURL, $scope,$location,Auth){
+app.controller('LoginController',function(FURL, $scope,$location,Auth, ngDialog){
 
   var ref = new Firebase(FURL);
 
@@ -17,9 +17,21 @@ app.controller('LoginController',function(FURL, $scope,$location,Auth){
 
 	$scope.regUser = function(user){
 		Auth.register(user).then(function() {
-			$location.path("/switchteam");
-		});
-	}
+
+      //$('#myModal').modal('toggle');
+      ngDialog.open({
+        template: 'views/partials/onboard.html',
+        className: 'ngdialog-theme-plain',
+        scope: $scope
+      });
+			//$location.path("/switchteam");
+
+      //console.log('will show new modal here');
+
+
+      //ngDialog.open({ template: '/partials/onboard.html' })
+    });
+  }
 
 	$scope.makeAccount = function(){
 		$scope.forms = "reg";

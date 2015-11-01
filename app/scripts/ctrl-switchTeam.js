@@ -1,6 +1,7 @@
 app.controller('SwitchTeamController',function($scope,FURL,Auth,$http,$location){
 	$scope.userTeams = [];
-	
+
+
 
 	$scope.getTeams = function(){
 		var returnObj = [];
@@ -18,7 +19,7 @@ app.controller('SwitchTeamController',function($scope,FURL,Auth,$http,$location)
 					$scope.userTeams.push(obj);
 					console.log($scope.userTeams);
 					$scope.$apply();
-					
+
 				}
 
 			}
@@ -40,7 +41,7 @@ app.controller('SwitchTeamController',function($scope,FURL,Auth,$http,$location)
 			members = members.val();
 			members = Object.keys(members);
 			return members.length;
-			
+
 		});
 	};
 
