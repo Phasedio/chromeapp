@@ -12,41 +12,41 @@ app.controller('LoginController',function(FURL, $scope,$location,Auth, ngDialog)
     //  scope: $scope
     //});
 
-    ngDialog.open({
-
-      template: 'views/partials/onboard.html',
-      className: 'ngdialog-theme-plain',
-      scope: $scope
-    });
-
-    $scope.next = function(){
-
-      console.log('will show next page');
-      ngDialog.open({
-
-        template: 'views/partials/onboardMain.html',
-        className: 'ngdialog-theme-plain',
-        scope: $scope
-      });
-    }
-
-    $scope.closeAll = function(){
-      ngDialog.close();
-    }
+    //ngDialog.open({
+    //
+    //  template: 'views/partials/onboard.html',
+    //  className: 'ngdialog-theme-plain',
+    //  scope: $scope
+    //});
+    //
+    //$scope.next = function(){
+    //
+    //  console.log('will show next page');
+    //  ngDialog.open({
+    //
+    //    template: 'views/partials/onboardMain.html',
+    //    className: 'ngdialog-theme-plain',
+    //    scope: $scope
+    //  });
+    //}
+    //
+    //$scope.closeAll = function(){
+    //  ngDialog.close();
+    //}
 
 
     //just to do testing, unslash this out before committing
 
 
-		//Auth.login(user).then(function() {
-        //
-	     //// $scope.user = angular.copy(oriPerson);
-	     //// $scope.userForm.$setPristine();
-        //
-         //$location.path("/");
-         //}, function(err){
-         //   alert('incorrect username/password');
-         //});
+		Auth.login(user).then(function() {
+
+	     // $scope.user = angular.copy(oriPerson);
+	     // $scope.userForm.$setPristine();
+
+         $location.path("/");
+         }, function(err){
+            alert('incorrect username/password');
+         });
 	}
 
 	$scope.regUser = function(user){
