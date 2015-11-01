@@ -41,23 +41,14 @@
 	</div>
 	<div class="team" ng-class="teamExpander" ng-hide="!team">
 		<div class="row header" ng-click="openUp('expand')">
-      <div class="flip-container" ontouchstart="this.classList.toggle('flip');">
-        <div class="flipper">
+      <div class="flip-container">
+        <div class="flipper" ng-class="{'do-the-flip':flipStatus}">
           <div class="front">
-            <!-- front content -->
                <div class="col-xs-2 fa fa-chevron-up"></div>
-
           </div>
-          <!--<div class="back">-->
-            <!--&lt;!&ndash; front content &ndash;&gt;-->
-               <!--<div class="col-xs-2 fa fa-chevron-down"></div>-->
-
-          <!--</div>-->
         </div>
         <h4 class="col-xs-6" align="center">{{team}}</h4>
       </div>
-      <!--<div class="col-xs-2 fa fa-chevron-up"></div>-->
-			<!--<h4 class="col-xs-6" align="center">{{team}}</h4>-->
 		</div>
 		<div class="body">
 			<div class="member" ng-repeat="member in teamMembers | orderBy : 'time':true | limitTo : memberLimit" ng-class="{active : member.uid == selected.uid}" ng-click="getSelectedTask(member)">

@@ -13,7 +13,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 	$scope.teamExpander = {
 		expand : false,
 		full : false
-	}
+	};
 
   Notification.requestPermission(function(result) {
     console.log('we are in the notification', result);
@@ -33,20 +33,10 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 
   $(document).ready(function(){
     $('[data-toggle=tooltip]').hover(function(){
-      // on mouseenter
-      $(this).tooltip('show');
+      $(this).tooltip('show'); // on mouseenter
     }, function(){
-      // on mouseleave
-      $(this).tooltip('hide');
+      $(this).tooltip('hide');  // on mouseleave
     });
-
-
-    //document.querySelector('#down').classList.toggle('flip');
-    //$(".rotate").click(function(){
-    //  console.log('in toggle');
-    //  $(this).classList.toggle('flip');
-    //})
-
   });
 
   new Firebase(FURL).child('profile').child(Auth.user.uid).once('value', function(user) {
@@ -153,6 +143,11 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 			$scope.teamExpander[string] = true;
 			$scope.memberLimit = $scope.teamMembers.length;
 		}
+    if($scope.flipStatus){
+      $scope.flipStatus = false;
+    }else{
+      $scope.flipStatus = true;
+    }
 	}
 
 	$scope.getCurrentTeam = function(){
