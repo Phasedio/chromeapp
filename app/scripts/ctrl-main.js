@@ -31,6 +31,15 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 
   });
 
+  $(document).ready(function(){
+    $('[data-toggle=tooltip]').hover(function(){
+      // on mouseenter
+      $(this).tooltip('show');
+    }, function(){
+      // on mouseleave
+      $(this).tooltip('hide');
+    });
+  });
 
   new Firebase(FURL).child('profile').child(Auth.user.uid).once('value', function(user) {
     user = user.val();

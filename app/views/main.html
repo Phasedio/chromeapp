@@ -11,7 +11,8 @@
   <toaster-container toaster-options="{'time-out': 3000, 'close-button':true}"></toaster-container>
 	<div class="row">
 		<div class="col-xs-1 col-xs-offset-11">
-			<button class=" half-opacity" ng-click="showSettings();"><i class="fa fa-cog fa-1x"></i></button>
+			<button class=" half-opacity" ng-click="showSettings();"><i class="fa fa-cog fa-1x new-tooltip" title="Settings" data-toggle="tooltip" data-placement="bottom" class="red-tooltip" tooltip></i></button>
+      <!--<a href="#0" title="My Tooltip!" data-toggle="tooltip" data-placement="bottom" tooltip>Setting</a>-->
 		</div>
 	</div>
 	<div class="greeting element row">
@@ -22,13 +23,12 @@
 		<div class="greeting-input" ng-hide="showTaskView">
 			<h4>What are you doing now?</h4>
 			<form name="taskForm" ng-submit="addTask(taskName)" novalidation>
-                <input type="text" ng-model="taskName" ng-trim="false" maxlength="150" placeholder="enter in your status" required>
-       			<p>{{150 - taskName.length}} left</p>
-       			<input type="submit">
-
-            </form>
-            <p ><small ng-show="taskForm.$error.maxlength">Your update is too long!</small>&nbsp;</p>
-        </div>
+        <input type="text" ng-model="taskName" ng-trim="false" maxlength="150" placeholder="enter in your status" required>
+          <p>{{150 - taskName.length}} left</p>
+        <input type="submit">
+      </form>
+      <p ><small ng-show="taskForm.$error.maxlength">Your update is too long!</small>&nbsp;</p>
+    </div>
 
 		<div class="col-xs-6 col-xs-offset-3" ng-show="showTaskView">
 			<button ng-click="showTaskView = false"><i class="fa fa-plus"></i> <h6>Add new task</h6></button>
@@ -91,10 +91,10 @@
 	<div class="header row">
     <div class="col-xs-2">
       <button ng-click="hideSetting()" style="color:#009689; background-color: transparent" class="btn btn-lg">Back</button>
-      
-      
+
+
     </div>
-      
+
 	</div>
   <div class="row">
     <div class="col-xs-3">
@@ -175,7 +175,7 @@
     </div>
     <div class="col-xs-1"></div>
   </div>
-  
+
 
 </div>
 
