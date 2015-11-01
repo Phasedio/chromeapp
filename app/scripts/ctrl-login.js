@@ -1,25 +1,30 @@
-app.controller('LoginController',function(FURL, $scope,$location,Auth){
+app.controller('LoginController',function(FURL, $scope,$location,Auth, ngDialog){
 
   var ref = new Firebase(FURL);
 
   $scope.forms = "login";
 
 	$scope.loginUser = function(user){
-		Auth.login(user).then(function() {
-	      // $scope.user = angular.copy(oriPerson);
-	      // $scope.userForm.$setPristine();
 
-          $location.path("/");
-          }, function(err){
+		Auth.login(user).then(function() {
+
+	     // $scope.user = angular.copy(oriPerson);
+	     // $scope.userForm.$setPristine();
+
+         $location.path("/");
+         }, function(err){
             alert('incorrect username/password');
-          });
+         });
 	}
 
 	$scope.regUser = function(user){
+    console.log('will show new modal here');
 		Auth.register(user).then(function() {
-			$location.path("/switchteam");
-		});
-	}
+
+      console.log('will show new modal here');
+      $location.path("/switchteam");
+    });
+  }
 
 	$scope.makeAccount = function(){
 		$scope.forms = "reg";
@@ -40,5 +45,6 @@ app.controller('LoginController',function(FURL, $scope,$location,Auth){
       }
     });
   }
+   
 
 });

@@ -1,4 +1,4 @@
-app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$location, toaster){
+app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$location, toaster,ngDialog){
 	$scope.showTaskView = false;
 	$scope.task = '';
   $scope.masterTask = '';
@@ -30,6 +30,34 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
     }
 
   });
+
+  //ng-dial
+  function newUserCheck(){
+    new Firebase(FURL).child('profile').child(Auth.user.uid).child('newUser').once('value', function(data){
+      data = data.val();
+      if(data == true){
+        _gaq.push(['_trackEvent', 'Tutorial', 'Main interaction']);
+        ngDialog.open({
+            template: 'views/partials/onboardMain.html',
+            className: 'ngdialog-theme-plain',
+            scope: $scope
+          });
+      }else{
+
+      }
+    })
+  }
+
+  $scope.closeAll = function(){
+      _gaq.push(['_trackEvent', 'Tutorial', 'Main interaction - other closed']);
+      new Firebase(FURL).child('profile').child(Auth.user.uid).child('newUser').set(false);
+      ngDialog.close();
+    }
+    $scope.next = function(){
+      _gaq.push(['_trackEvent', 'Tutorial', 'Main interaction - button closed']);
+      new Firebase(FURL).child('profile').child(Auth.user.uid).child('newUser').set(false);
+      ngDialog.close();
+    }
 
 
   new Firebase(FURL).child('profile').child(Auth.user.uid).once('value', function(user) {
@@ -548,6 +576,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 
     });
   };
+  newUserCheck();
   $scope.getCurrentTeam();
   //$scope.getTeams();
 
