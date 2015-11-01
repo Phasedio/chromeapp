@@ -1,25 +1,22 @@
-<div id="ngdialog1" class="ngdialog-message">
-  <h1 align="center" style="text-shadow: none">Welcome to Phased.io</h1>
-  <h5 align="center" style="text-shadow: none">Your team at a glance</h5>
-    <p>Heres some content about how phased will work! </p>
-  <div class="ngdialog-buttons">
-    <button type="button" class="btn btn-success btn-lg" style="color:white" ng-click="closeAll()">
-    <img style="width: 20px" src="images/play.svg" />
-    </button>
+<div id="ngdialog1" class="ngdialog-message row">
+  <div class="col-xs-12">
+    <h1 align="center" style="text-shadow: none; font-family: FontAwesome !important;">Your team at a glance</h1>
+    <h5 align="center" style="text-shadow: none">Keep track of whats happening on Phased.io</h5>
   </div>
 
-  <!--<input type="button" value="OK" ng-click="checkInput() && closeThisDialog('Some value')"/>-->
+  <div class="gif col-xs-12" >
+    <img src="././images/phasedMain.gif" alt="Login">
+  </div>
+  <div class="col-xs-12">
+    <p>By entering status in to the main field, Phased.io can help you keep track of your day to day activity! Your activity is automaticly shared with anyone in your team, helping to keep others in the loop as well.</p>
+
+    <p>Please enter a new task!</p>
+  </div>
+  
+  
+  <div class="ngdialog-buttons col-xs-12">
+    <button type="button" class="btn btn-block no-shadow button-phased"  ng-click="next()">
+      Contiune to Phased.io dashboard
+    </button>
+  </div>
 </div>
-
-<!--<script type="text/ng-template" id="popupTmpl">-->
-  <!--<div class="ngdialog-message">-->
-
-    <!--<h1 align="center" style="text-shadow: none">Welcome to Phased.io</h1>-->
-    <!--<h5 align="center">Your team at a glance</h5>-->
-    <!--<div class="ngdialog-buttons">-->
-      <!--<button type="button" class="btn btn-default btn-lg" ng-click="next()">-->
-        <!--<img style="width: 20px" src="images/play.svg" />-->
-      <!--</button>-->
-    <!--</div>-->
-    <!--</div>-->
-<!--</script>-->

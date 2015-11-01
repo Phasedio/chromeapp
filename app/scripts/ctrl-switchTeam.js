@@ -1,7 +1,21 @@
-app.controller('SwitchTeamController',function($scope,FURL,Auth,$http,$location){
+app.controller('SwitchTeamController',function($scope,FURL,Auth,$http,$location,ngDialog){
 	$scope.userTeams = [];
 
+	function newUserCheck(){
+		new Firebase(FURL).child('profile').child(Auth.user.uid).child('newUser').once('value', function(data){
+			data = data.val();
+			if(data == true){
+				ngDialog.open({
+			      template: 'views/partials/onboard.html',
+			      className: 'ngdialog-theme-plain',
+			      scope: $scope
+			    });
+			}else{
 
+			}
+		})
+	}
+	
 
 	$scope.getTeams = function(){
 		var returnObj = [];
@@ -45,6 +59,14 @@ app.controller('SwitchTeamController',function($scope,FURL,Auth,$http,$location)
 		});
 	};
 
+
+	$scope.closeAll = function(){
+    	ngDialog.close();
+    }
+    $scope.next = function(){
+    	ngDialog.close();
+    }
+	newUserCheck();
 	$scope.getTeams();
 
 });

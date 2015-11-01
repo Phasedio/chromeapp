@@ -81,3 +81,12 @@
     color:rgba(29,29,38,1);
   }
 }
+.ngdialog.ngdialog-theme-plain .ngdialog-content{
+  min-width:500px;
+  button{
+    text-trasform:uppercase;
+    &:focus{
+      color:#fff;
+    }
+  }
+}
