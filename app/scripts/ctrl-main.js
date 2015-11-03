@@ -640,6 +640,11 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 
     });
   };
+
+  $scope.gaClick = function(){
+    _gaq.push(['_trackEvent', 'Open&Close Team', 'Chevron/X']);
+  }
+  
   newUserCheck();
   $scope.getCurrentTeam();
   //$scope.getTeams();

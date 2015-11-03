@@ -49,7 +49,7 @@
 	<div class="team" ng-class="teamExpander" ng-hide="!team">
 		<div class="row header" ng-click="openUp('expand')">
       <div class="col-xs-12">
-        <div class="flip-container" ng-hide="teamExpander.full">
+        <div class="flip-container" ng-hide="teamExpander.full" ng-click="gaClick()">
           <div class="flipper" ng-class="{'do-the-flip':flipStatus}">
             <div class="front">
                  <div class="col-xs-2 fa fa-chevron-up"></div>
