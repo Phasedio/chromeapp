@@ -393,6 +393,55 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
    	$scope.showsetting = true;
    };
 
+    $scope.showSwitchTeam = function(){
+      $('#mySwitchModal').modal('toggle');
+      $scope.userTeams = [];
+
+      var returnObj = [];
+
+      new Firebase(FURL).child('profile').child(Auth.user.uid).child('teams').once('value', function(data){
+        data = data.val();
+        if(data){
+          var keys = Object.keys(data);
+          for(var i = 0; i < keys.length; i++){
+            console.log(data[keys[i]]);
+            var obj = {
+              name : data[keys[i]],
+              number : getTeamNumber(data[keys[i]])
+            };
+            $scope.userTeams.push(obj);
+            console.log($scope.userTeams);
+            $scope.$apply();
+          }
+        }
+      });
+
+      $scope.switchTeam = function(teamName){
+        console.log('clicked switch team');
+        new Firebase(FURL).child('profile').child(Auth.user.uid).child('curTeam').set(teamName,function(){
+          console.log(teamName);
+          $location.path('/');
+          $('#mySwitchModal').modal('toggle');
+        })
+      };
+
+      $scope.newTeam = function(){
+        $location.path('/createteam');
+      };
+
+      function getTeamNumber(team){
+        new Firebase(FURL).child('team').child(team).child('members').once('value', function(members){
+          members = members.val();
+          members = Object.keys(members);
+          return members.length;
+
+        });
+      };
+
+      //$scope.getTeams();
+
+    };
+
    $scope.hideSetting = function(){
     _gaq.push(['_trackEvent', 'Settings', 'Closed']);
    	$scope.showsetting = false;

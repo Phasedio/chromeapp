@@ -11,8 +11,15 @@
   <toaster-container toaster-options="{'time-out': 3000, 'close-button':true}"></toaster-container>
 	<div class="row">
 		<div class="col-xs-1 col-xs-offset-11">
-			<button class=" half-opacity" ng-click="showSettings();"><i class="fa fa-cog fa-1x new-tooltip" title="Settings" data-toggle="tooltip" data-placement="bottom" class="red-tooltip" tooltip></i></button>
-      <!--<a href="#0" title="My Tooltip!" data-toggle="tooltip" data-placement="bottom" tooltip>Setting</a>-->
+      <div class="row">
+        <div class="col-xs-5">
+           <button class=" half-opacity" ng-click="showSwitchTeam();"><i class="fa fa-random fa-1x new-tooltip" title="Switch Team" data-toggle="tooltip" data-placement="bottom" class="red-tooltip" tooltip></i></button>
+        </div>
+        <div class="col-xs-5">
+			    <button class=" half-opacity" ng-click="showSettings();"><i class="fa fa-cog fa-1x new-tooltip" title="Settings" data-toggle="tooltip" data-placement="bottom" class="red-tooltip" tooltip></i></button>
+        </div>
+      </div>
+			<!--<a href="#0" title="My Tooltip!" data-toggle="tooltip" data-placement="bottom" tooltip>Setting</a>-->
 		</div>
 	</div>
 	<div class="greeting element row">
@@ -90,6 +97,40 @@
 		</div>
 	</div>
 </div>
+
+<!-- //////////////////////// -->
+<!-- Switch Team Model -->
+<!-- //////////////////////// -->
+
+<div class="modal fade" id="mySwitchModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title no-shadow">Switch Team</h4>
+      </div>
+      <div class="modal-body switchTeam">
+          <h3 align="center">Select team</h3>
+            <ul style="height:auto !important; padding-bottom: 50px;">
+              <li ng-repeat="teamr in userTeams track by $index" ng-click="switchTeam(teamr.name)">
+                <div>
+                  <h5>{{teamr.name}}</h5>
+                </div>
+                <div>
+                  <i class="fa fa-3x fa-arrow-right" style="color:#fff;"></i>
+                </div>
+              </li>
+            </ul>
+          <button class="btn btn-primary btn-lg btn-block button-phased no-shadow" ng-click="newTeam()">Create new team</button>
+        <!--</div>-->
+      </div>
+
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
 <!-- //////////////////////// -->
 <!-- Settings Menu -->
 <!-- //////////////////////// -->
