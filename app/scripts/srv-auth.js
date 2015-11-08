@@ -32,6 +32,7 @@ app.factory('Auth', function(FURL, $firebaseAuth, $firebase,$firebaseObject,$loc
                     name:user.name,
                     email:user.email,
                     gravatar: get_gravatar(user.email, 40),
+                    newUser : true,
                     teams: team
                   };
 
@@ -44,6 +45,7 @@ app.factory('Auth', function(FURL, $firebaseAuth, $firebase,$firebaseObject,$loc
                 var profile = {
                     name:user.name,
                     email:user.email,
+                    newUser : true,
                     gravatar: get_gravatar(user.email, 40)
                   };
 

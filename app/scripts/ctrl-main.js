@@ -1,4 +1,4 @@
-app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$location, toaster){
+app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$location, toaster,ngDialog){
 	$scope.showTaskView = false;
 	$scope.task = '';
   $scope.masterTask = '';
@@ -13,7 +13,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 	$scope.teamExpander = {
 		expand : false,
 		full : false
-	}
+	};
 
   Notification.requestPermission(function(result) {
     console.log('we are in the notification', result);
@@ -29,6 +29,44 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
       console.log('The permission request was granted.');
     }
 
+  });
+
+
+  //ng-dial
+  function newUserCheck(){
+    new Firebase(FURL).child('profile').child(Auth.user.uid).child('newUser').once('value', function(data){
+      data = data.val();
+      if(data == true){
+        _gaq.push(['_trackEvent', 'Tutorial', 'Main interaction']);
+        ngDialog.open({
+            template: 'views/partials/onboardMain.html',
+            className: 'ngdialog-theme-plain',
+            scope: $scope
+          });
+      }else{
+
+      }
+    })
+  }
+
+  $scope.closeAll = function(){
+      _gaq.push(['_trackEvent', 'Tutorial', 'Main interaction - other closed']);
+      new Firebase(FURL).child('profile').child(Auth.user.uid).child('newUser').set(false);
+      ngDialog.close();
+    }
+    $scope.next = function(){
+      _gaq.push(['_trackEvent', 'Tutorial', 'Main interaction - button closed']);
+      new Firebase(FURL).child('profile').child(Auth.user.uid).child('newUser').set(false);
+      ngDialog.close();
+    }
+
+
+  $(document).ready(function(){
+    $('[data-toggle=tooltip]').hover(function(){
+      $(this).tooltip('show'); // on mouseenter
+    }, function(){
+      $(this).tooltip('hide');  // on mouseleave
+    });
   });
 
 
@@ -136,6 +174,11 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 			$scope.teamExpander[string] = true;
 			$scope.memberLimit = $scope.teamMembers.length;
 		}
+    if($scope.flipStatus){
+      $scope.flipStatus = false;
+    }else{
+      $scope.flipStatus = true;
+    }
 	}
 
 	$scope.getCurrentTeam = function(){
@@ -381,6 +424,55 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
    	$scope.showsetting = true;
    };
 
+    $scope.showSwitchTeam = function(){
+      $('#mySwitchModal').modal('toggle');
+      $scope.userTeams = [];
+
+      var returnObj = [];
+
+      new Firebase(FURL).child('profile').child(Auth.user.uid).child('teams').once('value', function(data){
+        data = data.val();
+        if(data){
+          var keys = Object.keys(data);
+          for(var i = 0; i < keys.length; i++){
+            console.log(data[keys[i]]);
+            var obj = {
+              name : data[keys[i]],
+              number : getTeamNumber(data[keys[i]])
+            };
+            $scope.userTeams.push(obj);
+            console.log($scope.userTeams);
+            $scope.$apply();
+          }
+        }
+      });
+
+      $scope.switchTeam = function(teamName){
+        console.log('clicked switch team');
+        new Firebase(FURL).child('profile').child(Auth.user.uid).child('curTeam').set(teamName,function(){
+          console.log(teamName);
+          $location.path('/');
+          $('#mySwitchModal').modal('toggle');
+        })
+      };
+
+      $scope.newTeam = function(){
+        $location.path('/createteam');
+      };
+
+      function getTeamNumber(team){
+        new Firebase(FURL).child('team').child(team).child('members').once('value', function(members){
+          members = members.val();
+          members = Object.keys(members);
+          return members.length;
+
+        });
+      };
+
+      //$scope.getTeams();
+
+    };
+
    $scope.hideSetting = function(){
     _gaq.push(['_trackEvent', 'Settings', 'Closed']);
    	$scope.showsetting = false;
@@ -548,6 +640,12 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 
     });
   };
+
+  $scope.gaClick = function(){
+    _gaq.push(['_trackEvent', 'Open&Close Team', 'Chevron/X']);
+  }
+  
+  newUserCheck();
   $scope.getCurrentTeam();
   //$scope.getTeams();
 

@@ -11,7 +11,15 @@
   <toaster-container toaster-options="{'time-out': 3000, 'close-button':true}"></toaster-container>
 	<div class="row">
 		<div class="col-xs-1 col-xs-offset-11">
-			<button class=" half-opacity" ng-click="showSettings();"><i class="fa fa-cog fa-1x"></i></button>
+      <div class="row">
+        <div class="col-xs-5">
+           <button class=" half-opacity" ng-click="showSwitchTeam();"><i class="fa fa-random fa-1x new-tooltip" title="Switch Team" data-toggle="tooltip" data-placement="bottom" class="red-tooltip" tooltip></i></button>
+        </div>
+        <div class="col-xs-5">
+			    <button class=" half-opacity" ng-click="showSettings();"><i class="fa fa-cog fa-1x new-tooltip" title="Settings" data-toggle="tooltip" data-placement="bottom" class="red-tooltip" tooltip></i></button>
+        </div>
+      </div>
+			<!--<a href="#0" title="My Tooltip!" data-toggle="tooltip" data-placement="bottom" tooltip>Setting</a>-->
 		</div>
 	</div>
 	<div class="greeting element row">
@@ -22,13 +30,12 @@
 		<div class="greeting-input" ng-hide="showTaskView">
 			<h4>What are you doing now?</h4>
 			<form name="taskForm" ng-submit="addTask(taskName)" novalidation>
-                <input type="text" ng-model="taskName" ng-trim="false" maxlength="150" placeholder="enter in your status" required>
-       			<p>{{150 - taskName.length}} left</p>
-       			<input type="submit">
-
-            </form>
-            <p ><small ng-show="taskForm.$error.maxlength">Your update is too long!</small>&nbsp;</p>
-        </div>
+        <input type="text" ng-model="taskName" ng-trim="false" maxlength="150" placeholder="enter in your status" required>
+          <p>{{150 - taskName.length}} left</p>
+        <input type="submit">
+      </form>
+      <p ><small ng-show="taskForm.$error.maxlength">Your update is too long!</small>&nbsp;</p>
+    </div>
 
 		<div class="col-xs-6 col-xs-offset-3" ng-show="showTaskView">
 			<button ng-click="showTaskView = false"><i class="fa fa-plus"></i> <h6>Add new task</h6></button>
@@ -40,8 +47,19 @@
 
 	</div>
 	<div class="team" ng-class="teamExpander" ng-hide="!team">
-		<div class="header" ng-click="openUp('expand')">
-			<h4 align="center">{{team}}</h4>
+		<div class="row header" ng-click="openUp('expand')">
+      <div class="col-xs-12">
+        <div class="flip-container" ng-hide="teamExpander.full" ng-click="gaClick()">
+          <div class="flipper" ng-class="{'do-the-flip':flipStatus}">
+            <div class="front">
+                 <div class="col-xs-2 fa fa-chevron-up"></div>
+            </div>
+          </div>
+        </div>
+        <div ng-hide="!teamExpander.full" class="fa fa-times fa-lg team-closeButton" style="display:inline-block; margin-left:1rem;"></div>
+        <h4 align="center">{{team}}</h4>
+      </div>
+      
 		</div>
 		<div class="body">
 			<div class="member" ng-repeat="member in teamMembers | orderBy : 'time':true | limitTo : memberLimit" ng-class="{active : member.uid == selected.uid}" ng-click="getSelectedTask(member)">
@@ -83,6 +101,40 @@
 		</div>
 	</div>
 </div>
+
+<!-- //////////////////////// -->
+<!-- Switch Team Model -->
+<!-- //////////////////////// -->
+
+<div class="modal fade" id="mySwitchModal">
+  <div class="modal-dialog">
+    <div class="modal-content">
+
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title no-shadow">Switch Team</h4>
+      </div>
+      <div class="modal-body switchTeam">
+          <h3 align="center">Select team</h3>
+            <ul style="height:auto !important; padding-bottom: 50px;">
+              <li ng-repeat="teamr in userTeams track by $index" ng-click="switchTeam(teamr.name)">
+                <div>
+                  <h5>{{teamr.name}}</h5>
+                </div>
+                <div>
+                  <i class="fa fa-3x fa-arrow-right" style="color:#fff;"></i>
+                </div>
+              </li>
+            </ul>
+          <button class="btn btn-primary btn-lg btn-block button-phased no-shadow" ng-click="newTeam()">Create new team</button>
+        <!--</div>-->
+      </div>
+
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
 <!-- //////////////////////// -->
 <!-- Settings Menu -->
 <!-- //////////////////////// -->
@@ -91,10 +143,10 @@
 	<div class="header row">
     <div class="col-xs-2">
       <button ng-click="hideSetting()" style="color:#009689; background-color: transparent" class="btn btn-lg">Back</button>
-      
-      
+
+
     </div>
-      
+
 	</div>
   <div class="row">
     <div class="col-xs-3">
@@ -175,7 +227,7 @@
     </div>
     <div class="col-xs-1"></div>
   </div>
-  
+
 
 </div>
 
