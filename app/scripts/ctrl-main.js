@@ -407,21 +407,21 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 
   };
 
-   //Settings page
-
-   $scope.logout = function(){
-    _gaq.push(['_trackEvent', 'Logout', 'clicked']);
-   	Auth.logout();
-   	$location.path('/login');
-   };
-   $scope.switchTeam = function(){
-    _gaq.push(['_trackEvent', 'Switch team', 'clicked']);
-   	$location.path('/switchteam');
-   };
+   //ICONS AT TOP////
 
    $scope.showSettings = function(){
-    _gaq.push(['_trackEvent', 'Settings', 'Opened']);
-   	$scope.showsetting = true;
+     console.log('will show settings modal');
+    //_gaq.push(['_trackEvent', 'Settings', 'Opened']);
+     $('#mySettingsModal').modal('toggle');
+     $scope.logout = function(){
+       _gaq.push(['_trackEvent', 'Logout', 'clicked']);
+       Auth.logout();
+       $location.path('/login');
+     };
+     $scope.goToWeb = function(){
+       console.log('close modal');
+       $('#mySettingsModal').modal('toggle');
+     };
    };
 
     $scope.showSwitchTeam = function(){
@@ -473,124 +473,6 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 
     };
 
-   $scope.hideSetting = function(){
-    _gaq.push(['_trackEvent', 'Settings', 'Closed']);
-   	$scope.showsetting = false;
-   };
-
-
-
-  // Change ImageCode
-  //create the crypto shit (could be in a different file?)
-
-  var ref = new Firebase(FURL);
-
-  //console.log(Auth.user);
-  document.getElementById("file-upload").addEventListener('change', handleFileSelect, false);
-  function handleFileSelect(evt) {
-    _gaq.push(['_trackEvent', 'Photo', 'Uploaded']);
-    var f = evt.target.files[0];
-    var reader = new FileReader();
-
-    console.log('the reader is ', reader);
-    reader.onload = (function(theFile) {
-      return function(e) {
-        var gravatar = e.target.result;
-        // Generate a location that can't be guessed using the file's contents and a random number
-        //var hash = CryptoJS.SHA256(Math.random() + CryptoJS.SHA256(gravatar));
-        var f = new Firebase(ref.child("profile").child(Auth.user.uid) + '/gravatar');
-        f.set(gravatar, function() {
-          document.getElementById("pano").src = e.target.result;
-          $('#file-upload').hide();
-
-          // Update the location bar so the URL can be shared with others
-          //window.location.hash = hash;
-
-        });
-      };
-    })(f);
-    reader.readAsDataURL(f);
-  }
-
-
-
-  $scope.changeImage = function(){
-    _gaq.push(['_trackEvent', 'Photo', 'Changed']);
-    $('#pano').hide();
-
-    new Firebase(FURL).child('profile').child(Auth.user.uid).once('value', function(user) {
-      user = user.val();
-      $scope.currentUser = user;
-      console.log($scope.currentUser);
-    });
-
-      //$scope.$apply();
-    //setTimeout(function () {
-    //  $scope.$apply();
-    //}, 100);
-
-    }
-
-  $scope.saveChanges = function(){
-    console.log('will save changes to form');
-    //should add a toaster that confirms that changes were saved?
-  }
-  //
-
-
-  // Update Account
-  $scope.updateUser = function(update){
-    if(update.email === undefined || update.email === ''){
-      update.email = $scope.currentUser.email;
-    }
-
-    if(update.name === $scope.currentUser.name || update.name === undefined || update.name === ''){
-      //console.log("we are changing the password");
-      if(update.oldPass && update.newPass){
-        console.log('we will change the password');
-        Auth.changePassword(update).then(function (){
-          console.log('will change password');
-          toaster.pop('success', "Your password has been changed!");
-        }, function(err) {
-          console.log('error', err);
-          if (err == "Error: The specified password is incorrect.") {
-            console.log("we are here");
-            toaster.pop('error', 'Your current password is incorrect');
-          } else {
-            toaster.pop('error', 'Your email is incorrect! Make sure you are using your current email');
-          }
-
-        });
-      } else {
-        console.log('changing email');
-        console.log(update.email);
-        if (update.email !== $scope.currentUser.email) {
-          console.log('we are changing the email', Auth.user.uid);
-          Auth.changeEmail(update, Auth.user.uid);
-          toaster.pop('success', "Your email has been updated!");
-        }
-      }
-    }else {
-      console.log('changing userName or email');
-      console.log(update.email);
-      if (update.name !== $scope.currentUser.name) {
-        Auth.changeName(update, Auth.user.uid);
-
-        new Firebase(FURL).child('profile').child(Auth.user.uid).once('value', function(user) {
-          user = user.val();
-
-          console.log(user);
-          console.log(Auth.user.uid);
-        });
-
-        toaster.pop('success', "Your name has been updated!");
-      }
-      if (update.email !== $scope.currentUser.email) {
-        Auth.changeEmail(update, Auth.user.uid);
-        toaster.pop('success', "Your email has been updated!");
-      }
-    }
-  };
 
 //Switch team logic
 
@@ -644,7 +526,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
   $scope.gaClick = function(){
     _gaq.push(['_trackEvent', 'Open&Close Team', 'Chevron/X']);
   }
-  
+
   newUserCheck();
   $scope.getCurrentTeam();
   //$scope.getTeams();
