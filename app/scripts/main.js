@@ -9,7 +9,7 @@ _gaq.push(['_trackPageview']);
 })();
 
 
-console.log('\'Allo \'Allo BRIAN!!!!!');
+console.log('\'Allo \'Allo Carol!!!!!!');
 var app = angular
     .module('phasedExtention', [
         'ngAnimate',
