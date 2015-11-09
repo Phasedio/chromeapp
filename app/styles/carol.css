@@ -54,3 +54,92 @@
   color: white;
   padding: 3% 0 0 4%;
 }
+
+
+.modal {
+  display: none;
+  overflow: hidden;
+  position: fixed;
+  width: 40%;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 30%;
+  z-index: 1050;
+  -webkit-overflow-scrolling: touch;
+  outline: 0;
+}
+
+.modal.fade .modal-dialog {
+  -webkit-transform: translate(0, -25%);
+  transform: translate(0, -25%);
+  transition: -webkit-transform 0.3s ease-out;
+  transition: transform 0.3s ease-out;
+}
+
+.modal.in .modal-dialog {
+  -webkit-transform: translate(0, 0);
+  transform: translate(0, 0);
+}
+
+.modal-open .modal {
+  overflow-x: hidden;
+  overflow-y: auto;
+}
+
+.modal-dialog {
+
+  position: relative;
+  /*width: 60%;*/
+  margin: 10px;
+}
+
+.modal-content {
+  position: relative;
+  background-color: #fff;
+  border: 1px solid #999;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  border-radius: 6px;
+  box-shadow: 0 3px 9px rgba(0, 0, 0, 0.5);
+  background-clip: padding-box;
+  outline: 0;
+}
+
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 1040;
+  background-color: #000;
+}
+
+.button-phased {
+  background-color: #fff !important;
+  color: #36BEA6 !important;
+  outline: none;
+  border: 2px solid #36BEA6;
+}
+
+.button-phased:active {
+  background-color: #317F76;
+}
+
+.button-phased:hover {
+  color: #fff;
+  border: 2px solid #084D54;
+  color: #084D54 !important;
+}
+
+.team {
+  background: rgba(0, 0, 0, 0.5);
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
+  width: 40%;
+  height: 20rem;
+  position: absolute;
+  bottom: 0;
+  right: 29%;
+  transition: all 0.3s;
+  z-index: 999;
+}

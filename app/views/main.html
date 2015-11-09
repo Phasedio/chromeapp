@@ -112,14 +112,14 @@
 
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title no-shadow">Switch Team</h4>
+        <h4 class="modal-title no-shadow" align="center" style="color: #084D54;">Select a Team</h4>
       </div>
       <div class="modal-body switchTeam">
-          <h3 align="center">Select team</h3>
+          <!--<h3 align="center">Select team</h3>-->
             <ul style="height:auto !important; padding-bottom: 50px;">
               <li ng-repeat="teamr in userTeams track by $index" ng-click="switchTeam(teamr.name)">
                 <div>
-                  <h5>{{teamr.name}}</h5>
+                  <h5 style="color: #084D54;">{{teamr.name}}</h5>
                 </div>
                 <div>
                   <i class="fa fa-3x fa-arrow-right" style="color:#fff;"></i>
@@ -144,18 +144,26 @@
   <div class="modal-dialog">
     <div class="modal-content">
 
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title no-shadow">Settings</h4>
+      <div class="modal-header" align="center">
+       <img  style="height: 20rem; width: 20rem" src="images/phased-logo.png">
+       <br>
+
+        <!--<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>-->
+       <h3 class="modal-title no-shadow" align="center" style="color: #084D54;">Phased.io</h3>
+       <h4 class="modal-title no-shadow" align="center" style="color: #084D54;">Version 0.4.5</h4>
       </div>
       <div class="modal-body settings">
+
+        <!--<img align="center" style="height: 20rem; width: 20rem" src="images/phased-logo.png">-->
+
+
         <a ng-href=" http://app.phased.io" target="_blank">
-          <button ng-click="goToWeb()" class="btn btn-primary btn-lg btn-block button-phased">
+          <button ng-click="goToWeb()" class="btn btn-primary btn-lg btn-block button-phased no-shadow">
           Edit Profile
           </button>
         </a>
         <br/>
-        <button ng-click="logout()" class="btn btn-primary btn-lg btn-block button-phased">Log out</button>
+        <button ng-click="logout()" class="btn btn-primary btn-lg btn-block button-phased no-shadow">Log out</button>
       </div>
 
     </div><!-- /.modal-content -->

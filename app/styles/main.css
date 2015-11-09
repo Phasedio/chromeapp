@@ -9582,10 +9582,11 @@ button.close {
   display: none;
   overflow: hidden;
   position: fixed;
+  width: 40%;
   top: 0;
   right: 0;
   bottom: 0;
-  left: 0;
+  left: 30%;
   z-index: 1050;
   -webkit-overflow-scrolling: touch;
   outline: 0;
@@ -9609,8 +9610,9 @@ button.close {
 }
 
 .modal-dialog {
+
   position: relative;
-  width: auto;
+  /*width: 60%;*/
   margin: 10px;
 }
 
@@ -9647,7 +9649,7 @@ button.close {
 
 .modal-header {
   padding: 15px;
-  border-bottom: 1px solid #e5e5e5;
+  /*border-bottom: 1px solid #3d3d3d;*/
   min-height: 16.428571429px;
 }
 
@@ -9704,7 +9706,7 @@ button.close {
 
 @media (min-width: 768px) {
   .modal-dialog {
-    width: 600px;
+    width: 400px;
     margin: 30px auto;
   }
   .modal-content {
@@ -10584,10 +10586,10 @@ button {
 }
 
 .button-phased {
-  background-color: #50D2C2;
-  color: #fff;
+  background-color: #fff !important;
+  color: #36BEA6 !important;
   outline: none;
-  border-color: #50D2C2;
+  border: 2px solid #36BEA6;
 }
 
 .button-phased:active {
@@ -10596,6 +10598,8 @@ button {
 
 .button-phased:hover {
   color: #fff;
+  border: 2px solid #084D54;
+  color: #084D54 !important;
 }
 
 .button-forgot {
@@ -10684,11 +10688,11 @@ button {
 .team {
   background: rgba(0, 0, 0, 0.5);
   box-shadow: 0 0 25px rgba(0, 0, 0, 0.3);
-  width: 25rem;
+  width: 40%;
   height: 20rem;
   position: absolute;
   bottom: 0;
-  right: 0;
+  right: 29%;
   transition: all 0.3s;
   z-index: 999;
 }
