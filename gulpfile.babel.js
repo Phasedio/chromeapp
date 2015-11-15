@@ -81,13 +81,20 @@ gulp.task('fonts', () => {
 
 var filesToMove = [
         'app/views/**/*.*'
+        
     ];
+var otherFiles = [
+  'app/background_scripts/**/*.*'
+];    
 
 gulp.task('move',['clean'], function(){
   // the base option sets the relative root for the set of files,
   // preserving the folder structure
   gulp.src(filesToMove, { base: '' })
   .pipe(gulp.dest('dist/views'));
+  
+  gulp.src(otherFiles, { base: '' })
+  .pipe(gulp.dest('dist/background_scripts'));
 });
 
 gulp.task('extras', () => {
