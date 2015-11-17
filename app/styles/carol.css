@@ -143,3 +143,9 @@
   transition: all 0.3s;
   z-index: 999;
 }
+
+.feed-cat-color {
+  width: 1rem;
+  height: 1rem;
+  display: inline-block;
+}

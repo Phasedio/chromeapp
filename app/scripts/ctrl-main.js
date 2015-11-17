@@ -73,7 +73,24 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
   new Firebase(FURL).child('profile').child(Auth.user.uid).once('value', function(user) {
     user = user.val();
     $scope.currentUser = user;
+    console.log(user);
+    var team = Auth.team;
+    new Firebase(FURL).child('team').child(Auth.team).child('category').once('value', function(cat) {
+      console.log('the categories are', Auth.team);
+      $scope.categories = cat.val();
+      console.log('the categories are', $scope.categories);
+    });
+
+
   });
+
+  $scope.choice = function(key, choice, color){
+    console.log('button was clicked with choice of:', choice);
+    $scope.taskCat = true;
+    $scope.catKey = key;
+    $scope.task = choice;
+    $scope.taskColor = color;
+  }
 
 	$scope.hideAllOpen = function(){
 		$scope.teamExpander = {
@@ -81,7 +98,11 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 			full : false
 		}
 	}
+
 	$scope.addTask = function(update){
+
+    var key = $scope.catKey;
+
     _gaq.push(['_trackEvent', 'Update', 'updated']);
     	if($scope.taskForm.$error.maxlength){
     		alert('Your update is too long!');
@@ -99,6 +120,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 		      name: taskPrefix+update,
 		      time: new Date().getTime(),
 		      user:Auth.user.uid,
+          cat : key,
 		      city:city,
 		      weather:'',
 		      taskPrefix : taskPrefix,
@@ -142,7 +164,6 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 
 
 	};
-
 
 	function getTaskPrefix(){
 	    var r = '';

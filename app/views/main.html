@@ -29,6 +29,17 @@
 		</div>
 		<div class="greeting-input" ng-hide="showTaskView">
 			<h4>What are you doing now?</h4>
+      <div ng-show="taskCat" align="center" class="col-xs-3 col-xs-offset-4">
+        <div class="row" align="center">
+          <div class="col-xs-2 col-xs-offset-3">
+            <div class="feed-cat-color" style="width: 1rem; height: 1rem; display: inline-block; background-color: {{taskColor}}"></div>
+          </div>
+          <div class="col-xs-6">
+            <h6 style="display: inline-block">{{task}}</h6>
+          </div>
+        </div>
+      </div>
+
 			<form name="taskForm" ng-submit="addTask(taskName)" novalidation>
         <input type="text" ng-model="taskName" ng-trim="false" maxlength="150" placeholder="enter in your status" required>
           <p>{{150 - taskName.length}} left</p>
@@ -36,6 +47,23 @@
       </form>
       <p ><small ng-show="taskForm.$error.maxlength">Your update is too long!</small>&nbsp;</p>
     </div>
+
+    <div class="row" align = 'center'>
+      <div class="col-xs-3 col-xs-offset-1" ng-repeat="(key, category) in categories" ng-show="$index<3">
+        <button class="btn btn-block" style="outline: none" ng-click="choice(key, category.name, category.color)">
+          <div class="row">
+            <!--<p>{{key}}</p>-->
+            <div class="col-xs-2">
+              <div class="feed-cat-color" style="width: 1rem; height: 1rem; display: inline-block; background-color: {{category.color}}"></div>
+            </div>
+            <div class="col-10">
+              <h6 style="display: inline-block">{{category.name}}</h6>
+            </div>
+        </button>
+      </div>
+
+    </div>
+
 
 		<div class="col-xs-6 col-xs-offset-3" ng-show="showTaskView">
 			<button ng-click="showTaskView = false"><i class="fa fa-plus"></i> <h6>Add new task</h6></button>
