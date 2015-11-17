@@ -48,19 +48,28 @@
       <p ><small ng-show="taskForm.$error.maxlength">Your update is too long!</small>&nbsp;</p>
     </div>
 
-    <div class="row" align = 'center'>
-      <div class="col-xs-3 col-xs-offset-1" ng-repeat="(key, category) in categories" ng-show="$index<3">
-        <button class="btn btn-block" style="outline: none" ng-click="choice(key, category.name, category.color)">
-          <div class="row">
-            <!--<p>{{key}}</p>-->
-            <div class="col-xs-2">
-              <div class="feed-cat-color" style="width: 1rem; height: 1rem; display: inline-block; background-color: {{category.color}}"></div>
+    <div class="row">
+      <div class="col-xs-11">
+        <div class="col-xs-4" ng-repeat="(key, category) in categories" >
+          <button ng-show="$index<3" class="btn btn-block" style="outline: none" ng-click="choice(key, category.name, category.color)">
+            <div class="row">
+              <div class="col-xs-1">
+                <div class="feed-cat-color" style="width: 1rem; height: 1rem; display: inline-block; background-color:{{category.color}}"></div>
+              </div>
+              <div class="col-10">
+                <h6 style="display: inline-block">{{category.name}}</h6>
+              </div>
             </div>
-            <div class="col-10">
-              <h6 style="display: inline-block">{{category.name}}</h6>
-            </div>
-        </button>
+          </button>
+        </div>
       </div>
+
+      <div class="col-xs-1" style="color:white">
+          <button class="btn btn-block" style="outline: none" ng-click="moreCat()">
+            <h6>+ More</h6>
+          </button>
+      </div>
+
 
     </div>
 
