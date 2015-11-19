@@ -84,13 +84,17 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 
   });
 
+  $scope.moreCat = function(){
+    $('#catModal').modal('toggle');
+  };
+
   $scope.choice = function(key, choice, color){
     console.log('button was clicked with choice of:', choice);
     $scope.taskCat = true;
     $scope.catKey = key;
-    $scope.task = choice;
+    $scope.taskChoice = choice;
     $scope.taskColor = color;
-  }
+  };
 
 	$scope.hideAllOpen = function(){
 		$scope.teamExpander = {
