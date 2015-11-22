@@ -1,6 +1,9 @@
 <style>
 	.home {
-	  background: url(./images/{{dayImage}}) no-repeat center center fixed;
+	  background: linear-gradient(
+      rgba(0, 0, 0, 0.25), 
+      rgba(0, 0, 0, 0.25)
+    ), url(./images/{{dayImage}}) no-repeat center center fixed;
 	  -webkit-background-size: cover;
 	  -moz-background-size: cover;
 	  -o-background-size: cover;
@@ -60,8 +63,8 @@ home" >
         <form name="taskForm" ng-submit="addTask(taskName)" novalidation>
           <input type="text" ng-model="taskName" ng-trim="false" maxlength="150" placeholder="enter in your status" required>
             <!-- <p>{{150 - taskName.length}} left</p> -->
-          <input type="submit">
-          <div ng-show="catKey" class="greeting-selected-cat" style="background:{{}}}"></div>
+          <button type="submit" ><i class="fa fa-arrow-right"></i></button>
+          <div ng-show="catKey" class="greeting-selected-cat" style="background:{{categories[catKey].color}}; border-color:{{categories[catKey].color}}"></div>
         </form>
         
         <div class="">
@@ -111,7 +114,7 @@ home" >
       <!-- <p>Team</p> -->
       <div class="card card--small" ng-repeat="member in teamMembers | orderBy : 'time':true ">
           <div style="background-image: url({{member.gravatar}})" class="card__image"></div>
-          <div class="card__titles" style="border-color:#ff9501">
+          <div class="card__titles" style="border-color:{{categories[member.cat].color}}">
             <h5 class="card__subtitle">{{member.name}} &nbsp;<span am-time-ago="member.time"></span></h5>
             <h2 class="card__title no-shadow">{{member.task | limitTo : 25 }}{{member.task.length > 25 ? '...' : ''}}</h2>
           </div>
@@ -264,7 +267,7 @@ home" >
 
 
 <!-- //////////////////////// -->
-<!-- Settings Team Model -->
+<!-- Settings Model -->
 <!-- //////////////////////// -->
 
 <div class="modal fade" id="mySettingsModal">
@@ -333,7 +336,7 @@ home" >
       </div>
       <div class="modal-body switchTeam" >
         <div ng-repeat="(key, category) in categories" >
-          <button class="btn btn-block" style="outline: none" ng-click="choice(key, category.name, category.color)">
+          <button class="btn btn-block" style="outline: none" ng-click="choice(key, category.name, category.color,true)">
             <div class="row" style="padding:2%;">
               <div class="col-xs-1" style="padding-top:1%">
                 <div class="feed-cat-color" style="width: 1rem; height: 1rem; display: inline-block; background-color:{{category.color}}"></div>

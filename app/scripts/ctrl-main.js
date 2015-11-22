@@ -104,12 +104,15 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
     $('#catModal').modal('toggle');
   };
 
-  $scope.choice = function(key, choice, color){
+  $scope.choice = function(key, choice, color,closeModel){
     console.log('button was clicked with choice of:', choice);
     $scope.taskCat = true;
     $scope.catKey = key;
     $scope.taskChoice = choice;
     $scope.taskColor = color;
+    if(closeModel){
+      $('#catModal').modal('toggle');
+    }
   };
 
 	$scope.hideAllOpen = function(){
@@ -359,6 +362,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
                var teamMember = {
                    name : p.name,
                    gravatar : p.gravatar,
+                   cat : users[memberID].cat,
                    task : users[memberID].name,
                    time : users[memberID].time,
                    weather:users[memberID].weather,
