@@ -379,6 +379,9 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
           isSet = true;
           //get the key of the uid
 
+          //save to new node so that zapier can email.
+          ref.child('team-invite-existing-member').push({teams : { 0 : Auth.team},email : names.email, inviteEmail: $scope.currentUser.email, inviteName: $scope.currentUser.name });
+
           //push new team to member
           ref.child('profile').child(selectedUID[y]).child('teams').push(Auth.team);
           break;
