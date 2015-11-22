@@ -31,6 +31,22 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 
   });
 
+  var monImage =  "weekdayPhotos/mon.jpg";
+  var tuesImage =  "weekdayPhotos/tues.jpg";
+  var wedImage =  "weekdayPhotos/wed.jpg";
+  var thursImage =  "weekdayPhotos/thurs.jpg";
+  var friImage = "weekdayPhotos/fri.jpg";
+  var satImage = "weekdayPhotos/sat.jpg";
+  var sunImage = "weekdayPhotos/sun.jpg";
+
+  var d=new Date();
+  console.log(d.getDay());
+
+  //console.log('the image is ', monImage);
+
+  var backgroundImage = [sunImage, monImage, tuesImage, wedImage, thursImage, friImage, satImage];
+  $scope.dayImage = backgroundImage[d.getDay()];
+
 
   //ng-dial
   function newUserCheck(){
@@ -73,7 +89,31 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
   new Firebase(FURL).child('profile').child(Auth.user.uid).once('value', function(user) {
     user = user.val();
     $scope.currentUser = user;
+    console.log(user);
+    var team = Auth.team;
+    new Firebase(FURL).child('team').child(Auth.team).child('category').once('value', function(cat) {
+      console.log('the categories are', Auth.team);
+      $scope.categories = cat.val();
+      console.log('the categories are', $scope.categories);
+    });
+
+
   });
+
+  $scope.moreCat = function(){
+    $('#catModal').modal('toggle');
+  };
+
+  $scope.choice = function(key, choice, color,closeModel){
+    console.log('button was clicked with choice of:', choice);
+    $scope.taskCat = true;
+    $scope.catKey = key;
+    $scope.taskChoice = choice;
+    $scope.taskColor = color;
+    if(closeModel){
+      $('#catModal').modal('toggle');
+    }
+  };
 
 	$scope.hideAllOpen = function(){
 		$scope.teamExpander = {
@@ -81,7 +121,11 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 			full : false
 		}
 	}
+
 	$scope.addTask = function(update){
+
+    var key = $scope.catKey;
+
     _gaq.push(['_trackEvent', 'Update', 'updated']);
     	if($scope.taskForm.$error.maxlength){
     		alert('Your update is too long!');
@@ -90,7 +134,8 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 		    var taskPrefix = '';
 		    var team = Auth.team;
 		    var weather,city,lat,long,photo;
-		    //weather = $scope.weatherIcon != '' ? $scope.weatherIcon : 0;
+		    
+        key = $scope.catKey ? $scope.catKey : '';
 		    city = $scope.city ? $scope.city : 0;
 		    lat = $scope.lat ? $scope.lat : 0;
 		    long = $scope.long ? $scope.long : 0;
@@ -99,6 +144,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 		      name: taskPrefix+update,
 		      time: new Date().getTime(),
 		      user:Auth.user.uid,
+          cat : key,
 		      city:city,
 		      weather:'',
 		      taskPrefix : taskPrefix,
@@ -142,7 +188,6 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 
 
 	};
-
 
 	function getTaskPrefix(){
 	    var r = '';
@@ -289,6 +334,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
                var teamMember = {
                    name : p.name,
                    gravatar : p.gravatar,
+                   cat : users[memberID].cat,
                    task : users[memberID].name,
                    time : users[memberID].time,
                    weather:users[memberID].weather,
@@ -325,6 +371,9 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
         if(names.email == data[selectedUID[y]].email){
           isSet = true;
           //get the key of the uid
+
+          //save to new node so that zapier can email.
+          ref.child('team-invite-existing-member').push({teams : { 0 : Auth.team},email : names.email, inviteEmail: $scope.currentUser.email, inviteName: $scope.currentUser.name });
 
           //push new team to member
           ref.child('profile').child(selectedUID[y]).child('teams').push(Auth.team);
