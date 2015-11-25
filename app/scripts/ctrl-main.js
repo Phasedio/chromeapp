@@ -15,21 +15,21 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 		full : false
 	};
 
-  Notification.requestPermission(function(result) {
-    console.log('we are in the notification', result);
-    if (result === 'denied') {
-      _gaq.push(['_trackEvent', 'Push permission', 'denied']);
-      console.log('Permission wasn\'t granted. Allow a retry.');
-      return;
-    } else if (result === 'default') {
-      console.log('The permission request was dismissed.');
-      return;
-    } else {
-      _gaq.push(['_trackEvent', 'Push permission', 'granted']);
-      console.log('The permission request was granted.');
-    }
-
-  });
+  // Notification.requestPermission(function(result) {
+  //   console.log('we are in the notification', result);
+  //   if (result === 'denied') {
+  //     _gaq.push(['_trackEvent', 'Push permission', 'denied']);
+  //     console.log('Permission wasn\'t granted. Allow a retry.');
+  //     return;
+  //   } else if (result === 'default') {
+  //     console.log('The permission request was dismissed.');
+  //     return;
+  //   } else {
+  //     _gaq.push(['_trackEvent', 'Push permission', 'granted']);
+  //     console.log('The permission request was granted.');
+  //   }
+	//
+  // });
 
   var monImage =  "weekdayPhotos/mon.jpg";
   var tuesImage =  "weekdayPhotos/tues.jpg";
@@ -134,7 +134,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 		    var taskPrefix = '';
 		    var team = Auth.team;
 		    var weather,city,lat,long,photo;
-		    
+
         key = $scope.catKey ? $scope.catKey : '';
 		    city = $scope.city ? $scope.city : 0;
 		    lat = $scope.lat ? $scope.lat : 0;
@@ -236,6 +236,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 				$scope.team = user.curTeam;
 				$scope.checkStatus();
 				$scope.getUserTask();
+				_gaq.push(['_setCustomVar',1,'Team',user.curTeam,1]);
         _gaq.push(['_trackEvent', 'Teams Loaded', 'clicked']);
 			}else{
 				$location.path("/switchteam");
