@@ -29,7 +29,7 @@
              'close-button': { 'toast-error': true, 'toast-info': false }
              */
             'close-button': false,
-            'newest-on-top': true,
+            'newest-on-top': true, 
             //'fade-in': 1000,            // done in css
             //'on-fade-in': undefined,    // not implemented
             //'fade-out': 1000,           // done in css
@@ -332,7 +332,7 @@
                                     $interval.cancel(toast.timeoutPromise);
                                 }
                                 scope.toasters.splice(toastIndex, 1);
-
+                                
                                 if (angular.isFunction(toast.onHideCallback)) {
                                     toast.onHideCallback();
                                 }
