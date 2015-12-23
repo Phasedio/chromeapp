@@ -309,6 +309,7 @@ app.provider('Phased', function() {
                 PhasedProvider.team.members[id].tel = data.tel;
                 PhasedProvider.team.members[id].uid = id;
                 PhasedProvider.team.members[id].photo = style;
+                PhasedProvider.team.members[id].newUser = data.newUser;
 
                 // PhasedProvider.team.members[id] = user;
                 // update teamLength
@@ -322,6 +323,11 @@ app.provider('Phased', function() {
 
                 // tell scope new data is in
                 $rootScope.$broadcast('Phased:member');
+                // tell scope current user profile is in
+                if (id == _Auth.user.uid) {
+                  PhasedProvider.user.profile = PhasedProvider.team.members[id];
+                  $rootScope.$broadcast('Phased:currentUserProfile');
+                }
               });
             })(id, users);
           }
