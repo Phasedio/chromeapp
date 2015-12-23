@@ -40,6 +40,7 @@ app.provider('Phased', function() {
         by_me : [],
         unassigned : []
       };
+    var ga = ga || function(){}; // in case ga isn't defined (as in chromeapp)
 
     var _Auth, FBRef; // tacked on to PhasedProvider
 
@@ -109,10 +110,6 @@ app.provider('Phased', function() {
       getTaskStatuses();
       if (WATCH_ASSIGNMENTS)
         watchAssignments();
-
-      // things that can only be done after async operations are finished
-      // moved to setUpTeamMembers
-      // doAsync();
     }
 
     /**
@@ -1276,7 +1273,6 @@ app.provider('Phased', function() {
   .config(['PhasedProvider', 'FURL', 'AuthProvider', function(PhasedProvider, FURL, AuthProvider) {
     PhasedProvider.setFBRef(FURL);
     PhasedProvider.setWatchHistory(true);
-    PhasedProvider.setWatchAssignments(true);
 
     // configure phasedProvider as a callback to AuthProvider
     AuthProvider.setDoAfterAuth(PhasedProvider.init);

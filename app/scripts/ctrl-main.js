@@ -1,4 +1,26 @@
-app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$location, toaster,ngDialog){
+/**
+  *
+  * allows ordering an object as if it were an array,
+  * at the cost of being able to access its original index
+  * Adds a property 'key' with the original index to
+  * address this
+  *
+  */
+app.filter('orderObjectBy', function() {
+  return function(items, field, reverse) {
+    var filtered = [];
+    for (var i in items) {
+      items[i].key = i;
+      filtered.push(items[i]);
+    }
+    filtered.sort(function (a, b) {
+      return (a[field] > b[field] ? 1 : -1);
+    });
+    if(reverse) filtered.reverse();
+    return filtered;
+  };
+})
+app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$http,$location, toaster,ngDialog){
 	$scope.showTaskView = false;
 	$scope.task = '';
   $scope.masterTask = '';
@@ -14,6 +36,11 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 		expand : false,
 		full : false
 	};
+
+  // ensure view updates when new members are added
+  $scope.$on('Phased:member', function() {
+    $scope.$apply();
+  });
 
   // Notification.requestPermission(function(result) {
   //   console.log('we are in the notification', result);
@@ -86,19 +113,22 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
   });
 
 
-  new Firebase(FURL).child('profile').child(Auth.user.uid).once('value', function(user) {
-    user = user.val();
-    $scope.currentUser = user;
-    console.log(user);
-    var team = Auth.team;
-    new Firebase(FURL).child('team').child(Auth.team).child('category').once('value', function(cat) {
-      console.log('the categories are', Auth.team);
-      $scope.categories = cat.val();
-      console.log('the categories are', $scope.categories);
-    });
+  // get team's categories
+  // now in $scope.team.categorySelect
+
+  // new Firebase(FURL).child('profile').child(Auth.user.uid).once('value', function(user) {
+  //   user = user.val();
+  //   $scope.currentUser = user;
+  //   console.log(user);
+  //   var team = Auth.team;
+  //   new Firebase(FURL).child('team').child(Auth.team).child('category').once('value', function(cat) {
+  //     console.log('the categories are', Auth.team);
+  //     $scope.categories = cat.val();
+  //     console.log('the categories are', $scope.categories);
+  //   });
+  // });
 
 
-  });
 
   $scope.moreCat = function(){
     $('#catModal').modal('toggle');
@@ -124,68 +154,71 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 
 	$scope.addTask = function(update){
 
-    var key = $scope.catKey;
-
     _gaq.push(['_trackEvent', 'Update', 'updated']);
-    	if($scope.taskForm.$error.maxlength){
-    		alert('Your update is too long!');
-    	}else{
-    		console.log(update);
-		    var taskPrefix = '';
-		    var team = Auth.team;
-		    var weather,city,lat,long,photo;
 
-        key = $scope.catKey ? $scope.catKey : '';
-		    city = $scope.city ? $scope.city : 0;
-		    lat = $scope.lat ? $scope.lat : 0;
-		    long = $scope.long ? $scope.long : 0;
-		    photo = $scope.bgPhoto ? $scope.bgPhoto : 0;
-		    var status = {
-		      name: taskPrefix+update,
-		      time: new Date().getTime(),
-		      user:Auth.user.uid,
-          cat : key,
-		      city:city,
-		      weather:'',
-		      taskPrefix : taskPrefix,
-		      photo : photo,
-		      location:{
-		        lat : lat,
-		        long : long
-		      }
+    // format incoming status data
+  	if ($scope.taskForm.$error.maxlength){
+  		alert('Your update is too long!');
+      return;
+  	}
 
+		// console.log(update);
+    var key = $scope.catKey;
+    var taskPrefix = '';
+    var team = Auth.team;
+    var weather,city,lat,long,photo;
 
-		    };
-		    var teamRef = new Firebase(FURL);
-		    console.log(status);
-        console.log(status.time);
-		    teamRef.child('team').child(team).child('task').child(Auth.user.uid).set(status);
-		    teamRef.child('team').child(team).child('all').child(Auth.user.uid).push(status,function(){
-		      console.log('status set');
-		      $scope.updateStatus = '';
-          //we are getting the user.uid, we need to extract the member off the user.uid.
-          //then we can do a scope.setSelected off that member.
+    key = $scope.catKey ? $scope.catKey : '';
+    city = $scope.city ? $scope.city : 0;
+    lat = $scope.lat ? $scope.lat : 0;
+    long = $scope.long ? $scope.long : 0;
+    photo = $scope.bgPhoto ? $scope.bgPhoto : 0;
+    var status = {
+      name: taskPrefix+update,
+      time: new Date().getTime(),
+      user:Auth.user.uid,
+      cat : key,
+      city:city,
+      weather:'',
+      taskPrefix : taskPrefix,
+      photo : photo,
+      location:{
+        lat : lat,
+        long : long
+      }
+    };
 
-            //Send push notifications to team
-		      $http.get('http://45.55.200.34:8080/push/update/'+team+'/'+Auth.user.name+'/'+status.name,'').success(function(data){
-		        //alert(data);
-		      });
+    // update db
+    Phased.addTask(status);
 
-		    });
+    /*var teamRef = new Firebase(FURL);
+    console.log(status);
+    console.log(status.time);
+    teamRef.child('team').child(team).child('task').child(Auth.user.uid).set(status);
+    teamRef.child('team').child(team).child('all').child(Auth.user.uid).push(status,function(){
+      console.log('status set');
+      $scope.updateStatus = '';
+      //we are getting the user.uid, we need to extract the member off the user.uid.
+      //then we can do a scope.setSelected off that member.
 
-		    $scope.task = update;
-        $scope.taskName = '';
-			  $scope.showTaskView = true;
-        $scope.taskTime = status.time; // we didnt have status.time so i think this fixes the problem(?)
-      // maybe we need a timeout function here to run around out $apply()??
+        //Send push notifications to team
+      $http.get('http://45.55.200.34:8080/push/update/'+team+'/'+Auth.user.name+'/'+status.name,'').success(function(data){
+        //alert(data);
+      });
 
-        //$scope.$apply();
+    });*/
 
-        //need to find out what the member/who is
-        //$scope.getTaskHistory(member);
+    // update interface
+    $scope.task = update;
+    $scope.taskName = '';
+	  $scope.showTaskView = true;
+    $scope.taskTime = status.time; // we didnt have status.time so i think this fixes the problem(?)
+    // maybe we need a timeout function here to run around out $apply()??
 
-	    }
+    //$scope.$apply();
 
+    //need to find out what the member/who is
+    //$scope.getTaskHistory(member);
 
 	};
 
@@ -226,128 +259,139 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
     }
 	}
 
+
 	$scope.getCurrentTeam = function(){
-		new Firebase(FURL).child('profile').child(Auth.user.uid).once('value', function(user) {
-			user = user.val();
-      $scope.currentUser = user;
-			//console.log(user);
-			if(user.curTeam){
-				Auth.team = user.curTeam;
-				$scope.team = user.curTeam;
-				$scope.checkStatus();
-				$scope.getUserTask();
-				_gaq.push(['_setCustomVar',1,'Team',user.curTeam,1]);
-        _gaq.push(['_trackEvent', 'Teams Loaded', 'clicked']);
-			}else{
-				$location.path("/switchteam");
-			}
-		});
+    $scope.team = Phased.team;
+    $scope.currentUser = Phased.user;
+
+		// new Firebase(FURL).child('profile').child(Auth.user.uid).once('value', function(user) {
+		// 	user = user.val();
+  //     $scope.currentUser = user;
+		// 	//console.log(user);
+		// 	if(user.curTeam){
+		// 		Auth.team = user.curTeam;
+		// 		$scope.team = user.curTeam;
+		// 		$scope.checkStatus();
+		// 		$scope.getUserTask();
+		// 		_gaq.push(['_setCustomVar',1,'Team',user.curTeam,1]);
+  //       _gaq.push(['_trackEvent', 'Teams Loaded', 'clicked']);
+		// 	}else{
+		// 		$location.path("/switchteam");
+		// 	}
+		// });
 	};
 
-	$scope.getSelectedTask = function(member){
-    _gaq.push(['_trackEvent', 'Team', 'Viewed member']);
-		if(!$scope.teamExpander.full){
-			$scope.openUp('full');
-		}
-		$scope.selected = member;
-		$scope.taskHistory = [];//reset task history
-		$scope.getTaskHistory(member);
-	};
 
-	//Make task history
+  // not used
+	// $scope.getSelectedTask = function(member){
+ //    _gaq.push(['_trackEvent', 'Team', 'Viewed member']);
+	// 	if(!$scope.teamExpander.full){
+	// 		$scope.openUp('full');
+	// 	}
+	// 	$scope.selected = member;
+	// 	$scope.taskHistory = [];//reset task history
+	// 	$scope.getTaskHistory(member);
+	// };
 
-    $scope.getTaskHistory = function(member){
-    	console.log(member);
-      var startTime = new Date().getTime();
-      var endTime = startTime - 86400000;
-      console.log(startTime);
+	// Make task history
+  // not used
 
-
-      new Firebase(FURL).child('team').child($scope.team).child('all').child(member.uid).orderByChild('time').startAt(endTime).once('value',function(data){
-        data = data.val();
-        console.log(data);
-
-        var keys = Object.keys(data);
-        var arr = [];
-        for(var i = 0; i < keys.length;i++){
-          arr.push(data[keys[i]]);
-        }
-        $scope.taskHistory = arr;
-        //$scope.$apply();
+    // $scope.getTaskHistory = function(member){
+    // 	console.log(member);
+    //   var startTime = new Date().getTime();
+    //   var endTime = startTime - 86400000;
+    //   console.log(startTime);
 
 
-      });
-    };
+    //   new Firebase(FURL).child('team').child($scope.team).child('all').child(member.uid).orderByChild('time').startAt(endTime).once('value',function(data){
+    //     data = data.val();
+    //     console.log(data);
 
-    $scope.getUserTask = function(){
-    	new Firebase(FURL).child('team').child($scope.team).child('task').child(Auth.user.uid).once('value', function(data) {
-    		data = data.val();
-    		if(data){
-    			$scope.task = data.name;
-    			$scope.taskTime = data.time;
-          //$scope.$apply();
-    			//$scope.showTaskView = true;
-    		}
-
-    	});
-    }
+    //     var keys = Object.keys(data);
+    //     var arr = [];
+    //     for(var i = 0; i < keys.length;i++){
+    //       arr.push(data[keys[i]]);
+    //     }
+    //     $scope.taskHistory = arr;
+    //     //$scope.$apply();
 
 
+    //   });
+    // };
+
+    // not used
+    // $scope.getUserTask = function(){
+    // 	new Firebase(FURL).child('team').child($scope.team).child('task').child(Auth.user.uid).once('value', function(data) {
+    // 		data = data.val();
+    // 		if(data){
+    // 			$scope.task = data.name;
+    // 			$scope.taskTime = data.time;
+    //       //$scope.$apply();
+    // 			//$scope.showTaskView = true;
+    // 		}
+
+    // 	});
+    // }
+
+  // gets team members
+  // starts watching task feed
+  //
+  $scope.team = Phased.team;
 	$scope.checkStatus = function(){
-   	 var team = $scope.team;
+   	 // var team = $scope.team;
 
-     new Firebase(FURL).child('team').child(team).child('task').on('value', function(users) {
-     $scope.teamMembers = [];
-       users = users.val();
-       console.log(users);
+     // new Firebase(FURL).child('team').child(team).child('task').on('value', function(users) {
+     // $scope.teamMembers = [];
+     //   users = users.val();
+     //   console.log(users);
 
 
 
-       $scope.getUserTask();
-       //console.log(users);
-       if(users){
-         var teamUID = Object.keys(users);
+     //   $scope.getUserTask();
+     //   //console.log(users);
+     //   if(users){
+     //     var teamUID = Object.keys(users);
 
-            for (var i = 0; i < teamUID.length; i++) {
-                getTeamMember(teamUID[i], users);
-            }
+     //        for (var i = 0; i < teamUID.length; i++) {
+     //            getTeamMember(teamUID[i], users);
+     //        }
 
-            //console.log($scope.teamMembers);
-            //$scope.$apply();
-       }
+     //        //console.log($scope.teamMembers);
+     //        //$scope.$apply();
+     //   }
 
-     });
+     // });
    };
 
    function getTeamMember(memberID, users){
 
-       var userrefs = new Firebase(FURL + 'profile/' + memberID);
-       userrefs.once("value", function(data) {
-               //console.log(memberID);
-               var p = data.val();
-               //console.log(p);
-               var pic,style;
-               if(users[memberID].photo){
-                style = "background:url("+users[memberID].photo+") no-repeat center center fixed; -webkit-background-size: cover;-moz-background-size: cover; -o-background-size: cover; background-size: cover";
-              }else{
-                style = false;
-              }
-               var teamMember = {
-                   name : p.name,
-                   gravatar : p.gravatar,
-                   cat : users[memberID].cat,
-                   task : users[memberID].name,
-                   time : users[memberID].time,
-                   weather:users[memberID].weather,
-                   city:users[memberID].city,
-                   uid : memberID,
-                   photo:style
-               };
-               //Team.addMember(teamMember);
-               $scope.teamMembers.push(teamMember);
-               //$scope.$apply();
+       // var userrefs = new Firebase(FURL + 'profile/' + memberID);
+       // userrefs.once("value", function(data) {
+       //         //console.log(memberID);
+       //         var p = data.val();
+       //         //console.log(p);
+       //         var pic,style;
+       //         if(users[memberID].photo){
+       //          style = "background:url("+users[memberID].photo+") no-repeat center center fixed; -webkit-background-size: cover;-moz-background-size: cover; -o-background-size: cover; background-size: cover";
+       //        }else{
+       //          style = false;
+       //        }
+       //         var teamMember = {
+       //             name : p.name,
+       //             gravatar : p.gravatar,
+       //             cat : users[memberID].cat,
+       //             task : users[memberID].name,
+       //             time : users[memberID].time,
+       //             weather:users[memberID].weather,
+       //             city:users[memberID].city,
+       //             uid : memberID,
+       //             photo:style
+       //         };
+       //         //Team.addMember(teamMember);
+       //         $scope.teamMembers.push(teamMember);
+       //         //$scope.$apply();
 
-           });
+       //     });
    }
 
    // Add member
@@ -431,9 +475,9 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
 
    //ICONS AT TOP////
 
-   $scope.showSettings = function(){
+  $scope.showSettings = function(){
      console.log('will show settings modal');
-    //_gaq.push(['_trackEvent', 'Settings', 'Opened']);
+     //_gaq.push(['_trackEvent', 'Settings', 'Opened']);
      $('#mySettingsModal').modal('toggle');
      $scope.logout = function(){
        _gaq.push(['_trackEvent', 'Logout', 'clicked']);
@@ -444,56 +488,56 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
        console.log('close modal');
        $('#mySettingsModal').modal('toggle');
      };
-   };
+  };
 
-    $scope.showSwitchTeam = function(){
-      $('#mySwitchModal').modal('toggle');
-      $scope.userTeams = [];
+  $scope.showSwitchTeam = function(){
+    $('#mySwitchModal').modal('toggle');
+    $scope.userTeams = [];
 
-      var returnObj = [];
+    var returnObj = [];
 
-      new Firebase(FURL).child('profile').child(Auth.user.uid).child('teams').once('value', function(data){
-        data = data.val();
-        if(data){
-          var keys = Object.keys(data);
-          for(var i = 0; i < keys.length; i++){
-            console.log(data[keys[i]]);
-            var obj = {
-              name : data[keys[i]],
-              number : getTeamNumber(data[keys[i]])
-            };
-            $scope.userTeams.push(obj);
-            console.log($scope.userTeams);
-            $scope.$apply();
-          }
+    new Firebase(FURL).child('profile').child(Auth.user.uid).child('teams').once('value', function(data){
+      data = data.val();
+      if(data){
+        var keys = Object.keys(data);
+        for(var i = 0; i < keys.length; i++){
+          console.log(data[keys[i]]);
+          var obj = {
+            name : data[keys[i]],
+            number : getTeamNumber(data[keys[i]])
+          };
+          $scope.userTeams.push(obj);
+          console.log($scope.userTeams);
+          $scope.$apply();
         }
+      }
+    });
+
+    $scope.switchTeam = function(teamName){
+      console.log('clicked switch team');
+      new Firebase(FURL).child('profile').child(Auth.user.uid).child('curTeam').set(teamName,function(){
+        console.log(teamName);
+        $location.path('/');
+        $('#mySwitchModal').modal('toggle');
+      })
+    };
+
+    $scope.newTeam = function(){
+      $location.path('/createteam');
+    };
+
+    function getTeamNumber(team){
+      new Firebase(FURL).child('team').child(team).child('members').once('value', function(members){
+        members = members.val();
+        members = Object.keys(members);
+        return members.length;
+
       });
-
-      $scope.switchTeam = function(teamName){
-        console.log('clicked switch team');
-        new Firebase(FURL).child('profile').child(Auth.user.uid).child('curTeam').set(teamName,function(){
-          console.log(teamName);
-          $location.path('/');
-          $('#mySwitchModal').modal('toggle');
-        })
-      };
-
-      $scope.newTeam = function(){
-        $location.path('/createteam');
-      };
-
-      function getTeamNumber(team){
-        new Firebase(FURL).child('team').child(team).child('members').once('value', function(members){
-          members = members.val();
-          members = Object.keys(members);
-          return members.length;
-
-        });
-      };
+    };
 
       //$scope.getTeams();
 
-    };
+  };
 
 
 //Switch team logic
@@ -554,8 +598,8 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,$http,$loca
   //$scope.getTeams();
 
 
-  window.setInterval(function () {
-    $scope.$apply();
-  }, 500);
+  // window.setInterval(function () {
+  //   $scope.$apply();
+  // }, 500);
 
 });

@@ -112,7 +112,7 @@ home" >
   <div class="row team-callToAction">
     <div class="col-xs-6 col-xs-offset-3">
       <!-- <p>Team</p> -->
-      <div class="card card--small" ng-repeat="member in teamMembers | orderBy : 'time':true ">
+      <div class="card card--small" ng-repeat="member in team.members | orderObjectBy : 'time':true ">
           <div style="background-image: url({{member.gravatar}})" class="card__image"></div>
           <div class="card__titles" style="border-color:{{categories[member.cat].color}}">
             <h5 class="card__subtitle">{{member.name}} &nbsp;<span am-time-ago="member.time"></span></h5>
@@ -335,7 +335,7 @@ home" >
         <h4 class="modal-title no-shadow">Choose a Category </h4>
       </div>
       <div class="modal-body switchTeam" >
-        <div ng-repeat="(key, category) in categories" >
+        <div ng-repeat="(key, category) in team.categorySelect" >
           <button class="btn btn-block" style="outline: none" ng-click="choice(key, category.name, category.color,true)">
             <div class="row" style="padding:2%;">
               <div class="col-xs-1" style="padding-top:1%">
