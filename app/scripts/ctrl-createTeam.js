@@ -1,6 +1,4 @@
 app.controller('CreateTeamController',function($scope,FURL,Auth,Phased,$http,$location){
-	var ref = new Firebase(FURL);
-
 	$scope.createTeam = function(team){
 		console.log('MAKING A NEW TEAM');
 

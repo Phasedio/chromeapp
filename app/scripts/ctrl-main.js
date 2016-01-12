@@ -44,10 +44,6 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$htt
   $scope.currentUser = Phased.user.profile;
 
   // ensure view updates when new members are added
-  /*$scope.$on('Phased:member', function() {
-    console.dir('Phased:member');
-  });*/
-
   // members data retrieved
   $scope.$on('Phased:membersComplete', function() {
     $scope.$apply();
@@ -90,21 +86,6 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$htt
     }
   });
 
-  // not used
-  /*$scope.closeAll = function(){
-    _gaq.push(['_trackEvent', 'Tutorial', 'Main interaction - other closed']);
-    new Firebase(FURL).child('profile').child(Auth.user.uid).child('newUser').set(false);
-    ngDialog.close();
-  }*/
-
-  // not used
-  /*$scope.next = function(){
-    _gaq.push(['_trackEvent', 'Tutorial', 'Main interaction - button closed']);
-    new Firebase(FURL).child('profile').child(Auth.user.uid).child('newUser').set(false);
-    ngDialog.close();
-  }*/
-
-
   // register jquery listeners
   $(document).ready(function() {
     // show tooltips on hover
@@ -132,14 +113,6 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$htt
       $('#catModal').modal('toggle');
     }
   };
-
-  // not used
-	/*$scope.hideAllOpen = function(){
-		$scope.teamExpander = {
-			expand : false,
-			full : false
-		}
-	}*/
 
   // add a task
   // 1. format incoming data
@@ -206,36 +179,16 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$htt
 	    return r;
 	}
 
-  // not used
-	/*$scope.openUp = function(string){
-    _gaq.push(['_trackEvent', 'Team', 'Open&Close']);
-		if($scope.teamExpander[string]){
-			$scope.teamExpander = {
-				expand : false,
-				full : false
-			};
-			$scope.memberLimit = 2;
-			$scope.selected = {};
-		}else{
-			$scope.teamExpander[string] = true;
-			$scope.memberLimit = $scope.teamMembers.length;
-		}
-    if($scope.flipStatus){
-      $scope.flipStatus = false;
-    }else{
-      $scope.flipStatus = true;
-    }
-	}*/
-
   // show add member modal
   $scope.addMemberModal = function(){
   	$('#myModal').modal('toggle');
   };
 
   // adds a new member to the current team
-  $scope.addMembers = function(names){
+  $scope.addMember = function(names) {
     _gaq.push(['_trackEvent', 'Team', 'Add member']);
-  	var ref = new Firebase(FURL);
+    Phased.addMember(names);
+  	/*var ref = new Firebase(FURL);
     // grab all users and see if they match an email in the system
     ref.child('profile').once('value', function(data){
       data = data.val();
@@ -301,7 +254,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$htt
           }
         });
       }
-    });
+    });*/
     $('#myModal').modal('toggle');
   };
 
@@ -327,19 +280,16 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$htt
   };
 
   $scope.switchTeam = function(teamName){
-    console.log('clicked switch team');
     Phased.switchTeam(teamName, function callback(){
       $location.path('/');
       $('#mySwitchModal').modal('toggle');
     });
   };
 
-
   $scope.newTeam = function(){
     _gaq.push(['_trackEvent', 'Team', 'Create new team']);
     $location.path('/createteam');
   };
-
 
   $scope.gaClick = function(){
     _gaq.push(['_trackEvent', 'Open&Close Team', 'Chevron/X']);
