@@ -280,83 +280,88 @@ app.provider('Phased', function() {
     */
     var setUpTeamMembers = function() {
       // get members
-      FBRef.child('team').child(PhasedProvider.team.name).child('task').on('value', function(users) {
+      FBRef.child('team/' + PhasedProvider.team.name + '/task').on('value', function(users) {
         users = users.val();
 
-        if (users) {
-          PhasedProvider.team.history = []; // clear history before populating
+        // ensure own ID is in user list
+        // in marginal case where own user hasn't submitted a status to teamname/tasks
+        if (!(users) || !(_Auth.user.uid in users)) {
+          users = [];
+          users[_Auth.user.uid] = {};
+        }
 
-          // both populated by users below
-          setUpTeamMembers.membersToGetHistFor = []; 
-          var membersToGet = [];
+        PhasedProvider.team.history = []; // clear history before populating
 
-          for (var id in users) {
-            // needs to be in function otherwise for loop screws up id in callback
-            (function(id, users) {
-              // add empty object to team.members so other fns can populate before these callbacks
-              PhasedProvider.team.members[id] = {uid : id};
-              membersToGet.push(id); // add synchronously
-              setUpTeamMembers.membersToGetHistFor.push(id);
+        // both populated by users below
+        setUpTeamMembers.membersToGetHistFor = []; 
+        var membersToGet = [];
 
-              FBRef.child('profile/' + id).once('value', function(data) {
-                data = data.val();
-                if (!data) return;
+        for (var id in users) {
+          // needs to be in function otherwise for loop screws up id in callback
+          (function(id, users) {
+            // add empty object to team.members so other fns can populate before these callbacks
+            PhasedProvider.team.members[id] = {uid : id};
+            membersToGet.push(id); // add synchronously
+            setUpTeamMembers.membersToGetHistFor.push(id);
 
-                var style = false;
-                if (users[id].photo){
-                  style = "background:url("+users[id].photo+") no-repeat center center fixed; -webkit-background-size: cover;-moz-background-size: cover; -o-background-size: cover; background-size: cover";
-                }
+            FBRef.child('profile/' + id).once('value', function(data) {
+              data = data.val();
+              if (!data) return;
 
-                PhasedProvider.team.members[id].name = data.name;
-                PhasedProvider.team.members[id].pic = data.gravatar;
-                PhasedProvider.team.members[id].gravatar = data.gravatar;
-                PhasedProvider.team.members[id].task = users[id].name;
-                PhasedProvider.team.members[id].time = users[id].time;
-                PhasedProvider.team.members[id].weather = users[id].weather;
-                PhasedProvider.team.members[id].city = users[id].city;
-                PhasedProvider.team.members[id].email = data.email;
-                PhasedProvider.team.members[id].tel = data.tel;
-                PhasedProvider.team.members[id].uid = id;
-                PhasedProvider.team.members[id].photo = style;
-                PhasedProvider.team.members[id].newUser = data.newUser;
+              var style = false;
+              if (users[id].photo){
+                style = "background:url("+users[id].photo+") no-repeat center center fixed; -webkit-background-size: cover;-moz-background-size: cover; -o-background-size: cover; background-size: cover";
+              }
 
-                // set teams to array of { name : 'My Team' }
-                // leaves a bit of room for another async call to gather more team data
-                // (eg, member count as was used in team switcher in chromeapp)
-                PhasedProvider.team.members[id].teams = [];
-                for (var i in data.teams) {
-                  PhasedProvider.team.members[id].teams.push({
-                    name : data.teams[i]
-                  });
-                }
+              PhasedProvider.team.members[id].name = data.name;
+              PhasedProvider.team.members[id].pic = data.gravatar;
+              PhasedProvider.team.members[id].gravatar = data.gravatar;
+              PhasedProvider.team.members[id].task = users[id].name;
+              PhasedProvider.team.members[id].time = users[id].time;
+              PhasedProvider.team.members[id].weather = users[id].weather;
+              PhasedProvider.team.members[id].city = users[id].city;
+              PhasedProvider.team.members[id].email = data.email;
+              PhasedProvider.team.members[id].tel = data.tel;
+              PhasedProvider.team.members[id].uid = id;
+              PhasedProvider.team.members[id].photo = style;
+              PhasedProvider.team.members[id].newUser = data.newUser;
 
-                // PhasedProvider.team.members[id] = user;
-                // update teamLength
-                PhasedProvider.team.teamLength = Object.keys(PhasedProvider.team.members).length;
+              // set teams to array of { name : 'My Team' }
+              // leaves a bit of room for another async call to gather more team data
+              // (eg, member count as was used in team switcher in chromeapp)
+              PhasedProvider.team.members[id].teams = [];
+              for (var i in data.teams) {
+                PhasedProvider.team.members[id].teams.push({
+                  name : data.teams[i]
+                });
+              }
 
-                // 2. team and user histories synched
-                if (WATCH_HISTORY) {
-                  PhasedProvider.team.lastUpdated.push(PhasedProvider.team.members[id]);
-                  getMemberHistory(id);
-                }
+              // PhasedProvider.team.members[id] = user;
+              // update teamLength
+              PhasedProvider.team.teamLength = Object.keys(PhasedProvider.team.members).length;
 
-                // tell scope new data is in
-                $rootScope.$broadcast('Phased:member');
+              // 2. team and user histories synched
+              if (WATCH_HISTORY) {
+                PhasedProvider.team.lastUpdated.push(PhasedProvider.team.members[id]);
+                getMemberHistory(id);
+              }
 
-                // rm this user from membersToGet
-                membersToGet.splice(membersToGet.indexOf(id), 1);
-                // if this is the last user in that list, emit Phased:membersComplete
-                if (membersToGet.length == 0)
-                  $rootScope.$broadcast('Phased:membersComplete');
+              // tell scope new data is in
+              $rootScope.$broadcast('Phased:member');
 
-                // tell scope current user profile is in
-                if (id == _Auth.user.uid) {
-                  PhasedProvider.user.profile = PhasedProvider.team.members[id];
-                  $rootScope.$broadcast('Phased:currentUserProfile');
-                }
-              });
-            })(id, users);
-          }
+              // rm this user from membersToGet
+              membersToGet.splice(membersToGet.indexOf(id), 1);
+              // if this is the last user in that list, emit Phased:membersComplete
+              if (membersToGet.length == 0)
+                $rootScope.$broadcast('Phased:membersComplete');
+
+              // tell scope current user profile is in
+              if (id == _Auth.user.uid) {
+                PhasedProvider.user.profile = PhasedProvider.team.members[id];
+                $rootScope.$broadcast('Phased:currentUserProfile');
+              }
+            });
+          })(id, users);
         }
 
         // tell scope new data is in
