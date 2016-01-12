@@ -283,11 +283,18 @@ app.provider('Phased', function() {
 
         if (users) {
           PhasedProvider.team.history = []; // clear history before populating
+
+          // both populated by users below
+          setUpTeamMembers.membersToGetHistFor = []; 
+          var membersToGet = [];
+
           for (var id in users) {
             // needs to be in function otherwise for loop screws up id in callback
             (function(id, users) {
               // add empty object to team.members so other fns can populate before these callbacks
               PhasedProvider.team.members[id] = {uid : id};
+              membersToGet.push(id); // add synchronously
+              setUpTeamMembers.membersToGetHistFor.push(id);
 
               FBRef.child('profile/' + id).once('value', function(data) {
                 data = data.val();
@@ -323,6 +330,13 @@ app.provider('Phased', function() {
 
                 // tell scope new data is in
                 $rootScope.$broadcast('Phased:member');
+
+                // rm this user from membersToGet
+                membersToGet.splice(membersToGet.indexOf(id), 1);
+                // if this is the last user in that list, emit Phased:membersComplete
+                if (membersToGet.length == 0)
+                  $rootScope.$broadcast('Phased:membersComplete');
+
                 // tell scope current user profile is in
                 if (id == _Auth.user.uid) {
                   PhasedProvider.user.profile = PhasedProvider.team.members[id];
@@ -380,6 +394,12 @@ app.provider('Phased', function() {
         }
         // tell scope new data is in
         $rootScope.$broadcast('Phased:history');
+
+        // rm this user from setUpTeamMembers.membersToGetHistFor
+        setUpTeamMembers.membersToGetHistFor.splice(setUpTeamMembers.membersToGetHistFor.indexOf(id), 1);
+        // if this is the last user in that list, emit Phased:historyComplete
+        if (setUpTeamMembers.membersToGetHistFor.length == 0)
+          $rootScope.$broadcast('Phased:historyComplete');
       });
     }
 
