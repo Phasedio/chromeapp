@@ -388,7 +388,7 @@ app.provider('Phased', function() {
     *
     */
     var getMemberHistory = function(id) {
-      var endTime = new Date().getTime() - 86400000;
+      var endTime = new Date().getTime() - 31556926000;
       // get /team/[teamname]/all/[memberID], ordered by time, once
       // push to local team.history
       FBRef.child('team/' + PhasedProvider.team.name + '/all/' + id).orderByChild('time').startAt(endTime).once('value',function(data) {
@@ -481,7 +481,6 @@ app.provider('Phased', function() {
       TODO // BUG // ATTENTION
     */
     var checkPlanStatus = function() {
-      /*
       FBRef.child('team').child(_Auth.currentTeam).once('value', function(data){
         var team = data.val();
 
@@ -512,7 +511,7 @@ app.provider('Phased', function() {
         } else {
           PhasedProvider.viewType = 'notPaid';
         }
-      });*/
+      });
     }
 
     /**
@@ -1001,6 +1000,7 @@ app.provider('Phased', function() {
       assignmentsRef.child(path).once('value', function(data) {
         data = data.val();
         data = data || [];
+        data = objToArray(data);
         data.push(newTaskID);
         assignmentsRef.child(path).set(data);
       });
@@ -1186,6 +1186,12 @@ app.provider('Phased', function() {
 
       // push to database
       FBRef.child('team/' + PhasedProvider.team.name + '/assignments/all/' + assignmentID + '/status').set(newStatus);
+
+      // if issue was complete, timestamp it
+      if (newStatus == 1) {
+        var time = new Date().getTime();
+        FBRef.child('team/' + PhasedProvider.team.name + '/assignments/all/' + assignmentID).update({"completeTime" : time});
+      }
     }
 
     /**
@@ -1239,6 +1245,8 @@ app.provider('Phased', function() {
       console.log(args);
       var invited = args.newMember,
         inviter = args.inviter;
+
+      invited.email = invited.email.toLowerCase(); // Change text to lowercase regardless of user input.
 
       //Brian's better add member function
       // find if memeber is already in db
