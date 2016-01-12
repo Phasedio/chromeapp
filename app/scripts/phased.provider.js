@@ -279,8 +279,13 @@ app.provider('Phased', function() {
     *    and adds them to the team's history
     */
     var setUpTeamMembers = function() {
+
+      var taskAddress = 'team/' + PhasedProvider.team.name + '/task';
+      // stash address to remove FB event handlers when switching teams
+      setUpTeamMembers.address = taskAddress;
+
       // get members
-      FBRef.child('team/' + PhasedProvider.team.name + '/task').on('value', function(users) {
+      FBRef.child(taskAddress).on('value', function(users) {
         users = users.val();
 
         // ensure own ID is in user list
@@ -1307,10 +1312,11 @@ app.provider('Phased', function() {
         if(snapshot.val() == null) {
           FBRef.child('team/' + args.teamName + '/members/' + _Auth.user.uid).set(true,function(){
             FBRef.child('profile/' + _Auth.user.uid + '/teams').push(args.teamName,function(){
-              FBRef.child('profile/' + _Auth.user.uid + '/curTeam').set(args.teamName,function(){
-                if (args.success) 
-                  args.success();
-              });
+              var switchArgs = {
+                teamName : args.teamName,
+                callback : args.success
+              }
+              doSwitchTeam(switchArgs);
             });
           });
         } else {
@@ -1336,6 +1342,22 @@ app.provider('Phased', function() {
     }
 
     var doSwitchTeam = function(args) {
+      // reset team
+      PhasedProvider.team.name = args.teamName;
+      PhasedProvider.team.members = {};
+      PhasedProvider.team.lastUpdated = [];
+      PhasedProvider.team.history = [];
+      PhasedProvider.team.teamLength = 0;
+
+      // remove old event handlers
+      FBRef.child(setUpTeamMembers.address).off('value'); 
+
+      // reload team data
+      setUpTeamMembers();
+      if (WATCH_ASSIGNMENTS)
+        watchAssignments();
+
+      // update profile curTeam attr
       FBRef.child('profile/' + _Auth.user.uid + '/curTeam').set(args.teamName, function() {
         if (args.callback)
           args.callback();
