@@ -39,12 +39,22 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$htt
 
   // PhasedProvider integrations
   // n.b.: categories now in Phased.team.categorySelect and in Phased.team.categoryObj (different structures)
-  // n.b.: Phased.user.profile is a link to Phased.team.members[Auth.user.uid];
+  // n.b.: Phased.user.profile is a link to Phased.team.members[Auth.user.uid].profile;
   $scope.team = Phased.team;
-  $scope.currentUser = Phased.user;
+  $scope.currentUser = Phased.user.profile;
 
   // ensure view updates when new members are added
-  $scope.$on('Phased:member', function() {
+  /*$scope.$on('Phased:member', function() {
+    console.dir('Phased:member');
+  });*/
+
+  // members data retrieved
+  $scope.$on('Phased:membersComplete', function() {
+    $scope.$apply();
+  });
+
+  // history retrieved
+  $scope.$on('Phased:historyComplete', function() {
     $scope.$apply();
   });
 
@@ -58,7 +68,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$htt
   var sunImage = "weekdayPhotos/sun.jpg";
 
   var d=new Date();
-  console.log(d.getDay());
+  // console.log(d.getDay());
 
   var backgroundImage = [sunImage, monImage, tuesImage, wedImage, thursImage, friImage, satImage];
   $scope.dayImage = backgroundImage[d.getDay()];
@@ -74,6 +84,9 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$htt
           className: 'ngdialog-theme-plain',
           scope: $scope
         });
+    } else {
+      $scope.currentUser = Phased.user.profile;
+      $scope.$apply();
     }
   });
 
@@ -311,11 +324,11 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$htt
 
   $scope.showSwitchTeam = function(){
     $('#mySwitchModal').modal('toggle');
-    $scope.userTeams = [];
+    // $scope.userTeams = [];
 
-    var returnObj = [];
+    // var returnObj = [];
 
-    new Firebase(FURL).child('profile').child(Auth.user.uid).child('teams').once('value', function(data){
+    /*new Firebase(FURL).child('profile').child(Auth.user.uid).child('teams').once('value', function(data){
       data = data.val();
       if(data){
         var keys = Object.keys(data);
@@ -330,38 +343,42 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$htt
           $scope.$apply();
         }
       }
-    });
+    });*/
       //$scope.getTeams();
 
   };
 
   $scope.switchTeam = function(teamName){
     console.log('clicked switch team');
-    new Firebase(FURL).child('profile').child(Auth.user.uid).child('curTeam').set(teamName,function(){
-      console.log(teamName);
+    Phased.switchTeam(teamName, function callback(){
       $location.path('/');
       $('#mySwitchModal').modal('toggle');
     })
+    /*new Firebase(FURL).child('profile').child(Auth.user.uid).child('curTeam').set(teamName,function(){
+      console.log(teamName);
+      $location.path('/');
+      $('#mySwitchModal').modal('toggle');
+    })*/
   };
 
-  $scope.newTeam = function(){
+  /*$scope.newTeam = function(){
     $location.path('/createteam');
-  };
+  };*/
 
-  function getTeamNumber(team){
+  /*function getTeamNumber(team){
     new Firebase(FURL).child('team').child(team).child('members').once('value', function(members){
       members = members.val();
       members = Object.keys(members);
       return members.length;
 
     });
-  };
+  };*/
 
   //Switch team logic
 
-  $scope.userTeams = [];
+  // $scope.userTeams = $scope.currentUser.profile.teams;
 
-  $scope.getTeams = function(){
+  /*$scope.getTeams = function(){
     var returnObj = [];
 
     new Firebase(FURL).child('profile').child(Auth.user.uid).child('teams').once('value', function(data){
@@ -382,21 +399,21 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$htt
 
       }
     });
-  };
+  };*/
 
   $scope.newTeam = function(){
     _gaq.push(['_trackEvent', 'Team', 'Create new team']);
     $location.path('/createteam');
   };
 
-  function getTeamNumber(team){
+  /*function getTeamNumber(team){
     new Firebase(FURL).child('team').child(team).child('members').once('value', function(members){
       members = members.val();
       members = Object.keys(members);
       return members.length;
 
     });
-  };
+  };*/
 
   $scope.gaClick = function(){
     _gaq.push(['_trackEvent', 'Open&Close Team', 'Chevron/X']);

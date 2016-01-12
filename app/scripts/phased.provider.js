@@ -132,6 +132,7 @@ app.provider('Phased', function() {
       PhasedProvider.setAssignmentStatus = _setAssignmentStatus;
       PhasedProvider.addMember = _addMember;
       PhasedProvider.addTeam = _addTeam;
+      PhasedProvider.switchTeam = _switchTeam;
       // PhasedProvider.watchMemberStream = _watchMemberStream;
       PhasedProvider.watchMemberAssignments = _watchMemberAssignments;
 
@@ -318,6 +319,16 @@ app.provider('Phased', function() {
                 PhasedProvider.team.members[id].uid = id;
                 PhasedProvider.team.members[id].photo = style;
                 PhasedProvider.team.members[id].newUser = data.newUser;
+
+                // set teams to array of { name : 'My Team' }
+                // leaves a bit of room for another async call to gather more team data
+                // (eg, member count as was used in team switcher in chromeapp)
+                PhasedProvider.team.members[id].teams = [];
+                for (var i in data.teams) {
+                  PhasedProvider.team.members[id].teams.push({
+                    name : data.teams[i]
+                  });
+                }
 
                 // PhasedProvider.team.members[id] = user;
                 // update teamLength
@@ -1292,7 +1303,7 @@ app.provider('Phased', function() {
           FBRef.child('team/' + args.teamName + '/members/' + _Auth.user.uid).set(true,function(){
             FBRef.child('profile/' + _Auth.user.uid + '/teams').push(args.teamName,function(){
               FBRef.child('profile/' + _Auth.user.uid + '/curTeam').set(args.teamName,function(){
-                if (args.success ) 
+                if (args.success) 
                   args.success();
               });
             });
@@ -1303,6 +1314,29 @@ app.provider('Phased', function() {
         }
       });
     }
+
+
+    /**
+    *
+    * switches current user's active team
+    * optionally calls a callback
+    */
+
+    var _switchTeam = function(teamName, callback) {
+      var args = {
+        teamName : teamName,
+        callback : callback
+      }
+      registerAsync(doSwitchTeam, args);
+    }
+
+    var doSwitchTeam = function(args) {
+      FBRef.child('profile/' + _Auth.user.uid + '/curTeam').set(args.teamName, function() {
+        if (args.callback)
+          args.callback();
+      });
+    }
+
     /**
     **
     **  Utilities
