@@ -324,28 +324,6 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$htt
 
   $scope.showSwitchTeam = function(){
     $('#mySwitchModal').modal('toggle');
-    // $scope.userTeams = [];
-
-    // var returnObj = [];
-
-    /*new Firebase(FURL).child('profile').child(Auth.user.uid).child('teams').once('value', function(data){
-      data = data.val();
-      if(data){
-        var keys = Object.keys(data);
-        for(var i = 0; i < keys.length; i++){
-          console.log(data[keys[i]]);
-          var obj = {
-            name : data[keys[i]],
-            number : getTeamNumber(data[keys[i]])
-          };
-          $scope.userTeams.push(obj);
-          console.log($scope.userTeams);
-          $scope.$apply();
-        }
-      }
-    });*/
-      //$scope.getTeams();
-
   };
 
   $scope.switchTeam = function(teamName){
@@ -353,67 +331,15 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$htt
     Phased.switchTeam(teamName, function callback(){
       $location.path('/');
       $('#mySwitchModal').modal('toggle');
-    })
-    /*new Firebase(FURL).child('profile').child(Auth.user.uid).child('curTeam').set(teamName,function(){
-      console.log(teamName);
-      $location.path('/');
-      $('#mySwitchModal').modal('toggle');
-    })*/
+    });
   };
 
-  /*$scope.newTeam = function(){
-    $location.path('/createteam');
-  };*/
-
-  /*function getTeamNumber(team){
-    new Firebase(FURL).child('team').child(team).child('members').once('value', function(members){
-      members = members.val();
-      members = Object.keys(members);
-      return members.length;
-
-    });
-  };*/
-
-  //Switch team logic
-
-  // $scope.userTeams = $scope.currentUser.profile.teams;
-
-  /*$scope.getTeams = function(){
-    var returnObj = [];
-
-    new Firebase(FURL).child('profile').child(Auth.user.uid).child('teams').once('value', function(data){
-      data = data.val();
-      if(data){
-        var keys = Object.keys(data);
-        for(var i = 0; i < keys.length; i++){
-          console.log(data[keys[i]]);
-          var obj = {
-            name : data[keys[i]],
-            number : getTeamNumber(data[keys[i]])
-          };
-          $scope.userTeams.push(obj);
-          console.log($scope.userTeams);
-          //$scope.$apply();
-
-        }
-
-      }
-    });
-  };*/
 
   $scope.newTeam = function(){
     _gaq.push(['_trackEvent', 'Team', 'Create new team']);
     $location.path('/createteam');
   };
 
-  /*function getTeamNumber(team){
-    new Firebase(FURL).child('team').child(team).child('members').once('value', function(members){
-      members = members.val();
-      members = Object.keys(members);
-      return members.length;
-
-    });
-  };*/
 
   $scope.gaClick = function(){
     _gaq.push(['_trackEvent', 'Open&Close Team', 'Chevron/X']);
