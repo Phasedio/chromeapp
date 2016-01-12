@@ -131,6 +131,7 @@ app.provider('Phased', function() {
       PhasedProvider.addTask = _addTask;
       PhasedProvider.setAssignmentStatus = _setAssignmentStatus;
       PhasedProvider.addMember = _addMember;
+      PhasedProvider.addTeam = _addTeam;
       // PhasedProvider.watchMemberStream = _watchMemberStream;
       PhasedProvider.watchMemberAssignments = _watchMemberAssignments;
 
@@ -1209,7 +1210,7 @@ app.provider('Phased', function() {
         inviter : inviter
       }
       console.log(args);
-      registerAsync(doAddMember(args));
+      registerAsync(doAddMember, args);
     }
 
     var doAddMember = function(args) {
@@ -1262,6 +1263,46 @@ app.provider('Phased', function() {
       });
     }
 
+    /**
+    *
+    * adds a team
+    * function mostly copied from chromeapp ctrl-createTeam.js
+    * 1. check if teamname is taken
+    * 2A. if not:
+    *  - create the team in /team
+    *  - add to current user's profile
+    *  - make it their current team
+    *  - run success callback if it exists
+    * 2B. if it does exist, run fail callback if it exists
+    */
+
+    var _addTeam = function(teamName, success, failure) {
+      var args = {
+        teamName : teamName,
+        success : success,
+        failure : failure
+      }
+      registerAsync(doAddTeam, args);
+    }
+
+    var doAddTeam = function(args) {
+      FBRef.child('team/' + args.teamName).once('value', function(snapshot) {
+        //if exists
+        if(snapshot.val() == null) {
+          FBRef.child('team/' + args.teamName + '/members/' + _Auth.user.uid).set(true,function(){
+            FBRef.child('profile/' + _Auth.user.uid + '/teams').push(args.teamName,function(){
+              FBRef.child('profile/' + _Auth.user.uid + '/curTeam').set(args.teamName,function(){
+                if (args.success ) 
+                  args.success();
+              });
+            });
+          });
+        } else {
+          if (args.failure)
+            args.failure();
+        }
+      });
+    }
     /**
     **
     **  Utilities
