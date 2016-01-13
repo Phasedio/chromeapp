@@ -64,11 +64,11 @@ home" >
           <input type="text" ng-model="taskName" ng-trim="false" maxlength="150" placeholder="enter in your status" required>
             <!-- <p>{{150 - taskName.length}} left</p> -->
           <button type="submit" ><i class="fa fa-arrow-right"></i></button>
-          <div ng-show="catKey" class="greeting-selected-cat" style="background:{{categories[catKey].color}}; border-color:{{categories[catKey].color}}"></div>
+          <div ng-show="catKey" class="greeting-selected-cat" style="background:{{team.categorySelect[catKey].color}}; border-color:{{team.categorySelect[catKey].color}}"></div>
         </form>
 
         <div class="">
-          <button  ng-repeat="(key, category) in categories" ng-show="$index<3" class="btn button-phased-wht" style="outline: none" ng-click="choice(key, category.name, category.color)">
+          <button  ng-repeat="(key, category) in team.categorySelect" ng-show="$index<3" class="btn button-phased-wht" style="outline: none" ng-click="categoryChoice(key, category.name, category.color)">
             <div class="feed-cat-color" style="width: 1rem; height: 1rem; display: inline-block; background-color:{{category.color}}"></div>
             {{category.name}}
           </button>
@@ -81,7 +81,7 @@ home" >
     <!-- <div class="col-xs-12">
       <div class="col-xs-6 col-xs-offset-3">
         <div class="col-xs-4" ng-repeat="(key, category) in categories" >
-          <button ng-show="$index<3" class="btn btn-block" style="outline: none" ng-click="choice(key, category.name, category.color)">
+          <button ng-show="$index<3" class="btn btn-block" style="outline: none" ng-click="categoryChoice(key, category.name, category.color)">
             <div class="row">
               <div class="col-xs-1">
                 <div class="feed-cat-color" style="width: 1rem; height: 1rem; display: inline-block; background-color:{{category.color}}"></div>
@@ -112,7 +112,7 @@ home" >
   <div class="row team-callToAction">
     <div class="col-xs-6 col-xs-offset-3">
       <!-- <p>Team</p> -->
-      <div class="card card--small" ng-repeat="member in teamMembers | orderBy : 'time':true ">
+      <div class="card card--small" ng-repeat="member in team.members | orderObjectBy : 'time':true ">
           <div style="background-image: url({{member.gravatar}})" class="card__image"></div>
           <div class="card__titles" style="border-color:{{categories[member.cat].color}}">
             <h5 class="card__subtitle">{{member.name}} &nbsp;<span am-time-ago="member.time"></span></h5>
@@ -132,7 +132,7 @@ home" >
     <div class="row">
       <div class="col-xs-11">
         <div class="col-xs-4" ng-repeat="(key, category) in categories" >
-          <button ng-show="$index<3" class="btn btn-block" style="outline: none" ng-click="choice(key, category.name, category.color)">
+          <button ng-show="$index<3" class="btn btn-block" style="outline: none" ng-click="categoryChoice(key, category.name, category.color)">
             <div class="row">
               <div class="col-xs-1">
                 <div class="feed-cat-color" style="width: 1rem; height: 1rem; display: inline-block; background-color:{{category.color}}"></div>
@@ -247,9 +247,9 @@ home" >
       <div class="modal-body switchTeam">
           <!--<h3 align="center">Select team</h3>-->
             <ul style="height:auto !important; padding-bottom: 50px;">
-              <li ng-repeat="teamr in userTeams track by $index" ng-click="switchTeam(teamr.name)">
+              <li ng-repeat="team in currentUser.teams track by $index" ng-click="switchTeam(team.name)">
                 <div>
-                  <h5 style="color: #084D54;">{{teamr.name}}</h5>
+                  <h5 style="color: #084D54;">{{team.name}}</h5>
                 </div>
                 <div>
                   <i class="fa fa-3x fa-arrow-right" style="color:#fff;"></i>
@@ -305,7 +305,7 @@ home" >
 <div class="modal fade" id="myModal">
   <div class="modal-dialog">
     <div class="modal-content">
-    <form name="addmember" ng-submit="addMembers(user)" novalidation>
+    <form name="addmember" ng-submit="addMember(user)" novalidation>
       <div class="modal-header">
         <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         <h4 class="modal-title no-shadow">Add member</h4>
@@ -335,8 +335,8 @@ home" >
         <h4 class="modal-title no-shadow">Choose a Category </h4>
       </div>
       <div class="modal-body switchTeam" >
-        <div ng-repeat="(key, category) in categories" >
-          <button class="btn btn-block" style="outline: none" ng-click="choice(key, category.name, category.color,true)">
+        <div ng-repeat="(key, category) in team.categorySelect" >
+          <button class="btn btn-block" style="outline: none" ng-click="categoryChoice(key, category.name, category.color,true)">
             <div class="row" style="padding:2%;">
               <div class="col-xs-1" style="padding-top:1%">
                 <div class="feed-cat-color" style="width: 1rem; height: 1rem; display: inline-block; background-color:{{category.color}}"></div>
