@@ -145,7 +145,7 @@ app.provider('Phased', function() {
       PhasedProvider.FBRef = FBRef;
     }
 
-    // sets WATCH_HISTORY flag so provider knows to 
+    // sets WATCH_HISTORY flag so provider knows to
     // set up history observers in init.
     // must be called in .config block before init.
     this.setWatchHistory = function(watch) {
@@ -153,7 +153,7 @@ app.provider('Phased', function() {
         WATCH_HISTORY = true;
     }
 
-    // sets WATCH_ASSIGNMENTS flag so provider knows to 
+    // sets WATCH_ASSIGNMENTS flag so provider knows to
     // set up assignment observers in init.
     // must be called in .config block before init.
     this.setWatchAssignments = function(watch) {
@@ -298,7 +298,7 @@ app.provider('Phased', function() {
         PhasedProvider.team.history = []; // clear history before populating
 
         // both populated by users below
-        setUpTeamMembers.membersToGetHistFor = []; 
+        setUpTeamMembers.membersToGetHistFor = [];
         var membersToGet = [];
 
         for (var id in users) {
@@ -408,7 +408,7 @@ app.provider('Phased', function() {
                 addToHistory = false;
               }
             }
-            if (addToHistory) 
+            if (addToHistory)
               PhasedProvider.team.history.push(data[keys[i]]);
 
             PhasedProvider.team.members[id].history.push(data[keys[i]]); // always populate user histories
@@ -487,27 +487,27 @@ app.provider('Phased', function() {
         if (team.billing){
           PhasedProvider.billingInfo = team.billing;
 
-          $.post('./api/pays/find', {customer: team.billing.stripeid})
-            .success(function(data){
-              if (data.err) {
-                console.log(data.err);
-                // handle error
-              }
-              if (data.status == "active"){
-                //Show thing for active
-                PhasedProvider.viewType = 'active';
-
-              } else if (data.status == 'past_due' || data.status == 'unpaid'){
-                //Show thing for problem with account
-                PhasedProvider.viewType = 'problem';
-              } else if (data.status == 'canceled'){
-                //Show thing for problem with canceled
-                PhasedProvider.viewType = 'notPaid';
-              }
-            })
-            .error(function(data){
-              console.log(data);
-            });
+          // $.post('./api/pays/find', {customer: team.billing.stripeid})
+          //   .success(function(data){
+          //     if (data.err) {
+          //       console.log(data.err);
+          //       // handle error
+          //     }
+          //     if (data.status == "active"){
+          //       //Show thing for active
+          //       PhasedProvider.viewType = 'active';
+          //
+          //     } else if (data.status == 'past_due' || data.status == 'unpaid'){
+          //       //Show thing for problem with account
+          //       PhasedProvider.viewType = 'problem';
+          //     } else if (data.status == 'canceled'){
+          //       //Show thing for problem with canceled
+          //       PhasedProvider.viewType = 'notPaid';
+          //     }
+          //   })
+          //   .error(function(data){
+          //     console.log(data);
+          //   });
         } else {
           PhasedProvider.viewType = 'notPaid';
         }
@@ -945,14 +945,14 @@ app.provider('Phased', function() {
               user.assignments.to_me.push(all[data[i]]);
           }
         });
-        
+
         // 2. same as above
         FBRef.child(refString + '/by/' + id).on('value', function(data) {
           data = data.val();
           if (!data) return;
           data = objToArray(data);
 
-          // 3. 
+          // 3.
           for (var i in data) {
             if (data[i] in all)
               user.assignments.by_me.push(all[data[i]]);
@@ -1358,7 +1358,7 @@ app.provider('Phased', function() {
       PhasedProvider.team.teamLength = 0;
 
       // remove old event handlers
-      FBRef.child(setUpTeamMembers.address).off('value'); 
+      FBRef.child(setUpTeamMembers.address).off('value');
 
       // reload team data
       setUpTeamMembers();

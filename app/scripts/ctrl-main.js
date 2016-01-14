@@ -21,6 +21,7 @@ app.filter('orderObjectBy', function() {
   };
 })
 app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$http,$location, toaster,ngDialog){
+
 	$scope.showTaskView = false;
 	$scope.task = '';
   $scope.masterTask = '';
@@ -37,11 +38,14 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$htt
 		full : false
 	};
 
+
   // PhasedProvider integrations
   // n.b.: categories now in Phased.team.categorySelect and in Phased.team.categoryObj (different structures)
   // n.b.: Phased.user.profile is a link to Phased.team.members[Auth.user.uid].profile;
   $scope.team = Phased.team;
   $scope.currentUser = Phased.user.profile;
+
+
 
   // ensure view updates when new members are added
   // members data retrieved
@@ -52,6 +56,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$htt
   // history retrieved
   $scope.$on('Phased:historyComplete', function() {
     $scope.$apply();
+    console.log(Phased);
   });
 
   // update bg image based on day of the week

@@ -13,10 +13,15 @@ $green : #11ba55;
 $grey : #777677;
 $darkGrey : #777677;
 
+$darkBlack :#1e1e24;
+$liteBlack : #292b33;
+$accColor : #fac994;
+$textColor : #8a8a8a;
+$boldText : #444A59;
 
-// Mixin 
+// Mixin
 
-@function parseInt($n) { 
+@function parseInt($n) {
   @return $n / ($n * 0 + 1);
 }
 
@@ -64,7 +69,7 @@ body{
   min-height: 100%;
   //overflow: hidden;
 
-  
+
 }
 
 h1,h2,h3,h4,h5,h6{
@@ -90,7 +95,7 @@ button{
   &:hover{
     opacity:1;
   }
-} 
+}
 
 .button-phased{
   background-color: #50D2C2;
@@ -119,7 +124,7 @@ button{
   &:active{
     color:#fff;
   }
-}  
+}
 .button-forgot{
   background-color: #FF4E00;
   color: #fff;
@@ -137,10 +142,78 @@ button{
 .home{
   height:100vh;
 }
+.feed-holder{
+  background-color: rgba(255,255,255,0.5);
+
+}
+.feed{
+  padding-top: 40px;
+  height:100vh;
+  width: 100%;
+  overflow: scroll;
+  &::-webkit-scrollbar { width: 0 !important }
+
+}
+.update{
+  overflow: auto;
+  margin-bottom: 10px;
+  img{
+    display: inline-block;
+    border: 1px solid #fff;
+    border-radius: 1000px;
+  }
+  p{
+    background: $liteBlack;
+    color:#fff;
+    font-size: 10px;
+    display: inline-block;
+    border-radius: 13px;
+    padding:5px 16px;
+    width: 100%;
+    margin: 0;
+  }
+}
+.update-this-user{
+  .update-pic-holder,.update-txt-holder{
+    float: right;
+    img{
+      float: right;
+    }
+  }
+  .update-timeago-holder{
+    p{
+      text-align: left;
+    }
+  }
+  p{
+    background: $accColor;
+    color: $liteBlack;
+  }
+}
+.update-pic-holder{
+  float: left;
+  width: 18%;
+  display: inline-block;
+}
+.update-txt-holder{
+  float: left;
+  width: 80%;
+  display: inline-block;
+}
+.update-timeago-holder{
+  p{
+    margin: 0;
+    padding-top:0;
+    padding-left: 0;
+    padding-right: 0;
+    background: none;
+    color:#fff;
+    font-size: 10px;
+  }
+}
 .greeting{
   //max-width:60rem;
   margin-top:35vh;
-  text-align: center;
   .greeting-input{
     max-width:60rem;
     display:block;
@@ -182,19 +255,29 @@ button{
     //margin-bottom:1.5rem;
   }
   input[type="text"]{
-    background:none;
+    background:rgba(255,255,255,0.5);
     outline:none;
     border: none;
-    border-bottom: 1px solid #fff;
-    
+
     color:#fff;
-    text-align:center;
-    font-size: 2em;
+    font-size: 1.5em;
+    padding:10px 30px;
     font-weight:500;
     line-height: 1.1;
     width:100%;
-
+    transition: all 0.3s;
     margin-bottom: 2rem;
+
+    &::-webkit-input-placeholder{
+      color:#fff;
+    }
+    &:focus{
+      background:rgba(255,255,255,1);
+      color:#000;
+      &::-webkit-input-placeholder{
+        color:#555;
+      }
+    }
   }
   button[type="submit"]{
     //display:none;
@@ -212,14 +295,49 @@ button{
   }
 
   .lastTask{
-    
+
   }
+}
+
+.tasks{
+  max-width: 60rem;
+  display: block;
+  margin: 0 auto;
+  p,a{
+    padding: 0 30px;
+  }
+  .task{
+    .task-do{
+      margin-left:6px;
+    }
+    p{
+      padding:0;
+      margin-left:6px;
+      display: inline-block;
+    }
+  }
+  a{
+    color:#fff;
+    margin-top: 10px;
+    &:hover{
+      color:#fff;
+    }
+  }
+
+}
+.task-do{
+  border: 1px solid #fff;
+  border-radius: 1000px;
+  height:16px;
+  width: 16px;
+  display: inline-block;
+  margin: none;
 }
 
 .team-callToAction{
   //margin-top:35vh;
   cursor:pointer;
-  
+
 }
 
 .element {
@@ -231,12 +349,12 @@ button{
     top: 50%;
     left: 50%;
     width: 100%;
-    
+
     position: absolute;
     z-index: 2;
 }
 
-//Team 
+//Team
 .team{
 
   background: #084D54;
@@ -248,13 +366,13 @@ button{
   // right:0;
   // transition: all 0.3s;
   // z-index: 999;
-  
+
   .header{
     overflow: auto;
     cursor:pointer;
   }
   .team-closeButton{
-    
+
     margin-left: 1rem;
     position: absolute;
     top: 1.0rem;
@@ -283,7 +401,7 @@ button{
       float:left;
     }
   }
-  
+
   .member{
     &:nth-child(1){
       margin-top:0;
@@ -372,7 +490,7 @@ button{
   background:#fff;
   display:none;
   z-index:1000;
-  
+
   ul{
     width:35rem;
     display:block;
@@ -380,7 +498,7 @@ button{
     list-style:none;
   }
   li{
-    margin: 1rem 0; 
+    margin: 1rem 0;
     cursor:pointer;
   }
   button{
@@ -476,7 +594,7 @@ $cta-color: #FF1744;
       margin:0 auto;
       margin-bottom:10px;
       display: block;
-      transition: all 400ms cubic-bezier(0.165, 0.840, 0.440, 1.000); 
+      transition: all 400ms cubic-bezier(0.165, 0.840, 0.440, 1.000);
       box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.37);
 
         // hover status
@@ -497,7 +615,7 @@ $cta-color: #FF1744;
       display: block;
       opacity: 0;
       transition: all 200ms cubic-bezier(0.075, 0.820, 0.165, 1.000);
-       
+
           // image overlay
           &:after {
           content: "";
@@ -540,7 +658,7 @@ $cta-color: #FF1744;
 
       // default card subtitle element
       .card__subtitle {
-      user-select: none;  
+      user-select: none;
       text-shadow:none;
       display: block;
       white-space: nowrap;
@@ -552,7 +670,7 @@ $cta-color: #FF1744;
       opacity: 0;
       margin-bottom:0;
       line-height:2rem;
-      transition: all 200ms cubic-bezier(0.075, 0.820, 0.165, 1.000); 
+      transition: all 200ms cubic-bezier(0.075, 0.820, 0.165, 1.000);
       span{
         //font-style:italic;
         opacity:0.5;
@@ -564,7 +682,7 @@ $cta-color: #FF1744;
       .card__text {
       user-select: none;
       font-size: 14px;
-      display: block; 
+      display: block;
       left: 0;
       right: 0;
       top: 100px;
@@ -577,14 +695,14 @@ $cta-color: #FF1744;
       transition: width 200ms cubic-bezier(0.075, 0.820, 0.165, 1.000);
       transition: delay 0.1s; }
 
-      
+
       // default card action bar element
       .card__action-bar {
       user-select: none;
       position: absolute;
       bottom: 0;
       top: auto;
-      left: 0; 
+      left: 0;
       right: 0;
       padding: 0 8px;
       border-top: 1px solid #E0E0E0;
@@ -607,16 +725,16 @@ $cta-color: #FF1744;
       box-shadow: 0 6px 10px 0 rgba(0, 0, 0, 0.3), 0 2px 2px 0 rgba(0, 0, 0, 0.2);
       height: 80px;
       min-height: 80px;
-       
+
           // image element
           .card__image {
           border-radius: 1px 0 0 1px;
           left: 0;
           top: 0;
           width: 88px;
-          opacity: 1; 
+          opacity: 1;
           max-height: 136px;
-              
+
             // image overlay
             &:after {
             opacity: 0; }
@@ -627,19 +745,19 @@ $cta-color: #FF1744;
           color: #000;
           left: 88px;
           top: 8px; }
-        
-        
+
+
           .card__subtitle {
           opacity: 1;
           left: 88px; }
-          
+
 
           // text element
           .card__text {
           top: 30px;
           opacity: 0; }
-        
-          
+
+
           // actionbar element
           .card__action-bar {
           left: 88px; }
@@ -665,10 +783,10 @@ $cta-color: #FF1744;
     .fa-heart-o{
       color:#444;
       text-shadow:none;
-      
-      
+
+
     }
-    transition: all 200ms cubic-bezier(0.075, 0.820, 0.165, 1.000); 
+    transition: all 200ms cubic-bezier(0.075, 0.820, 0.165, 1.000);
     &:hover{
         content:"\f004";
         color:#f00;

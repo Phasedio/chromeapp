@@ -13,7 +13,72 @@
 <div class="container-fluid
 home" >
   <toaster-container toaster-options="{'time-out': 3000, 'close-button':true}"></toaster-container>
+
+
 	<div class="row">
+		<div class="col-xs-2 feed-holder">
+			<div class="feed">
+				<div class="update" ng-repeat="update in team.history | orderBy : 'time':true | limitTo :100" ng-class="{'update-this-user' : (update.user == currentUser.uid)}">
+						<div class="update-pic-holder">
+							<img src="{{team.members[update.user].gravatar}}" width="22px">
+						</div>
+						<div class="update-txt-holder">
+							<p>
+								{{update.name}}
+							</p>
+						</div>
+						<div class="update-timeago-holder">
+							<p align="right" am-time-ago="update.time"></p>
+						</div>
+
+				</div>
+			</div>
+		</div>
+		<div class="col-xs-6 col-xs-offset-1">
+			<div class="greeting">
+				<div class="greeting-input" ng-hide="showTaskView">
+	        <form name="taskForm" ng-submit="addTask(taskName)" novalidation>
+	          <input type="text" ng-model="taskName" ng-trim="false" maxlength="150" placeholder="What are you doing?" required>
+
+	          <!-- <button type="submit" ><i class="fa fa-arrow-right"></i></button> -->
+	          <!-- <div ng-show="catKey" class="greeting-selected-cat" style="background:{{team.categorySelect[catKey].color}}; border-color:{{team.categorySelect[catKey].color}}"></div> -->
+	        </form>
+				</div>
+
+				<div class="tasks">
+						<p>
+							Things you could do:
+						</p>
+						<div class="task">
+							<button type="button" class="task-do" name="button"></button>
+							<p>
+								this is an example task
+							</p>
+						</div>
+						<div class="task">
+							<button type="button" class="task-do" name="button"></button>
+							<p>
+								this is an example task
+							</p>
+						</div>
+						<div class="task">
+							<button type="button" class="task-do" name="button"></button>
+							<p>
+								this is an example task
+							</p>
+						</div>
+						<a href="#">
+							Add more tasks
+						</a>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<!-- OLD CODE DELETE ME BEFORE COMMIT! -->
+	<!-- =========================== -->
+
+	<!-- <div class="row">
 		<div class="col-xs-1 col-xs-offset-11">
       <div class="row">
         <div class="col-xs-5">
@@ -23,35 +88,8 @@ home" >
 			    <button class=" half-opacity" ng-click="showSettings();"><i class="fa fa-cog fa-1x new-tooltip" title="Settings" data-toggle="tooltip" data-placement="bottom" class="red-tooltip" tooltip></i></button>
         </div>
       </div>
-			<!--<a href="#0" title="My Tooltip!" data-toggle="tooltip" data-placement="bottom" tooltip>Setting</a>-->
 		</div>
 	</div>
-
-<!-- 	<div class="greeting element row">
-		<div class="greeting-task" ng-show="showTaskView">
-			<h1 align="center" ng-click="showTaskView = false">{{task}}</h1>
-			<h6 align="center" am-time-ago="taskTime"></h6>
-		</div>
-		<div class="greeting-input" ng-hide="showTaskView">
-			<h4>What are you doing now?</h4>
-      <div ng-show="taskCat" align="center" class="col-xs-3 col-xs-offset-4">
-        <div class="row" align="center">
-          <div class="col-xs-2 col-xs-offset-3">
-            <div class="feed-cat-color" style="width: 1rem; height: 1rem; display: inline-block; background-color: {{taskColor}}"></div>
-          </div>
-          <div class="col-xs-6">
-            <h6 style="display: inline-block">{{taskChoice}}</h6>
-          </div>
-        </div>
-      </div>
-
-			<form name="taskForm" ng-submit="addTask(taskName)" novalidation>
-        <input type="text" ng-model="taskName" ng-trim="false" maxlength="150" placeholder="enter in your status" required>
-          <p>{{150 - taskName.length}} left</p>
-        <input type="submit">
-      </form>
-      <p ><small ng-show="taskForm.$error.maxlength">Your update is too long!</small>&nbsp;</p>
- -->
   <div class="row greeting">
     <div class="col-xs-12">
       <div class="greeting-task" ng-show="showTaskView">
@@ -62,7 +100,7 @@ home" >
         <h1>What are you doing now?</h1>
         <form name="taskForm" ng-submit="addTask(taskName)" novalidation>
           <input type="text" ng-model="taskName" ng-trim="false" maxlength="150" placeholder="enter in your status" required>
-            <!-- <p>{{150 - taskName.length}} left</p> -->
+
           <button type="submit" ><i class="fa fa-arrow-right"></i></button>
           <div ng-show="catKey" class="greeting-selected-cat" style="background:{{team.categorySelect[catKey].color}}; border-color:{{team.categorySelect[catKey].color}}"></div>
         </form>
@@ -78,31 +116,6 @@ home" >
       </div>
 
     </div>
-    <!-- <div class="col-xs-12">
-      <div class="col-xs-6 col-xs-offset-3">
-        <div class="col-xs-4" ng-repeat="(key, category) in categories" >
-          <button ng-show="$index<3" class="btn btn-block" style="outline: none" ng-click="categoryChoice(key, category.name, category.color)">
-            <div class="row">
-              <div class="col-xs-1">
-                <div class="feed-cat-color" style="width: 1rem; height: 1rem; display: inline-block; background-color:{{category.color}}"></div>
-              </div>
-              <div class="col-10">
-                <h6 style="display: inline-block">{{category.name}}</h6>
-              </div>
-            </div>
-          </button>
-        </div>
-      </div>
-
-      <div class="col-xs-1" style="color:white">
-          <button class="btn btn-block" style="outline: none" ng-click="moreCat()">
-            <h6>+ More</h6>
-          </button>
-      </div>
-
-
-    </div> -->
-
 
 
     <div class="col-xs-6 col-xs-offset-3" ng-show="showTaskView">
@@ -111,126 +124,20 @@ home" >
   </div>
   <div class="row team-callToAction">
     <div class="col-xs-6 col-xs-offset-3">
-      <!-- <p>Team</p> -->
+
       <div class="card card--small" ng-repeat="member in team.members | orderObjectBy : 'time':true ">
           <div style="background-image: url({{member.gravatar}})" class="card__image"></div>
           <div class="card__titles" style="border-color:{{categories[member.cat].color}}">
             <h5 class="card__subtitle">{{member.name}} &nbsp;<span am-time-ago="member.time"></span></h5>
             <h2 class="card__title no-shadow">{{member.task | limitTo : 25 }}{{member.task.length > 25 ? '...' : ''}}</h2>
           </div>
-          <!-- <div class="card__meta">
-              <button class="btn"><i class="fa fa-heart-o"></i></button>
-          </div> -->
+
         </div>
 
     </div>
-  </div>
-
-	<!-- <div class="greeting element row">
-
-
-    <div class="row">
-      <div class="col-xs-11">
-        <div class="col-xs-4" ng-repeat="(key, category) in categories" >
-          <button ng-show="$index<3" class="btn btn-block" style="outline: none" ng-click="categoryChoice(key, category.name, category.color)">
-            <div class="row">
-              <div class="col-xs-1">
-                <div class="feed-cat-color" style="width: 1rem; height: 1rem; display: inline-block; background-color:{{category.color}}"></div>
-              </div>
-              <div class="col-10">
-                <h6 style="display: inline-block">{{category.name}}</h6>
-              </div>
-            </div>
-          </button>
-        </div>
-      </div>
-
-      <div class="col-xs-1" style="color:white">
-          <button class="btn btn-block" style="outline: none" ng-click="moreCat()">
-            <h6>+ More</h6>
-          </button>
-      </div>
-
-
-    </div>
-
-
-		<div class="col-xs-6 col-xs-offset-3" ng-show="showTaskView">
-			<button ng-click="showTaskView = false"><i class="fa fa-plus"></i> <h6>Add new task</h6></button>
-		</div>
-		<div class="col-xs-12 lastTask" ng-show="!showTaskView" ng-if="task">
-			<p><small>Your last task was:</small></p>
-			<p><small>{{task}} - <span am-time-ago="taskTime"></span></small></p>
-		</div>
-
-	</div> -->
-	<!-- <div class="team" ng-class="teamExpander" ng-hide="!team">
-		<div class="row header" ng-click="openUp('expand')">
-      <div class="col-xs-12">
-        <div class="flip-container" ng-hide="teamExpander.full" ng-click="gaClick()">
-          <div class="flipper" ng-class="{'do-the-flip':flipStatus}">
-            <div class="front">
-                 <div class="col-xs-2 fa fa-chevron-up"></div>
-            </div>
-          </div>
-        </div>
-        <div ng-hide="!teamExpander.full" class="fa fa-times fa-lg team-closeButton" style="display:inline-block; margin-left:1rem;"></div>
-        <h4 align="center">{{team}}</h4>
-      </div>
-
-		</div>
-		<div class="body">
-			<div class="member" ng-repeat="member in teamMembers | orderBy : 'time':true | limitTo : memberLimit" ng-class="{active : member.uid == selected.uid}" ng-click="getSelectedTask(member)">
-				<img src="{{member.gravatar}}">
-				<div class="info">
-					<h5>{{member.name}}</h5>
-					<h6>{{member.task | limitTo : 25 }}{{member.task.length > 25 ? '...' : ''}}</h6>
-				</div>
-			</div>
-			<div class="member" ng-click="addMemberModal()">
-				<h5 align="center" class="no-shadow"><i class="fa fa-plus"></i> Add member</h5>
-			</div>
-		</div>
-
-		<div class="selectedUser" ng-hide="!teamExpander.full">
-			<div class="row">
-				<div class="col-xs-12">
-					<img height="75px" width="75px" src="{{selected.gravatar}}">
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-xs-12">
-					<h4 align="center">{{selected.task}}</h4>
-					<h6 align="center" am-time-ago="selected.time"></h6>
-				</div>
-			</div>
-			<div class="row">
-				<div class="col-xs-12">
-				<h6 align="center">Past 24 hours</h6>
-					<ul class="list history">
-				      <li class="item" ng-repeat="task in taskHistory | orderBy : 'time':true">
-				        <p>{{task.name}}</p>
-				      	<p><small am-time-ago="task.time"></small></p>
-				      </li>
-				      <li ng-if="taskHistory.length < 1"><p align="center">No updates made in the past 24 hours!</p></li>
-				    </ul>
-				</div>
-			</div>
-		</div>
-	</div> -->
+  </div> -->
+	<!-- =========================== -->
 </div>
-<section class=" team">
-  <div class="container">
-    <div class="row">
-      <div class="col-xs-6">
-
-
-
-
-      </div>
-    </div>
-  </div>
-</section>
 
 <!-- //////////////////////// -->
 <!-- Switch Team Model -->
