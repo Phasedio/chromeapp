@@ -37,9 +37,20 @@ home" >
 		<div class="col-xs-6 col-xs-offset-1">
 			<div class="greeting">
 				<div class="greeting-input" ng-hide="showTaskView">
-	        <form name="taskForm" ng-submit="addTask(taskName)" novalidation>
-	          <input type="text" ng-model="taskName" ng-trim="false" maxlength="150" placeholder="What are you doing?" required>
+	        <form name="taskForm" ng-submit="addTask(taskName)"  novalidation>
+						<div class="">
+							<p align="center" ng-init="checked=false" ng-show="checked" class="animate-if"><small>Press enter to submit!</small></p>
+						</div>
 
+	          <input type="text" ng-model="taskName" ng-trim="false" maxlength="150"  ng-focus="checked=true" ng-blur="checked=false" placeholder="What are you doing?" required>
+						<div class="" ng-show="checked">
+		          <button type="button"  ng-repeat="(key, category) in team.categorySelect" ng-show="$index<3" class="btn button-phased-wht" style="outline: none" ng-click="categoryChoice(key, category.name, category.color)">
+		            <div class="feed-cat-color" style="width: 1rem; height: 1rem; display: inline-block; background-color:{{category.color}}"></div>
+		            {{category.name}}
+		          </button>
+		          <button type="button" class="btn button-phased-wht" style="outline: none" ng-click="moreCat()">+ More</button>
+							<button type="submit" class="btn button-phased-wht" style="outline: none">Submit</button>
+		        </div>
 	          <!-- <button type="submit" ><i class="fa fa-arrow-right"></i></button> -->
 	          <!-- <div ng-show="catKey" class="greeting-selected-cat" style="background:{{team.categorySelect[catKey].color}}; border-color:{{team.categorySelect[catKey].color}}"></div> -->
 	        </form>
@@ -47,28 +58,17 @@ home" >
 
 				<div class="tasks">
 						<p>
-							Things you could do:
+							Things you could do:{{activeStream.length}}
 						</p>
-						<div class="task">
+						<div class="task"  ng-repeat="assignment in activeStream | filterTaskByStatus : activeStatusFilter | filterTaskByCategory : activeCategoryFilter | orderObjectBy : 'time' | limitTo :5">
 							<button type="button" class="task-do" name="button"></button>
 							<p>
-								this is an example task
+								{{assignment.name}}
 							</p>
 						</div>
-						<div class="task">
-							<button type="button" class="task-do" name="button"></button>
-							<p>
-								this is an example task
-							</p>
-						</div>
-						<div class="task">
-							<button type="button" class="task-do" name="button"></button>
-							<p>
-								this is an example task
-							</p>
-						</div>
+
 						<a href="#">
-							Add more tasks
+							See more tasks
 						</a>
 				</div>
 			</div>

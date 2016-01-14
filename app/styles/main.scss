@@ -60,6 +60,28 @@ $boldText : #444A59;
   }
 }
 
+
+.animate-if {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  margin-top: -3rem;
+}
+
+.animate-if.ng-hide-add-active, .animate-if.ng-hide-remove-active {
+  transition:all 1s;
+}
+
+.animate-if.ng-show,
+.animate-if.ng-hide.ng-hide-active {
+  opacity:0;
+}
+
+.animate-if.ng-hide,
+.animate-if.ng-show.ng-show-active {
+  opacity:1;
+}
+
 // General styles
 
 
@@ -281,9 +303,6 @@ button{
   }
   button[type="submit"]{
     //display:none;
-    position:absolute;
-    right:29.5%;
-    top:6.25rem;
     background:transparent;
     outline:none;
     color:#fff;

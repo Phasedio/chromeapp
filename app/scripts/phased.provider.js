@@ -102,7 +102,6 @@ app.provider('Phased', function() {
       _Auth = Auth;
       PhasedProvider.user = Auth.user;
       PhasedProvider.team.name = Auth.currentTeam;
-
       checkPlanStatus();
       setUpTeamMembers();
       getCategories();
@@ -1409,6 +1408,7 @@ app.provider('Phased', function() {
   .config(['PhasedProvider', 'FURL', 'AuthProvider', function(PhasedProvider, FURL, AuthProvider) {
     PhasedProvider.setFBRef(FURL);
     PhasedProvider.setWatchHistory(true);
+    PhasedProvider.setWatchAssignments(true);
 
     // configure phasedProvider as a callback to AuthProvider
     AuthProvider.setDoAfterAuth(PhasedProvider.init);
