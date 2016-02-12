@@ -6,15 +6,11 @@ app.controller('LoginController',function(FURL, $scope,$location,Auth, ngDialog)
 
 	$scope.loginUser = function(user){
 
-		Auth.login(user).then(function() {
-
-	     // $scope.user = angular.copy(oriPerson);
-	     // $scope.userForm.$setPristine();
-
-         $location.path("/");
-         }, function(err){
-            alert('incorrect username/password');
-         });
+    Auth.login(user, function() {}, function(err){
+          console.log(err);
+          $scope.signInSubmited = false;
+          alert(err);
+        });
 	}
 
 	$scope.regUser = function(user){
@@ -45,6 +41,6 @@ app.controller('LoginController',function(FURL, $scope,$location,Auth, ngDialog)
       }
     });
   }
-   
+
 
 });

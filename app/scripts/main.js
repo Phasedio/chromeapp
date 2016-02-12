@@ -43,7 +43,7 @@ var app = angular
     .config(['cfpLoadingBarProvider', function(cfpLoadingBarProvider) {
         cfpLoadingBarProvider.includeSpinner = true;
     }])
-    .constant('FURL', 'https://phaseddev.firebaseio.com/')
+    .constant('FURL', 'https://phased-dev2.firebaseio.com/')
     .config(function ($routeProvider) {
         $routeProvider
             .when('/', {

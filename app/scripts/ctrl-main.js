@@ -110,6 +110,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$htt
   // n.b.: categories now in Phased.team.categorySelect and in Phased.team.categoryObj (different structures)
   // n.b.: Phased.user.profile is a link to Phased.team.members[Auth.user.uid].profile;
   $scope.team = Phased.team;
+  console.log(Phased);
   $scope.currentUser = Phased.user.profile;
   $scope.assignments = Phased.assignments;
   //$scope.archive = Phased.archive;
@@ -201,45 +202,40 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$htt
 	$scope.addTask = function(update){
     _gaq.push(['_trackEvent', 'Update', 'updated']);
 
-    // 1. format incoming status data
-  	if ($scope.taskForm.$error.maxlength){
-  		alert('Your update is too long!');
+    //var key = $scope.catKey;
+
+    // prepare task object
+    var team = Phased.team.name;
+    if ($scope.taskForm.$error.maxlength) {
+      alert('Your update is too long!');
       return;
-  	}
+    }
 
-    var key = $scope.catKey;
     var taskPrefix = '';
-    var team = Auth.team;
-    var weather,city,lat,long,photo;
 
-    key = $scope.catKey ? $scope.catKey : '';
-    city = $scope.city ? $scope.city : 0;
-    lat = $scope.lat ? $scope.lat : 0;
-    long = $scope.long ? $scope.long : 0;
-    photo = $scope.bgPhoto ? $scope.bgPhoto : 0;
     var status = {
-      name: taskPrefix+update,
-      time: new Date().getTime(),
-      user:Auth.user.uid,
-      cat : key,
-      city:city,
-      weather:'',
+      name: taskPrefix + update,
+      // time: new Date().getTime(), // added in PhasedProvider.makeTaskForDB (internal fn)
+      user: Auth.user.uid,
+      cat : $scope.catKey || '',
+      city: $scope.city || 0,
+      weather: '',
       taskPrefix : taskPrefix,
-      photo : photo,
-      location:{
-        lat : lat,
-        long : long
+      photo : $scope.bgPhoto || 0,
+      location: {
+        lat : $scope.lat || 0,
+        long : $scope.long || 0
       }
     };
 
-    // 2. update db
-    Phased.addTask(status);
+    console.log('status:', status);
+    // push to db
+    Phased.addStatus(status);
 
-    // 3. update interface
-    $scope.task = update;
-    $scope.taskName = '';
-	  $scope.showTaskView = true;
-    $scope.taskTime = status.time; // we didnt have status.time so i think this fixes the problem(?)
+    // reset interface
+    $scope.selectedCategory = undefined;
+    $scope.task = {};
+
 	};
 
   // returns current task prefix

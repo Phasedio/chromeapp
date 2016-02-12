@@ -15,70 +15,12 @@ home" >
   <toaster-container toaster-options="{'time-out': 3000, 'close-button':true}"></toaster-container>
 
 
-	<div class="row">
-		<div class="col-xs-2 feed-holder">
-			<div class="feed">
-				<div class="update" ng-repeat="update in team.history | orderBy : 'time':true | limitTo :100" ng-class="{'update-this-user' : (update.user == currentUser.uid)}">
-						<div class="update-pic-holder">
-							<img src="{{team.members[update.user].gravatar}}" width="22px">
-						</div>
-						<div class="update-txt-holder">
-							<p>
-								{{update.name}}
-							</p>
-						</div>
-						<div class="update-timeago-holder">
-							<p align="right" am-time-ago="update.time"></p>
-						</div>
 
-				</div>
-			</div>
-		</div>
-		<div class="col-xs-6 col-xs-offset-1">
-			<div class="greeting">
-				<div class="greeting-input" ng-hide="showTaskView">
-	        <form name="taskForm" ng-submit="addTask(taskName)"  novalidation>
-						<div class="">
-							<p align="center" ng-init="checked=false" ng-show="checked" class="animate-if"><small>Press enter to submit!</small></p>
-						</div>
-
-	          <input type="text" ng-model="taskName" ng-trim="false" maxlength="150"  ng-focus="checked=true" ng-blur="checked=false" placeholder="What are you doing?" required>
-						<div class="" ng-show="checked">
-		          <button type="button"  ng-repeat="(key, category) in team.categorySelect" ng-show="$index<3" class="btn button-phased-wht" style="outline: none" ng-click="categoryChoice(key, category.name, category.color)">
-		            <div class="feed-cat-color" style="width: 1rem; height: 1rem; display: inline-block; background-color:{{category.color}}"></div>
-		            {{category.name}}
-		          </button>
-		          <button type="button" class="btn button-phased-wht" style="outline: none" ng-click="moreCat()">+ More</button>
-							<button type="submit" class="btn button-phased-wht" style="outline: none">Submit</button>
-		        </div>
-	          <!-- <button type="submit" ><i class="fa fa-arrow-right"></i></button> -->
-	          <!-- <div ng-show="catKey" class="greeting-selected-cat" style="background:{{team.categorySelect[catKey].color}}; border-color:{{team.categorySelect[catKey].color}}"></div> -->
-	        </form>
-				</div>
-
-				<div class="tasks">
-						<p>
-							Things you could do:{{activeStream.length}}
-						</p>
-						<div class="task"  ng-repeat="assignment in activeStream | filterTaskByStatus : activeStatusFilter | filterTaskByCategory : activeCategoryFilter | orderObjectBy : 'time' | limitTo :5">
-							<button type="button" class="task-do" name="button"></button>
-							<p>
-								{{assignment.name}}
-							</p>
-						</div>
-
-						<a href="#">
-							See more tasks
-						</a>
-				</div>
-			</div>
-		</div>
-	</div>
 
 	<!-- OLD CODE DELETE ME BEFORE COMMIT! -->
 	<!-- =========================== -->
 
-	<!-- <div class="row">
+	<div class="row">
 		<div class="col-xs-1 col-xs-offset-11">
       <div class="row">
         <div class="col-xs-5">
@@ -128,14 +70,14 @@ home" >
       <div class="card card--small" ng-repeat="member in team.members | orderObjectBy : 'time':true ">
           <div style="background-image: url({{member.gravatar}})" class="card__image"></div>
           <div class="card__titles" style="border-color:{{categories[member.cat].color}}">
-            <h5 class="card__subtitle">{{member.name}} &nbsp;<span am-time-ago="member.time"></span></h5>
-            <h2 class="card__title no-shadow">{{member.task | limitTo : 25 }}{{member.task.length > 25 ? '...' : ''}}</h2>
+            <h5 class="card__subtitle">{{member.name}} &nbsp;<span am-time-ago="member.currentStatus.time"></span></h5>
+            <h2 class="card__title no-shadow">{{member.currentStatus.name | limitTo : 25 }}{{member.task.length > 25 ? '...' : ''}}</h2>
           </div>
 
         </div>
 
     </div>
-  </div> -->
+  </div>
 	<!-- =========================== -->
 </div>
 
