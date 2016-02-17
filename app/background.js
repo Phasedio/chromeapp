@@ -15,7 +15,7 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 
 var currentUser = {};
 //var FURL = 'https://phaseddev.firebaseio.com/';
-var ref = new Firebase('https://phaseddev.firebaseio.com/');
+var ref = new Firebase('https://phased-dev2.firebaseio.com/');
 console.log("this is working in the background!");
 
 
@@ -43,21 +43,24 @@ ref.onAuth(function(authData) {
       console.log(user);
       console.log(user.curTeam);
 
-	     ref.child('team').child(user.curTeam).child('task').on('child_changed', function(childSnapshot) {
+	     ref.child('team').child(user.curTeam).child('members').on('child_changed', function(childSnapshot) {
 	       var newUpdate = childSnapshot.val();
-	       console.log(newUpdate.name);
+	       //console.log(newUpdate.name);
 	       //console.log(newUpdate);
          //console.log(newUpdate.user, authData.uid);
 
-         ref.child('profile').child(newUpdate.user).once('value', function(notifier) {
+         ref.child('profile').child(newUpdate.currentStatus.user).once('value', function(notifier) {
            notifier = notifier.val();
            console.log(notifier.gravatar);
-
+           var now = new Date().getTime;
+           var r = now - newUpdate.currentStatus.time;
            if (notifier.email == user.email) {
              console.log('wont show anything');
-           } else {
+           } else if(r > 5000 ){
+             console.log('likely not an update');
+           }else {
 
-             spawnNotification(newUpdate.name + " - Phased.io", notifier.gravatar, notifier.name);
+             spawnNotification(newUpdate.currentStatus.name + " - Phased.io", notifier.gravatar, notifier.name);
 
              function spawnNotification(theBody, theIcon, theTitle) {
 
@@ -72,37 +75,6 @@ ref.onAuth(function(authData) {
            }
          });
 
-
-
-
-
-         //console.log('the current user is ', $scope.currentUser);
-
-         //if($scope.currentUser.email == user.email){
-         //  console.log('wont do anything');
-         //}else {
-         //  spawnNotification($scope.newUpdate.name + " - Phased.io", user.gravatar, user.name);
-         //
-         //  function spawnNotification(theBody,theIcon,theTitle) {
-         //
-         //    var options = {
-         //      body: theBody,
-         //      icon: theIcon
-         //    }
-         //    var n = new Notification(theTitle,options);
-         //    setTimeout(n.close.bind(n), 5000);
-         //  }
-         //}
-
-	       //ref.child('profile').child(newUpdate.user).once('value', function(user) {
-	       //  user = user.val();
-	         // console.log(user, $scope.newUpdate);
-	         // console.log(user.gravatar);
-
-	         // console.log('the current user is ', $scope.currentUser);
-
-
-         //});
 
 
 	       });
@@ -125,4 +97,3 @@ ref.onAuth(function(authData) {
 	            var n = new Notification(theTitle,options);
 	            setTimeout(n.close.bind(n), 5000);
 	          }
-

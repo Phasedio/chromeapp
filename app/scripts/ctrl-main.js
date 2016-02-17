@@ -131,6 +131,9 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$htt
     $scope.$apply();
 
   });
+  $scope.$on('Phased:memberChanged',function(){
+    $scope.$apply();
+  });
 
   // history retrieved
   $scope.$on('Phased:historyComplete', function() {
