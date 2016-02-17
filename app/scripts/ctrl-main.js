@@ -111,8 +111,8 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$htt
   // n.b.: Phased.user.profile is a link to Phased.team.members[Auth.user.uid].profile;
   $scope.team = Phased.team;
   console.log(Phased);
-  $scope.currentUser = Phased.user.profile;
-  $scope.assignments = Phased.assignments;
+  $scope.currentUser = Phased.user;
+  //
   //$scope.archive = Phased.archive;
 
   $scope.activeStream = Phased.assignments.to_me;
@@ -126,7 +126,9 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$htt
   // ensure view updates when new members are added
   // members data retrieved
   $scope.$on('Phased:membersComplete', function() {
+    $scope.assignments = Phased.team.projects['0A'].columns['0A'].cards['0A'].tasks;
     $scope.$apply();
+
   });
 
   // history retrieved
@@ -235,6 +237,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$htt
     // reset interface
     $scope.selectedCategory = undefined;
     $scope.task = {};
+    $scope.taskName ='';
 
 	};
 
@@ -254,7 +257,9 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$htt
 	    }
 	    return r;
 	}
-
+  $scope.sendToTask = function(){
+    $location.url("https://app.phased.io/tasks");
+  }
   // show add member modal
   $scope.addMemberModal = function(){
   	$('#myModal').modal('toggle');

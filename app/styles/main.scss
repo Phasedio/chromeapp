@@ -95,8 +95,8 @@ body{
 }
 
 h1,h2,h3,h4,h5,h6{
-  color:#fff;
-  text-shadow: 0 0 25px rgba(0,0,0,0.3);
+  //color:#fff;
+  //text-shadow: 0 0 25px rgba(0,0,0,0.3);
 }
 button{
     display: block;
@@ -832,4 +832,121 @@ $cta-color: #FF1744;
     display: inline-block;
     border: 1px solid #000;
     float: left;
+}
+
+
+// This is the more up todate styles Feb 16 2016
+
+.activity__panel{
+  //padding-top: 40px;
+
+  header {
+    border-bottom: 1px solid #dbd9dd;
+    margin-bottom:20px;
+    h3{
+      text-transform: uppercase;
+      color:#2fc2a3;
+      font-size: 2rem;
+      font-weight: bold;
+      span{
+        color:#4f5c73;
+      }
+    }
+  }
+
+}
+
+.member__activity{
+  overflow: auto;
+  margin-bottom: 20px;
+  img,.activity__info{
+    display: inline-block;
+    float: left;
+  }
+  img{
+    border-radius: 100px;
+    height: 40px;
+    width: 40px;
+    margin-right:20px;
+  }
+}
+.activity__info{
+  max-width: 90%;
+  overflow: auto;
+  h5{
+    margin-top: 0;
+  }
+}
+.feed__container{
+  height: 85vh;
+}
+.action__container{
+
+  input[type="text"]{
+    width: 95%;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    padding-left: 5.5rem;
+    &:focus{
+      outline: none;
+    }
+  }
+  button{
+    padding: 1rem;
+    padding-left: 2rem;
+    padding-right: 2rem;
+    border: 1px solid #000;
+    color:#000;
+    position: absolute;
+
+  }
+  p{
+    position: absolute;
+    right:6rem;
+    margin-top: -2rem;
+
+  }
+}
+.meta__background{
+  background: #313848;
+  color:#7a8390;
+  border-right: 1px solid #000;
+}
+.meta__panel{
+  padding-top: 10px;
+  padding-right: 20px;
+  height: 100vh;
+
+
+  img{
+    max-width: 100%;
+  }
+  .meta__nav .nav-pills{
+
+    a{
+      color:#7a8390;
+    }
+
+  }
+
+  .meta__todo{
+    min-height: 25rem;
+    height: 75vh;
+    h4{color:#fff;text-transform: uppercase; font-weight: bold;}
+
+    .list-group-item{
+      border-color: #7a8390;
+      background-color:#7a8390;
+      color: #313848;
+    }
+
+  }
+  .meta__footer{
+    .list-group{
+      a{
+        text-align: center;
+      }
+    }
+
+  }
 }
