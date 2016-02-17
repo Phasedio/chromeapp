@@ -31,7 +31,7 @@
 			<div class="meta__todo">
 				<h4>Your todo list</h4>
 				<ul class="list-group" ng-click="sendToTask()">
-				  <li class="list-group-item" ng-repeat="task in assignments" ng-if="task.assigned_to == Phased.user.uid">{{task.name}}</li>
+				  <li class="list-group-item" ng-repeat="task in assignments" ng-if="task.assigned_to == currentUser.uid">{{task.name}}</li>
 
 				</ul>
 			</div>

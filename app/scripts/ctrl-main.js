@@ -126,6 +126,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$htt
   // ensure view updates when new members are added
   // members data retrieved
   $scope.$on('Phased:membersComplete', function() {
+    $scope.currentUser = Phased.user;
     $scope.assignments = Phased.team.projects['0A'].columns['0A'].cards['0A'].tasks;
     $scope.$apply();
 
@@ -133,7 +134,9 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$htt
 
   // history retrieved
   $scope.$on('Phased:historyComplete', function() {
+
     $scope.$apply();
+
     console.log(Phased);
   });
 
