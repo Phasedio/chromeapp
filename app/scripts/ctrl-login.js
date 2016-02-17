@@ -31,15 +31,22 @@ app.controller('LoginController',function(FURL, $scope,$location,Auth, ngDialog)
 
   $scope.forgotPassword = function(email){
     console.log("will send email to :", email);
-    ref.resetPassword({
-      email : email
-    }, function(error) {
-      if (error === null) {
-        console.log("Password reset email sent successfully");
-      } else {
-        console.log("Error sending password reset email:", error);
-      }
-    });
+    if(email){
+      ref.resetPassword({
+        email : email
+      }, function(error) {
+        if (error === null) {
+          console.log("Password reset email sent successfully");
+          alert('Password reset email sent successfully');
+        } else {
+          console.log("Error sending password reset email:", error);
+          alert("Error sending password reset email:", error);
+        }
+      });
+    }else{
+      alert('please enter an email in to the form');
+    }
+
   }
 
 
