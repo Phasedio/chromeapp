@@ -259,6 +259,9 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$htt
 	}
   $scope.sendToTask = function(){
     $location.url("https://app.phased.io/tasks");
+  };
+  $scope.logout = function(){
+    Auth.logout();
   }
   // show add member modal
   $scope.addMemberModal = function(){

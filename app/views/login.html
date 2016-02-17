@@ -33,32 +33,10 @@
 	        </div>
 	      </form>
 
-	      <form name="regForm" ng-submit="regUser(reg)" novalidate ng-show="forms == 'reg'">
-	        <div class="">
-	        <div class="item item-input item-stacked-label">
-	            <label class="input-label" for="name">name</label>
-	            <input class="loginInput" type="text" id="name" ng-model="reg.name" placeholder="">
-	          </div>
-	          <div class="item item-input item-stacked-label">
-	            <label class="input-label" for="email">email</label>
-	            <input class="loginInput" type="email" id="email" ng-model="reg.email" placeholder="">
-	          </div>
-	          <div class="item item-input item-stacked-label">
-	            <label class="input-label" for="password">password</label>
-	            <input class="loginInput" type="password" id='password' ng-model="reg.password" placeholder="">
-	          </div>
-	          <div class="item">
-	            <input type="submit" class="btn btn-primary btn-lg btn-block button-phased" value="Create Account">
-	          </div>
-	        </div>
-	      </form>
+
 	    </div>
 	</div>
     <div class="row">
-      <div class="col">
-        <h4 align="center" ng-show="forms == 'login'">Don't have an account? <a href="" ng-click="makeAccount()"><strong>Register now</strong></a></h4>
-        <h4 align="center" ng-show="forms == 'reg'">Already have an have an account? <a href="" ng-click="loginAccount()"><strong>Login now</strong></a></h4>
-      </div>
+      
     </div>
 </div>
-
