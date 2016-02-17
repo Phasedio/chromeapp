@@ -17,6 +17,7 @@ app.filter('orderObjectBy', function() {
       return (a[field] > b[field] ? 1 : -1);
     });
     if(reverse) filtered.reverse();
+    console.log(filtered);
     return filtered;
   };
 })/**

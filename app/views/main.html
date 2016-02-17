@@ -52,7 +52,7 @@
 				<h3>phased <span>- activity</span></h3>
 			</header>
 			<div class="feed__container">
-				<div class="member__activity" ng-repeat="member in team.members | orderObjectBy : 'time':true ">
+				<div class="member__activity" ng-repeat="member in team.members | orderObjectBy : 'member.currentStatus.time' ">
 					<img src="{{member.gravatar}}" alt="{{member.name}}" />
 					<div class="activity__info">
 						<h5 class="">{{member.name}} <span am-time-ago="member.currentStatus.time"></span></h5>
