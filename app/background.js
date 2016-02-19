@@ -14,8 +14,8 @@ chrome.browserAction.onClicked.addListener(function(tab) {
 
 
 var currentUser = {};
-//var FURL = 'https://phaseddev.firebaseio.com/';
-var ref = new Firebase('https://phased-dev2.firebaseio.com/');
+var FURL = 'https://phaseddev.firebaseio.com/';
+//var ref = new Firebase('https://phased-dev2.firebaseio.com/');
 console.log("this is working in the background!");
 
 
