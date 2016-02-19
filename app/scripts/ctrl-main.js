@@ -111,6 +111,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$htt
   // n.b.: categories now in Phased.team.categorySelect and in Phased.team.categoryObj (different structures)
   // n.b.: Phased.user.profile is a link to Phased.team.members[Auth.user.uid].profile;
   $scope.team = Phased.team;
+  
   console.log(Phased);
   $scope.currentUser = Phased.user;
   //

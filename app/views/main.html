@@ -23,8 +23,8 @@
 			<div class="meta__nav">
 				<ul class="nav nav-pills nav-justified">
 					<li role="presentation"><a href="https://app.phased.io/feed">Feed</a></li>
-	  			<li role="presentation"><a href="#">Profile</a></li>
-	  			<li role="presentation"><a href="#">Stats</a></li>
+	  			<li role="presentation"><a href="https://app.phased.io/profile">Profile</a></li>
+	  			<li role="presentation"><a href="https://app.phased.io/">Stats</a></li>
 				</ul>
 			</div>
 
@@ -32,8 +32,8 @@
 				<h4>Your todo list</h4>
 				<ul class="list-group" ng-click="sendToTask()">
 				  <li class="list-group-item" ng-repeat="task in assignments" ng-if="task.assigned_to == currentUser.uid">{{task.name}}</li>
-
 				</ul>
+				<a href="https://app.phased.io/feed" type="button" class="btn btn-block btn-default" name="button">Add task</a>
 			</div>
 			<div class="meta__footer">
 				<div class="list-group">
@@ -52,7 +52,7 @@
 				<h3>phased <span>- activity</span></h3>
 			</header>
 			<div class="feed__container">
-				<div class="member__activity" ng-repeat="member in team.members | orderObjectBy : 'member.currentStatus.time' ">
+				<div class="member__activity" ng-repeat="member in team.members | orderObjectBy : 'time' ">
 					<img src="{{member.gravatar}}" alt="{{member.name}}" />
 					<div class="activity__info">
 						<h5 class="">{{member.name}} <span am-time-ago="member.currentStatus.time"></span></h5>
