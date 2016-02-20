@@ -43,41 +43,41 @@ ref.onAuth(function(authData) {
       console.log(user);
       console.log(user.curTeam);
 
-	     ref.child('team').child(user.curTeam).child('members').on('child_changed', function(childSnapshot) {
-	       var newUpdate = childSnapshot.val();
-	       //console.log(newUpdate.name);
-	       //console.log(newUpdate);
-         //console.log(newUpdate.user, authData.uid);
-
-         ref.child('profile').child(newUpdate.currentStatus.user).once('value', function(notifier) {
-           notifier = notifier.val();
-           console.log(notifier.gravatar);
-           var now = new Date().getTime;
-           var r = now - newUpdate.currentStatus.time;
-           if (notifier.email == user.email) {
-             console.log('wont show anything');
-           } else if(r > 5000 ){
-             console.log('likely not an update');
-           }else {
-
-             spawnNotification(newUpdate.currentStatus.name + " - Phased.io", notifier.gravatar, notifier.name);
-
-             function spawnNotification(theBody, theIcon, theTitle) {
-
-               var options = {
-                 body: theBody,
-                 icon: theIcon
-               };
-
-               var n = new Notification(theTitle, options);
-               setTimeout(n.close.bind(n), 5000);
-             }
-           }
-         });
-
-
-
-	       });
+	    //  ref.child('team').child(user.curTeam).child('members').on('child_changed', function(childSnapshot) {
+	    //    var newUpdate = childSnapshot.val();
+	    //    //console.log(newUpdate.name);
+	    //    //console.log(newUpdate);
+      //    //console.log(newUpdate.user, authData.uid);
+       //
+      //    ref.child('profile').child(newUpdate.currentStatus.user).once('value', function(notifier) {
+      //      notifier = notifier.val();
+      //      console.log(notifier.gravatar);
+      //      var now = new Date().getTime;
+      //      var r = now - newUpdate.currentStatus.time;
+      //      if (notifier.email == user.email) {
+      //        console.log('wont show anything');
+      //      } else if(r > 50 ){
+      //        console.log('likely not an update');
+      //      }else {
+       //
+      //        spawnNotification(newUpdate.currentStatus.name + " - Phased.io", notifier.gravatar, notifier.name);
+       //
+      //        function spawnNotification(theBody, theIcon, theTitle) {
+       //
+      //          var options = {
+      //            body: theBody,
+      //            icon: theIcon
+      //          };
+       //
+      //          var n = new Notification(theTitle, options);
+      //          setTimeout(n.close.bind(n), 5000);
+      //        }
+      //      }
+      //    });
+       //
+       //
+       //
+	    //    });
 
 	    });
 	}
