@@ -31,7 +31,7 @@
 			<div class="meta__todo">
 				<h4>Your to-do list</h4>
 				<ul class="list-group" ng-click="sendToTask()">
-				  <li class="list-group-item" ng-repeat="task in assignments" ng-if="task.assigned_to == currentUser.uid">{{task.name}}</li>
+				  <li class="list-group-item" ng-repeat="task in assignments" ng-if="task.assigned_to == currentUser.uid && task.status != 1">{{task.name}}</li>
 				</ul>
 				<a href="https://app.phased.io/feed" type="button" class="btn btn-block btn-default" name="button">Add task</a>
 			</div>
