@@ -869,6 +869,10 @@ $cta-color: #FF1744;
     width: 40px;
     margin-right:20px;
   }
+
+  &:last-child{
+    margin-bottom: 0;
+  }
 }
 .activity__info{
   max-width: 90%;
@@ -878,6 +882,7 @@ $cta-color: #FF1744;
   }
 }
 .feed__container{
+  padding-top: 20px;
   height: 85vh;
 }
 .action__container{
@@ -916,6 +921,7 @@ $cta-color: #FF1744;
   padding-top: 10px;
   padding-right: 20px;
   height: 100vh;
+  min-height: 800px;
 
 
   img{
@@ -930,8 +936,9 @@ $cta-color: #FF1744;
   }
 
   .meta__todo{
-    min-height: 25rem;
-    height: 82vh;
+    //min-height: 25rem;
+    //height: 82vh;
+    margin-bottom:40px;
     h4{color:#fff;text-transform: uppercase; font-weight: bold;}
 
     .list-group-item{
@@ -939,6 +946,7 @@ $cta-color: #FF1744;
       border-color: #7a8390;
       background-color:#7a8390;
       color: #313848;
+
     }
 
   }
