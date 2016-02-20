@@ -11,13 +11,14 @@ app.filter('orderObjectBy', function() {
     var filtered = [];
     for (var i in items) {
       items[i].key = i;
+      items[i].lastUpdated = items[i].currentStatus.time;
       filtered.push(items[i]);
     }
     filtered.sort(function (a, b) {
       return (a[field] > b[field] ? 1 : -1);
     });
     if(reverse) filtered.reverse();
-    console.log(filtered);
+    //console.log(filtered);
     return filtered;
   };
 })/**
@@ -111,7 +112,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$htt
   // n.b.: categories now in Phased.team.categorySelect and in Phased.team.categoryObj (different structures)
   // n.b.: Phased.user.profile is a link to Phased.team.members[Auth.user.uid].profile;
   $scope.team = Phased.team;
-  
+
   console.log(Phased);
   $scope.currentUser = Phased.user;
   //
@@ -122,7 +123,6 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$htt
   $scope.activeStatusFilter = '!1'; // not completed tasks
   $scope.activeCategoryFilter;
   $scope.filterView = $scope.activeStreamName;//for the select filter
-
 
 
   // ensure view updates when new members are added
@@ -145,20 +145,6 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$htt
     console.log(Phased);
   });
 
-  // update bg image based on day of the week
-  var monImage =  "weekdayPhotos/mon.jpg";
-  var tuesImage =  "weekdayPhotos/tues.jpg";
-  var wedImage =  "weekdayPhotos/wed.jpg";
-  var thursImage =  "weekdayPhotos/thurs.jpg";
-  var friImage = "weekdayPhotos/fri.jpg";
-  var satImage = "weekdayPhotos/sat.jpg";
-  var sunImage = "weekdayPhotos/sun.jpg";
-
-  var d=new Date();
-  // console.log(d.getDay());
-
-  var backgroundImage = [sunImage, monImage, tuesImage, wedImage, thursImage, friImage, satImage];
-  $scope.dayImage = backgroundImage[d.getDay()];
 
   // check if newUser is set; if so, show the newUser tutorial
   // (when the current user's profile data comes in in PhasedProvider)

@@ -71,7 +71,7 @@
 
 			</div>
 			<div class="feed__container">
-				<div class="member__activity" ng-repeat="member in team.members | orderObjectBy : 'time' ">
+				<div class="member__activity" ng-repeat="member in team.members | orderObjectBy : 'lastUpdated':true ">
 					<img src="{{member.gravatar}}" alt="{{member.name}}" />
 					<div class="activity__info">
 						<h5 class="">{{member.name}} <span am-time-ago="member.currentStatus.time"></span></h5>
