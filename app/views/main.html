@@ -29,7 +29,7 @@
 			</div>
 
 			<div class="meta__todo">
-				<h4>Your todo list</h4>
+				<h4>Your to-do list</h4>
 				<ul class="list-group" ng-click="sendToTask()">
 				  <li class="list-group-item" ng-repeat="task in assignments" ng-if="task.assigned_to == currentUser.uid">{{task.name}}</li>
 				</ul>
@@ -51,18 +51,6 @@
 			<header>
 				<h3>phased <span>- activity</span></h3>
 			</header>
-			<div class="feed__container">
-				<div class="member__activity" ng-repeat="member in team.members | orderObjectBy : 'time' ">
-					<img src="{{member.gravatar}}" alt="{{member.name}}" />
-					<div class="activity__info">
-						<h5 class="">{{member.name}} <span am-time-ago="member.currentStatus.time"></span></h5>
-						<p class="">{{member.currentStatus.name }}</p>
-
-
-					</div>
-
-				</div>
-			</div>
 			<div class="action__container">
 				<form name="taskForm" ng-submit="addTask(taskName)" novalidation>
 					<button type="button" class="btn" name="button" ng-click="moreCat()">+</button>
@@ -82,6 +70,19 @@
 				</form>
 
 			</div>
+			<div class="feed__container">
+				<div class="member__activity" ng-repeat="member in team.members | orderObjectBy : 'time' ">
+					<img src="{{member.gravatar}}" alt="{{member.name}}" />
+					<div class="activity__info">
+						<h5 class="">{{member.name}} <span am-time-ago="member.currentStatus.time"></span></h5>
+						<p class="">{{member.currentStatus.name }}</p>
+
+
+					</div>
+
+				</div>
+			</div>
+
 		</div>
 	</div>
 
