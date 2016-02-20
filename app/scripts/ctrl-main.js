@@ -252,7 +252,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$htt
 	    return r;
 	}
   $scope.sendToTask = function(){
-    $location.url("https://app.phased.io/tasks");
+    window.open("https://app.phased.io/tasks","_self");
   };
   $scope.logout = function(){
     Auth.logout();
