@@ -16,7 +16,7 @@
 
 
 <div class="row">
-	<div class="hidden-xs col-sm-5 col-md-4 col-lg-3 meta__background">
+	<div class="hidden-xs meta__background">
 		<div class="meta__panel">
 			<!-- <h1>Team Name <small>Phased</small></h1> -->
 			<!-- <img src="./images/{{dayImage}}" alt="" /> -->
@@ -53,31 +53,44 @@
 			</header>
 			<div class="action__container">
 				<form name="taskForm" ng-submit="addTask(taskName)" novalidation>
-					<button type="button" class="btn" name="button" ng-click="moreCat()">+</button>
-					<p ng-init="submitTip = false" ng-show="submitTip">
-						<small>press enter to submit.</small>
-					</p>
-					<input
-					type="text"
-					name="name"
-					ng-focus="submitTip = true"
-					ng-blur="submitTip = false"
-					autocomplete="off"
-					placeholder="What are you up to?"
-					ng-model="taskName"
-					ng-trim="false">
-					<input type="submit" class="hidden" name="name" value="">
+					<div class="status__compose">
+						<p class="status__title">Update Status</p>
+							<input
+							type="text"
+							name="name"
+							ng-focus="submitTip = true"
+							ng-blur="submitTip = false"
+							autocomplete="off"
+							placeholder="What are you up to?"
+							ng-model="taskName"
+							ng-trim="false">
+
+					</div>
+					<div class="status__meta">
+						<div class="meta__left">
+							<button type="button" class="btn" name="button" ng-click="moreCat()" data-toggle="tooltip" data-placement="bottom" data-delay="{'show':500,'hide':100}" title="Add Category"><i class="fa fa-tag"></i></button>
+						</div>
+						<div class="meta__right">
+							<input type="submit" class="button-phasedFB" name="name" value="Post">
+						</div>
+
+					</div>
+
 				</form>
 
 			</div>
 			<div class="feed__container">
-				<div class="member__activity" ng-repeat="member in team.members | orderObjectBy : 'lastUpdated':true ">
-					<img src="{{member.gravatar}}" alt="{{member.name}}" />
-					<div class="activity__info">
-						<h5 class="">{{member.name}} <span am-time-ago="member.currentStatus.time"></span></h5>
+				<div class="member__activity " ng-repeat="member in team.members | orderObjectBy : 'lastUpdated':true ">
+					<div class="activity__person">
+						<img src="{{member.gravatar}}" alt="{{member.name}}" />
+						<div class="activity__info">
+							<h5 class="">{{member.name}}</h5>
+							<p class="activity__meta"><span am-time-ago="member.currentStatus.time"></span></p>
+						</div>
+					</div>
+
+					<div class="activity__content">
 						<p class="">{{member.currentStatus.name }}</p>
-
-
 					</div>
 
 				</div>

@@ -14,6 +14,6 @@
   "background": {
     "scripts": ["background_scripts/firebase/firebase.js","background.js"]
   },
-  "content_security_policy": "script-src https://static.hotjar.com/* https://cdn.heapanalytics.com/js/heap-3872895156.js https://cdn.firebase.com https://*.firebaseio.com https://ssl.google-analytics.com/ga.js; object-src 'self'",
+  "content_security_policy": "script-src https://static.hotjar.com/* https://cdn.heapanalytics.com/js/heap-3872895156.js https://cdn.firebase.com https://*.firebaseio.com https://ssl.google-analytics.com/ga.js https://cdn.mxpnl.com/libs/mixpanel-2-latest.min.js; object-src 'self'",
   "icons": { "16": "calculator-16.png", "128": "calculator-128.png" }
 }

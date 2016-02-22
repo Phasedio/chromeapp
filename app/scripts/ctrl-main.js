@@ -182,6 +182,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$htt
   // select a category
   $scope.categoryChoice = function(key, choice, color, closeModal){
     console.log('button was clicked with choice of:', choice);
+    mixpanel.track("Selected Category");
     $scope.taskCat = true;
     $scope.catKey = key;
     $scope.taskChoice = choice;
@@ -197,7 +198,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$htt
   // 3. update interface
 	$scope.addTask = function(update){
     _gaq.push(['_trackEvent', 'Update', 'updated']);
-
+    mixpanel.track("Updated Status");
     //var key = $scope.catKey;
 
     // prepare task object
@@ -252,6 +253,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$htt
 	    return r;
 	}
   $scope.sendToTask = function(){
+    mixpanel.track("Sent to Tasks Page");
     window.open("https://app.phased.io/tasks","_self");
   };
   $scope.logout = function(){

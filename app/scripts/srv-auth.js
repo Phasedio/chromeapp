@@ -149,7 +149,13 @@ app
                 if (user) {
                     Auth.user.profile = user;
                     Auth.currentTeam = user.curTeam;
+                    mixpanel.identify(uid);
+                    mixpanel.people.set({
+                        "$email": user.email,    // only special properties need the $
+                        "$last_login": new Date(),         // properties can be dates...
+                        "team" : user.curTeam
 
+                    });
                     // if user isn't currently on a team
                     if (!user.curTeam) {
                         // if the user has teams, set the first one to active
