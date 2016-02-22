@@ -138,7 +138,7 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$htt
   $scope.$on('Phased:memberChanged',function(){
     $scope.sideBarHeight = $("#feedareas").height();
     console.log($("#feedareas").height());
-    $scope.$apply();
+    //$scope.$apply();
 
   });
   $scope.$on('Phased:setup',function(){
