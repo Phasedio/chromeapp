@@ -130,19 +130,29 @@ app.controller('MainInteractionController',function($scope,FURL,Auth,Phased,$htt
   $scope.$on('Phased:membersComplete', function() {
     $scope.currentUser = Phased.user;
     $scope.assignments = Phased.team.projects['0A'].columns['0A'].cards['0A'].tasks;
+    $scope.sideBarHeight = $("#feedareas").height();
+    console.log($("#feedareas").height());
     $scope.$apply();
 
   });
   $scope.$on('Phased:memberChanged',function(){
+    $scope.sideBarHeight = $("#feedareas").height();
+    console.log($("#feedareas").height());
     $scope.$apply();
+
+  });
+  $scope.$on('Phased:setup',function(){
+    $scope.sideBarHeight = $("#feedareas").height();
+    console.log($("#feedareas").height());
+    $scope.$apply();
+
   });
 
   // history retrieved
   $scope.$on('Phased:historyComplete', function() {
-
+    $scope.sideBarHeight = $("#feedareas").height();
+    console.log($("#feedareas").height());
     $scope.$apply();
-
-    console.log(Phased);
   });
 
 
